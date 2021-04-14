@@ -13,3 +13,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 }
+
+public static void main(String[] args) {
+
+    String cookies = 1234;
+    
+}
