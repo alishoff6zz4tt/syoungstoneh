@@ -15,3 +15,6 @@ CMSC 355 class project
 
 Adding a commit
 This is Sean adding stuff again
+
+Hey guys I was talking to a customer and she brought up "What if a family has multiple kids sharing one device?"
+Do we want to mess with that?
