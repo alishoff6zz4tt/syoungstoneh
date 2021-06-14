@@ -11,8 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-
-public class parentModeDialog extends AppCompatDialogFragment {
+public class parentModeSetPassword extends AppCompatDialogFragment{
     MainActivity ma = new MainActivity();
 
     @Override
