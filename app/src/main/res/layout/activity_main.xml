@@ -37,4 +37,16 @@
         android:text="@string/p"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/pM"
+        android:contentDescription="@android:string/emptyPhoneNumber"
+        app:srcCompat="@android:drawable/stat_sys_phone_call"
+        tools:ignore="MissingConstraints" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

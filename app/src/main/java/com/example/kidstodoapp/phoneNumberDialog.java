@@ -1,3 +1,6 @@
+/*TO DO:
+Clean it up, make it so you can only add a phone number if it is the correct length(s)
+ */
 package com.example.kidstodoapp;
 
 import android.app.AlertDialog;
@@ -10,15 +13,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-
-public class parentModeDialog extends AppCompatDialogFragment {
+public class phoneNumberDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Enter Password");
+        builder.setTitle("Enter Phone Number");
 
         final EditText input = new EditText(this.getContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
         builder.setView(input);
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -28,20 +30,11 @@ public class parentModeDialog extends AppCompatDialogFragment {
         builder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                if(input.getText().toString().equals(((MainActivity) getContext()).getPassword()))
-                {
-                    ((MainActivity) getContext()).setInParentMode(true);
-                    Toast.makeText(getContext(),
-                            "Login Successful",
-                            Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
-                else
-                {
-                    Toast.makeText(getContext(),
-                            "Login Unsuccessful, Please Try Again",
-                            Toast.LENGTH_SHORT).show();
-                }
+                ((MainActivity) getContext()).setPhoneNumber(Integer.parseInt(input.getText().toString()));
+                Toast.makeText(getContext(),
+                        "Phone Number Added",
+                        Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
 

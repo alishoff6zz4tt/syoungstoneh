@@ -12,8 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class parentModeSetPassword extends AppCompatDialogFragment{
-    MainActivity ma = new MainActivity();
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -39,9 +37,9 @@ public class parentModeSetPassword extends AppCompatDialogFragment{
                 }
                 else if(input1.getText().toString().equals(input2.getText().toString()))
                 {
-                    ma.setPassword(input1.getText().toString());
-                    ma.setNotFirstTime(true);
-                    ma.setInParentMode(true);
+                    ((MainActivity) getContext()).setPassword(input1.getText().toString());
+                    ((MainActivity) getContext()).setNotFirstTime(true);
+                    ((MainActivity) getContext()).setInParentMode(true);
 
                     Toast.makeText(getContext(),
                             "Password Created",
