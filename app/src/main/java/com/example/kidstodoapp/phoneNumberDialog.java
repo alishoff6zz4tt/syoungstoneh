@@ -30,11 +30,20 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
         builder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                ((MainActivity) getContext()).setPhoneNumber(Integer.parseInt(input.getText().toString()));
-                Toast.makeText(getContext(),
-                        "Phone Number Added",
-                        Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+                if(input.getText().toString().length() == 10 || input.getText().toString().length() == 11)
+                {
+                    ((MainActivity) getContext()).setPhoneNumber(Integer.parseInt(input.getText().toString()));
+                    Toast.makeText(getContext(),
+                            "Phone Number Added",
+                            Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+                else
+                {
+                    Toast.makeText(getContext(),
+                            "Incorrect Length, Please Try Again",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
