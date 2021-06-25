@@ -51,7 +51,7 @@ public class EditEventsFragment extends Activity {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layout.setOrientation(LinearLayout.VERTICAL);
-        tv.setText("Hi this is a sample text for popup window");
+        tv.setText("Testing Testing");
         layout.addView(tv, params);
         popUp.setContentView(layout);
         // popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
