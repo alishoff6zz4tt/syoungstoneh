@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    public void openDialog(Boolean nft)
+    public void openDialog(Boolean notFirstTime)
     {
-        if(nft==null)
+        if(notFirstTime==null)
         {
             parentModeSetPassword parentSetPass = new parentModeSetPassword();
             parentSetPass.show(getSupportFragmentManager(), "Create Password");
