@@ -1,6 +1,7 @@
 package com.example.kidstodoapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //
+                    Intent intent = new Intent(view.getContext(), ToDoEntryActivity.class);
+                    view.getContext().startActivity(intent);
                 }
             });
         }
