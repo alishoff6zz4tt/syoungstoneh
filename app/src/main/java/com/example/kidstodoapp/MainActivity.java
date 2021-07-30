@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-=======
 import android.widget.Button;
->>>>>>> master
 
 // This comment was made by Sean Youngstone
 public class MainActivity extends Activity {
@@ -51,10 +48,4 @@ public class MainActivity extends Activity {
             }
         });
     }
-
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> master
