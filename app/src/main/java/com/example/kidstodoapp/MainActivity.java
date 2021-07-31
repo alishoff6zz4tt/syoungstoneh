@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
         Button addEntryButton = (Button) findViewById(R.id.add_entry_button);
         addEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ToDoEntryActivity.class);
+                Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
                 startActivity(intent);
             }
         });
