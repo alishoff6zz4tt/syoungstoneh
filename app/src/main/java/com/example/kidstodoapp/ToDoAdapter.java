@@ -1,59 +1,63 @@
 package com.example.kidstodoapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Uses example from https://guides.codepath.com/android/using-the-recyclerview
 
-public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder> {
+public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
-    public static class ToDoViewHolder extends RecyclerView.ViewHolder {
+    private List<ToDoEntry> mToDoEntries;
+    private OnEntryListener mOnEntryListener;
+
+    public ToDoAdapter(List<ToDoEntry> entries, OnEntryListener onEntryListener) {
+        this.mToDoEntries = entries;
+        this.mOnEntryListener = onEntryListener;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView nameTextView;
         public TextView descriptionTextView;
+        public OnEntryListener onEntryListener;
 
-        public ToDoViewHolder(View view) {
+        public ViewHolder(View view, OnEntryListener onEntryListener) {
             super(view);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.entry_name);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.entry_description);
+            nameTextView = itemView.findViewById(R.id.entry_name);
+            descriptionTextView = itemView.findViewById(R.id.entry_description);
+            this.onEntryListener = onEntryListener;
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ToDoEntryActivity.class);
-                    view.getContext().startActivity(intent);
-                }
-            });
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onEntryListener.onEntryClick(getAdapterPosition());
         }
     }
 
-    private List<ToDoEntry> entries;
-
-    public ToDoAdapter(List<ToDoEntry> entries) {
-        this.entries = entries;
-    }
-
+    @NonNull
     @Override
-    public ToDoAdapter.ToDoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(R.layout.item_to_do_entry, parent, false);
-        ToDoViewHolder toDoViewHolder = new ToDoViewHolder(contactView);
-        return toDoViewHolder;
+        return new ViewHolder(contactView, mOnEntryListener);
     }
 
     @Override
-    public void onBindViewHolder(ToDoAdapter.ToDoViewHolder viewHolder, int position) {
-        ToDoEntry entry = entries.get(position);
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        ToDoEntry entry = mToDoEntries.get(position);
         TextView nameTextView = viewHolder.nameTextView;
         TextView descriptionTextView = viewHolder.descriptionTextView;
         nameTextView.setText(entry.getEntryName());
@@ -65,7 +69,11 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
     @Override
     public int getItemCount() {
-        return entries.size();
+        return mToDoEntries.size();
+    }
+
+    public interface OnEntryListener {
+        void onEntryClick(int position);
     }
 
 }

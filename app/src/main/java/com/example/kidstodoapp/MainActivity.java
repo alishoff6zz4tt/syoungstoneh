@@ -1,28 +1,22 @@
 package com.example.kidstodoapp;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import android.widget.Button;
 
 // This comment was made by Sean Youngstone
-public class MainActivity extends Activity {
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+public class MainActivity extends Activity implements ToDoAdapter.OnEntryListener {
 
-    private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<ToDoEntry>();
+    private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
+    private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
+    private static int pointsEarned = 0;
 
     private final int NEW_ENTRY_REQUEST = 1;
 
@@ -30,13 +24,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
 
-        ToDoAdapter adapter = new ToDoAdapter(toDoEntries);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ToDoAdapter adapter = new ToDoAdapter(toDoEntries, this);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Button addEntryButton = (Button) findViewById(R.id.add_entry_button);
+        Button addEntryButton = findViewById(R.id.add_entry_button);
         addEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
@@ -55,5 +49,13 @@ public class MainActivity extends Activity {
                 toDoEntries.add(newToDoEntry);
             }
         }
+    }
+
+    @Override
+    public void onEntryClick(int position) {
+        Intent intent = new Intent(this, ToDoEntryActivity.class);
+        intent.putExtra("ToDoEntry", toDoEntries.get(position));
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 }

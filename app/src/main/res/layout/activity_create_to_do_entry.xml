@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
         android:ems="10"
-        android:hint="Type a task to complete"
+        android:hint="Task"
         android:inputType="textPersonName"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,33 +26,46 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Please enter a description of task"
+        android:hint="Description"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_name_txt" />
 
+    <EditText
+        android:id="@+id/entry_points_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Points"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/entry_description_txt" />
+
     <Button
         android:id="@+id/create_entry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:text="Create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.309"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entry_description_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/entry_points_txt" />
 
     <Button
         android:id="@+id/cancel_entry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.687"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entry_description_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/entry_points_txt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
