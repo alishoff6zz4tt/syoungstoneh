@@ -22,19 +22,15 @@ public class MainActivity extends Activity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private ArrayList<ToDoEntry> toDoEntries;
+    private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<ToDoEntry>();
+
+    private final int NEW_ENTRY_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        toDoEntries = new ArrayList<ToDoEntry>();
-
-        for (int i = 0 ; i < 10 ; i++) {
-            toDoEntries.add(new ToDoEntry("Entry " + i, "Description " + i));
-        }
 
         ToDoAdapter adapter = new ToDoAdapter(toDoEntries);
         recyclerView.setAdapter(adapter);
@@ -44,8 +40,20 @@ public class MainActivity extends Activity {
         addEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, NEW_ENTRY_REQUEST);
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        if (requestCode == NEW_ENTRY_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = result.getExtras();
+                ToDoEntry newToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
+                toDoEntries.add(newToDoEntry);
+            }
+        }
     }
 }

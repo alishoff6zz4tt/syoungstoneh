@@ -1,6 +1,8 @@
 package com.example.kidstodoapp;
 
-public class ToDoEntry {
+import java.io.Serializable;
+
+public class ToDoEntry implements Serializable {
 
     String entryName;
     String description;
@@ -25,4 +27,5 @@ public class ToDoEntry {
     public void setEntryName(String entryName) {
         this.entryName = entryName;
     }
+
 }
