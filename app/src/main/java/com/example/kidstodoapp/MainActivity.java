@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,9 @@ public class MainActivity extends Activity implements ToDoAdapter.OnEntryListene
         ToDoAdapter adapter = new ToDoAdapter(toDoEntries, this);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        final TextView pointsDisplay = findViewById(R.id.points_display);
+        pointsDisplay.setText(Integer.toString(pointsEarned));
 
         Button addEntryButton = findViewById(R.id.add_entry_button);
         addEntryButton.setOnClickListener(new View.OnClickListener() {
