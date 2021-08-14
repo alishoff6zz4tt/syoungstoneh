@@ -32,6 +32,10 @@ public class ToDoEntryActivity extends AppCompatActivity {
         completionCheckBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mToDoEntry.setCompleted(completionCheckBox.isChecked());
+                Intent result = new Intent();
+                result.putExtra("position", position);
+                setResult(RESULT_OK, result);
+                finish();
             }
         });
 
