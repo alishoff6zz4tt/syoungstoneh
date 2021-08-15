@@ -4,11 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,6 +29,13 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private final int NEW_ENTRY_REQUEST = 1;
     private final int VIEW_ENTRY_REQUEST = 2;
 
+    private String password;
+    private String phoneNumber;
+    private Boolean notFirstTime = null;         //Used to determine if the parent needs to set up a password
+    private Boolean inParentMode = false;        //Used to determine if the parent is in parent mode or not
+    private Button parentMode;
+    private ImageButton setPhoneNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,39 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
                 startActivityForResult(intent, NEW_ENTRY_REQUEST);
             }
+        });
+
+        parentMode = findViewById(R.id.pM);
+        setPhoneNumber = findViewById(R.id.phone);
+
+        parentMode.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  if(!inParentMode) {openDialog(notFirstTime);}
+                  else
+                  {
+                      inParentMode = false;
+                      Toast.makeText(MainActivity.this,
+                              "Logged Out",
+                              Toast.LENGTH_SHORT).show();
+                  }
+              }
+        });
+
+        setPhoneNumber.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  if(inParentMode)
+                  {
+                      phoneNumberDialog phoneDialog = new phoneNumberDialog();
+                      phoneDialog.show(getSupportFragmentManager(), "Set Phone Number");
+                  }
+                  else {
+                      Toast.makeText(MainActivity.this,
+                              "Please Enter Parent Mode to Add a Phone Number",
+                              Toast.LENGTH_SHORT).show();
+                  }
+              }
         });
     }
 
@@ -84,4 +125,27 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     public void setPointsDisplay() {
         pointsDisplay.setText(String.format(Locale.US, "$%d", pointsEarned));
     }
+
+    public void openDialog(Boolean passwordAlreadySet)
+    {
+        if(passwordAlreadySet==null)
+        {
+            parentModeSetPassword parentSetPass = new parentModeSetPassword();
+            parentSetPass.show(getSupportFragmentManager(), "Create Password");
+        }
+        else
+        {
+            parentModeDialog parentMode = new parentModeDialog();
+            parentMode.show(getSupportFragmentManager(), "Enter Password");
+        }
+    }
+
+    public String getPassword() {return password;}
+    public void setPassword(String password) {this.password = password;}
+    public Boolean getNotFirstTime() {return notFirstTime;}
+    public void setNotFirstTime(Boolean notFirstTime) {this.notFirstTime = notFirstTime;}
+    public Boolean getInParentMode() {return inParentMode;}
+    public void setInParentMode(Boolean inParentMode) {this.inParentMode = inParentMode;}
+    public String getPhoneNumber() {return phoneNumber;}
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
 }
