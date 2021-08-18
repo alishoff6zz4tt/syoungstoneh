@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     private ToDoAdapter adapter = new ToDoAdapter(toDoEntries, this);
 
-    private static TextView pointsDisplay;
+    private TextView pointsDisplay;
 
     private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private String phoneNumber;
     private Boolean notFirstTime = null;         //Used to determine if the parent needs to set up a password
     private Boolean inParentMode = false;        //Used to determine if the parent is in parent mode or not
-    private Button parentMode;
-    private ImageButton setPhoneNumber;
+    private Button parentModeButton;
+    private Button addEntryButton;
+    private ImageButton setPhoneNumberButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         pointsDisplay = findViewById(R.id.points_display);
         setPointsDisplay();
 
-        Button addEntryButton = findViewById(R.id.add_entry_button);
+        addEntryButton = findViewById(R.id.add_entry_button);
         addEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
@@ -56,10 +57,13 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             }
         });
 
-        parentMode = findViewById(R.id.pM);
-        setPhoneNumber = findViewById(R.id.phone);
+        parentModeButton = findViewById(R.id.pM);
+        setPhoneNumberButton = findViewById(R.id.phone);
 
-        parentMode.setOnClickListener(new View.OnClickListener() {
+        addEntryButton.setVisibility(View.GONE);
+        setPhoneNumberButton.setVisibility(View.GONE);
+
+        parentModeButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
                   if(!inParentMode) {openDialog(notFirstTime);}
@@ -69,11 +73,13 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                       Toast.makeText(MainActivity.this,
                               "Logged Out",
                               Toast.LENGTH_SHORT).show();
+                      addEntryButton.setVisibility(View.GONE);
+                      setPhoneNumberButton.setVisibility(View.GONE);
                   }
               }
         });
 
-        setPhoneNumber.setOnClickListener(new View.OnClickListener() {
+        setPhoneNumberButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
                   if(inParentMode)
@@ -145,7 +151,11 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     public Boolean getNotFirstTime() {return notFirstTime;}
     public void setNotFirstTime(Boolean notFirstTime) {this.notFirstTime = notFirstTime;}
     public Boolean getInParentMode() {return inParentMode;}
-    public void setInParentMode(Boolean inParentMode) {this.inParentMode = inParentMode;}
+    public void setInParentMode(Boolean inParentMode) {
+        this.inParentMode = inParentMode;
+        addEntryButton.setVisibility(View.VISIBLE);
+        setPhoneNumberButton.setVisibility(View.VISIBLE);
+    }
     public String getPhoneNumber() {return phoneNumber;}
     public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
 }
