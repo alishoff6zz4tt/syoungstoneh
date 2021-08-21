@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditEvents"></activity>
+        <activity android:name=".CreateToDoEntryActivity"></activity>
+        <activity
+            android:name=".ToDoEntryActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".EditEvents" />
         <activity
             android:name=".TrophyCase"
             android:label="@string/title_activity_trophy_case"

@@ -30,13 +30,21 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
         builder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                if(input.getText().toString().length() == 10 || input.getText().toString().length() == 11)
+                String numberString = input.getText().toString();
+                if(numberString.length() == 10 || numberString.length() == 11)
                 {
-                    ((MainActivity) getContext()).setPhoneNumber(Integer.parseInt(input.getText().toString()));
-                    Toast.makeText(getContext(),
-                            "Phone Number Added",
-                            Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    if (containsOnlyDigits(numberString)) {
+                        ((MainActivity) getContext()).setPhoneNumber(numberString);
+                        Toast.makeText(getContext(),
+                                "Phone Number Added",
+                                Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                    else {
+                        Toast.makeText(getContext(),
+                                "Not a Valid Phone Number, Please Try Again",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
@@ -48,5 +56,13 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
         });
 
         return builder.create();
+    }
+
+    boolean containsOnlyDigits(String str) {
+        boolean result = true;
+        for (int i = 0 ; i < str.length() ; i++) {
+            result = result && "0123456789".contains(str.charAt(i) + "");
+        }
+        return result;
     }
 }
