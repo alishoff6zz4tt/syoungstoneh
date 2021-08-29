@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     private String password;
     private String phoneNumber;
-    private Boolean notFirstTime = null;         //Used to determine if the parent needs to set up a password
-    private Boolean inParentMode = false;        //Used to determine if the parent is in parent mode or not
+    private Boolean notFirstTime = null;
+    private static Boolean inParentMode = false;
     private Button parentModeButton;
     private Button addEntryButton;
     private ImageButton setPhoneNumberButton;
@@ -103,22 +103,45 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         runnable = new Runnable() {
             @Override
             public void run() {
-                inParentMode = false;
-                Toast.makeText(MainActivity.this,
-                        "Logged Out Due to Inactivity",
-                        Toast.LENGTH_SHORT).show();
-                addEntryButton.setVisibility(View.GONE);
-                setPhoneNumberButton.setVisibility(View.GONE);
+                if(inParentMode) {
+                    inParentMode = false;
+                    Toast.makeText(MainActivity.this,
+                            "Logged Out Due to Inactivity",
+                            Toast.LENGTH_SHORT).show();
+                    addEntryButton.setVisibility(View.GONE);
+                    setPhoneNumberButton.setVisibility(View.GONE);
+                }
             }
         };
-        startHandler();
+        startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        stopHandler();
-        startHandler();
+        stopHandler(parentModeTimeOut, runnable);
+        startHandler(parentModeTimeOut, runnable);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopHandler(parentModeTimeOut, runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startHandler(parentModeTimeOut, runnable);
+
+        if(inParentMode) {
+            addEntryButton.setVisibility(View.VISIBLE);
+            setPhoneNumberButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            addEntryButton.setVisibility(View.GONE);
+            setPhoneNumberButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -171,18 +194,25 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         }
     }
 
-    public void stopHandler() {parentModeTimeOut.removeCallbacks(runnable);}
-    public void startHandler() {parentModeTimeOut.postDelayed(runnable, 60000);}
+    public static void stopHandler(Handler handler, Runnable runnable) {handler.removeCallbacks(runnable);}
+    public static void startHandler(Handler handler, Runnable runnable) {handler.postDelayed(runnable, 60000);}
 
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
     public Boolean getNotFirstTime() {return notFirstTime;}
     public void setNotFirstTime(Boolean notFirstTime) {this.notFirstTime = notFirstTime;}
-    public Boolean getInParentMode() {return inParentMode;}
-    public void setInParentMode(Boolean inParentMode) {
-        this.inParentMode = inParentMode;
-        addEntryButton.setVisibility(View.VISIBLE);
-        setPhoneNumberButton.setVisibility(View.VISIBLE);
+    public static Boolean getInParentMode() {return inParentMode;}
+    public static void setInParentMode(Boolean inParentMode) {MainActivity.inParentMode = inParentMode;}
+    public void setInParentMode(Boolean inParentMode, int i) {
+        MainActivity.inParentMode = inParentMode;
+        if(inParentMode) {
+            addEntryButton.setVisibility(View.VISIBLE);
+            setPhoneNumberButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            addEntryButton.setVisibility(View.GONE);
+            setPhoneNumberButton.setVisibility(View.GONE);
+        }
     }
     public String getPhoneNumber() {return phoneNumber;}
     public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}

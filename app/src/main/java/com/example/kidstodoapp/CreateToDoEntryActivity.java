@@ -4,12 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class CreateToDoEntryActivity extends AppCompatActivity {
+
+    private Handler parentModeTimeOut;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +58,45 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 cancel();
             }
         });
+
+        parentModeTimeOut = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(MainActivity.getInParentMode()) {
+                    MainActivity.setInParentMode(false);
+                    Toast.makeText(CreateToDoEntryActivity.this,
+                            "Logged Out Due to Inactivity",
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        };
+        MainActivity.startHandler(parentModeTimeOut, runnable);
     }
 
     private void cancel() {
         Intent result = new Intent();
         setResult(RESULT_CANCELED, result);
         finish();
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        MainActivity.stopHandler(parentModeTimeOut, runnable);
+        MainActivity.startHandler(parentModeTimeOut, runnable);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity.stopHandler(parentModeTimeOut, runnable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity.startHandler(parentModeTimeOut, runnable);
     }
 }
