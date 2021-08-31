@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class phoneNumberDialog extends AppCompatDialogFragment {
     private EditText input;
+    private Boolean isShown = false;
 
     @NonNull
     @Override
@@ -46,6 +47,8 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        isShown = true;
         final AlertDialog ad = (AlertDialog)getDialog();
         if(ad!=null) {
             Button negativeButton = ad.getButton(Dialog.BUTTON_NEGATIVE);
@@ -86,6 +89,11 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
         }
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialogInterface1) {
+        isShown = false;
+    }
+
     boolean containsOnlyDigits(String str) {
         boolean result = true;
         for (int i = 0 ; i < str.length() ; i++) {
@@ -93,4 +101,6 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
         }
         return result;
     }
+
+    public Boolean getIsShown() {return isShown;}
 }

@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private Handler parentModeTimeOut;
     private Runnable runnable;
 
+    private phoneNumberDialog phoneDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
               public void onClick(View view) {
                   if(inParentMode)
                   {
-                      phoneNumberDialog phoneDialog = new phoneNumberDialog();
+                      phoneDialog = new phoneNumberDialog();
                       phoneDialog.show(getSupportFragmentManager(), "Set Phone Number");
                   }
                   else {
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                             Toast.LENGTH_SHORT).show();
                     addEntryButton.setVisibility(View.GONE);
                     setPhoneNumberButton.setVisibility(View.GONE);
+                    if(phoneDialog.getIsShown()) {phoneDialog.dismiss();}
                 }
             }
         };
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     }
 
     public static void stopHandler(Handler handler, Runnable runnable) {handler.removeCallbacks(runnable);}
-    public static void startHandler(Handler handler, Runnable runnable) {handler.postDelayed(runnable, 60000);}
+    public static void startHandler(Handler handler, Runnable runnable) {handler.postDelayed(runnable, 10000);}
 
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
