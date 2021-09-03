@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateToDoEntryActivity"></activity>
+        <activity android:name=".CreateToDoEntryActivity"/>
         <activity
             android:name=".ToDoEntryActivity"
             android:parentActivityName=".MainActivity">
@@ -29,6 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ParentMode"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ParentModeFirstTime"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".PhoneNumber"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

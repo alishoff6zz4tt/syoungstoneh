@@ -63,8 +63,8 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                if(MainActivity.getInParentMode()) {
-                    MainActivity.setInParentMode(false);
+                if(Utility.getInParentMode()) {
+                    Utility.setInParentMode(false);
                     Toast.makeText(CreateToDoEntryActivity.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
@@ -72,7 +72,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 }
             }
         };
-        MainActivity.startHandler(parentModeTimeOut, runnable);
+        Utility.startHandler(parentModeTimeOut, runnable);
     }
 
     private void cancel() {
@@ -84,19 +84,19 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        MainActivity.stopHandler(parentModeTimeOut, runnable);
-        MainActivity.startHandler(parentModeTimeOut, runnable);
+        Utility.stopHandler(parentModeTimeOut, runnable);
+        Utility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MainActivity.stopHandler(parentModeTimeOut, runnable);
+        Utility.stopHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        MainActivity.startHandler(parentModeTimeOut, runnable);
+        Utility.startHandler(parentModeTimeOut, runnable);
     }
 }
