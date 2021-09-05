@@ -31,6 +31,7 @@ public class PhoneNumber extends Activity {
                 if (numberString.length() == 10 || numberString.length() == 11) {
                     if (containsOnlyDigits(numberString)) {
                         Utility.setPhoneNumber(numberString);
+                        Utility.setPhoneNumberSet(true);
                         Toast.makeText(PhoneNumber.this,
                                 "Phone Number Added",
                                 Toast.LENGTH_SHORT).show();
