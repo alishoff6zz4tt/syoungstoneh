@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private Button parentModeButton;
     private Button addEntryButton;
     private ImageButton setPhoneNumberButton;
+    private ImageButton faqButton;
 
     private Handler parentModeTimeOut;
     private Runnable runnable;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
         parentModeButton = findViewById(R.id.pM);
         setPhoneNumberButton = findViewById(R.id.phone);
+        faqButton = findViewById(R.id.faq);
 
         addEntryButton.setVisibility(View.GONE);
         setPhoneNumberButton.setVisibility(View.GONE);
@@ -93,6 +95,14 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                   Intent intent = new Intent(view.getContext(), PhoneNumber.class);
                   startActivity(intent);
               }
+        });
+
+        faqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), FAQ.class);
+                startActivity(intent);
+            }
         });
 
         parentModeTimeOut = new Handler();
