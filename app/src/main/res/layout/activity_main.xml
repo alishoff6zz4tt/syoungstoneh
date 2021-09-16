@@ -13,23 +13,23 @@
         android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
+        apasdf asdkfjh gasdlifkagsdp:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="411dp"
+        android:layout_widthasdfasdfkha sdfloiuadghsfiuadswf="411dp"
         android:layout_height="670dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
+asdfasddfasdfkask;
     <Button
         android:id="@+id/add_entry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        andrasdf kjakhdsflkjasdhfglkadsoid:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="+"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/p"
+        android:tasdf iuywieurt o9q2343rgiuext="@string/p"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
+        androidasdlkfj asdhf l;asd:layout_marginBottom="16dp"
         android:layout_toLeftOf="@id/pM"
         android:contentDescription="@android:string/emptyPhoneNumber"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,6 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/stat_sys_phone_call"
         tools:ignore="MissingConstraints" />
-
+a;lskdhjf;oaqeh rt54pw398;oghuviarwlop789;.s vtibgvjkx,cvhbg xdfjklgbhyasdfolu. fio8klaqu.er3fvljzkxfhv sjkldfvgh adfsjkl;fg h adfsiohuklfabgvsd l kfiuyqwetrgpiou;234ty5 b023
 
 </androidx.constraintlayout.widget.ConstraintLayout>
