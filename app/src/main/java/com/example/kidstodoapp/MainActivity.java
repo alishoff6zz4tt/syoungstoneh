@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     private final int NEW_ENTRY_REQUEST = 1;
     private final int VIEW_ENTRY_REQUEST = 2;
+    private final int EDIT_ENTRY_REQUEST = 3;
 
     private String password;
     private String phoneNumber;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                               Toast.LENGTH_SHORT).show();
                       addEntryButton.setVisibility(View.GONE);
                       setPhoneNumberButton.setVisibility(View.GONE);
+                      parentModeButton.setText(getResources().getString(R.string.login));
                   }
               }
         });
@@ -155,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         this.inParentMode = inParentMode;
         addEntryButton.setVisibility(View.VISIBLE);
         setPhoneNumberButton.setVisibility(View.VISIBLE);
+        parentModeButton.setText(getResources().getString(R.string.logout));
     }
     public String getPhoneNumber() {return phoneNumber;}
     public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}

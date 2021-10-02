@@ -20,6 +20,7 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
         builder.setTitle("Enter Phone Number");
 
         final EditText input = new EditText(this.getContext());
+        input.setHint("0000000000");
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
         builder.setView(input);
 

@@ -18,6 +18,7 @@ public class parentModeDialog extends AppCompatDialogFragment {
         builder.setTitle("Enter Password");
 
         final EditText input = new EditText(this.getContext());
+        input.setHint("Password");
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(input);
 

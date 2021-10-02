@@ -17,8 +17,10 @@ public class parentModeSetPassword extends AppCompatDialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Create Password");
         final EditText input1 = new EditText(this.getContext());
+        input1.setHint("Password");
         input1.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         final EditText input2 = new EditText(this.getContext());
+        input2.setHint("Confirm Password");
         input2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         LinearLayout linLay  = new LinearLayout(this.getContext());
