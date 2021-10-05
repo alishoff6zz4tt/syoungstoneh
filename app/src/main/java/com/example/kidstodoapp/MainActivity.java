@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private Button parentModeButton;
     private Button addEntryButton;
     private ImageButton setPhoneNumberButton;
+
+    private Handler parentModeTimeOut;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +100,27 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                   }
               }
         });
+
+        parentModeTimeOut = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                inParentMode = false;
+                Toast.makeText(MainActivity.this,
+                        "Logged Out Due to Inactivity",
+                        Toast.LENGTH_SHORT).show();
+                addEntryButton.setVisibility(View.GONE);
+                setPhoneNumberButton.setVisibility(View.GONE);
+            }
+        };
+        startHandler();
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        stopHandler();
+        startHandler();
     }
 
     @Override
@@ -147,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             parentMode.show(getSupportFragmentManager(), "Enter Password");
         }
     }
+
+    public void stopHandler() {parentModeTimeOut.removeCallbacks(runnable);}
+    public void startHandler() {parentModeTimeOut.postDelayed(runnable, 60000);}
 
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}

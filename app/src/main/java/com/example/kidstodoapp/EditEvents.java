@@ -1,4 +1,4 @@
-package com.example.kidstodoapp;
+/*package com.example.kidstodoapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,4 +18,4 @@ public class EditEvents extends AppCompatActivity {
 //                    .commitNow();
 //        }
     }
-}
+}*/
