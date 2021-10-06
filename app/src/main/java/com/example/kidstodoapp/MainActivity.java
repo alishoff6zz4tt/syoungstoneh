@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
               @Override
               public void onClick(View view) {
                   if(!inParentMode) {openDialog(notFirstTime);}
-                  else
-                  {
+                  else {
                       inParentMode = false;
                       Toast.makeText(MainActivity.this,
                               "Logged Out",
@@ -81,24 +80,24 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                       addEntryButton.setVisibility(View.GONE);
                       setPhoneNumberButton.setVisibility(View.GONE);
                       parentModeButton.setText(getResources().getString(R.string.login));
+                      stopHandler();
                   }
               }
         });
 
         setPhoneNumberButton.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if(inParentMode)
-                  {
-                      phoneNumberDialog phoneDialog = new phoneNumberDialog();
-                      phoneDialog.show(getSupportFragmentManager(), "Set Phone Number");
-                  }
-                  else {
-                      Toast.makeText(MainActivity.this,
-                              "Please Enter Parent Mode to Add a Phone Number",
-                              Toast.LENGTH_SHORT).show();
-                  }
-              }
+            @Override
+            public void onClick(View view) {
+                if(inParentMode) {
+                    phoneNumberDialog phoneDialog = new phoneNumberDialog();
+                    phoneDialog.show(getSupportFragmentManager(), "Set Phone Number");
+                }
+                else {
+                  Toast.makeText(MainActivity.this,
+                          "Please Enter Parent Mode to Add a Phone Number",
+                          Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
         parentModeTimeOut = new Handler();
@@ -111,16 +110,19 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                         Toast.LENGTH_SHORT).show();
                 addEntryButton.setVisibility(View.GONE);
                 setPhoneNumberButton.setVisibility(View.GONE);
+                parentModeButton.setText(getResources().getString(R.string.login));
+                stopHandler();
             }
         };
-        startHandler();
     }
 
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        stopHandler();
-        startHandler();
+        if (inParentMode) {
+            stopHandler();
+            startHandler();
+        }
     }
 
     @Override
@@ -186,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         addEntryButton.setVisibility(View.VISIBLE);
         setPhoneNumberButton.setVisibility(View.VISIBLE);
         parentModeButton.setText(getResources().getString(R.string.logout));
+        startHandler();
     }
     public String getPhoneNumber() {return phoneNumber;}
     public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}

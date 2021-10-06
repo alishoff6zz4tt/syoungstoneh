@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         public TextView nameTextView;
         public TextView descriptionTextView;
         public OnEntryListener onEntryListener;
-        public Button editEntryButton;
+        public ImageButton editEntryButton;
 
         public ViewHolder(View view, OnEntryListener onEntryListener) {
             super(view);
