@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     private String password;
     private String phoneNumber;
-    private Boolean notFirstTime = null;         //Used to determine if the parent needs to set up a password
-    private Boolean inParentMode = false;        //Used to determine if the parent is in parent mode or not
+    private Boolean passwordAlreadySet = false;
+    private Boolean inParentMode = false;
     private Button parentModeButton;
     private Button addEntryButton;
     private ImageButton setPhoneNumberButton;
@@ -71,16 +71,12 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         parentModeButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  if(!inParentMode) {openDialog(notFirstTime);}
+                  if(!inParentMode) {openDialog(passwordAlreadySet);}
                   else {
-                      inParentMode = false;
+                      setInParentMode(false);
                       Toast.makeText(MainActivity.this,
                               "Logged Out",
                               Toast.LENGTH_SHORT).show();
-                      addEntryButton.setVisibility(View.GONE);
-                      setPhoneNumberButton.setVisibility(View.GONE);
-                      parentModeButton.setText(getResources().getString(R.string.login));
-                      stopHandler();
                   }
               }
         });
@@ -104,14 +100,10 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         runnable = new Runnable() {
             @Override
             public void run() {
-                inParentMode = false;
+                setInParentMode(false);
                 Toast.makeText(MainActivity.this,
                         "Logged Out Due to Inactivity",
                         Toast.LENGTH_SHORT).show();
-                addEntryButton.setVisibility(View.GONE);
-                setPhoneNumberButton.setVisibility(View.GONE);
-                parentModeButton.setText(getResources().getString(R.string.login));
-                stopHandler();
             }
         };
     }
@@ -161,15 +153,12 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         pointsDisplay.setText(String.format(Locale.US, "$%d", pointsEarned));
     }
 
-    public void openDialog(Boolean passwordAlreadySet)
-    {
-        if(passwordAlreadySet==null)
-        {
+    public void openDialog(Boolean passwordAlreadySet) {
+        if(!passwordAlreadySet) {
             parentModeSetPassword parentSetPass = new parentModeSetPassword();
             parentSetPass.show(getSupportFragmentManager(), "Create Password");
         }
-        else
-        {
+        else {
             parentModeDialog parentMode = new parentModeDialog();
             parentMode.show(getSupportFragmentManager(), "Enter Password");
         }
@@ -180,15 +169,23 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
-    public Boolean getNotFirstTime() {return notFirstTime;}
-    public void setNotFirstTime(Boolean notFirstTime) {this.notFirstTime = notFirstTime;}
-    public Boolean getInParentMode() {return inParentMode;}
+    public Boolean isPasswordAlreadySet() {return passwordAlreadySet;}
+    public void setPasswordAlreadySet(Boolean passwordAlreadySet) {this.passwordAlreadySet = passwordAlreadySet;}
+    public Boolean isInParentMode() {return inParentMode;}
     public void setInParentMode(Boolean inParentMode) {
         this.inParentMode = inParentMode;
-        addEntryButton.setVisibility(View.VISIBLE);
-        setPhoneNumberButton.setVisibility(View.VISIBLE);
-        parentModeButton.setText(getResources().getString(R.string.logout));
-        startHandler();
+        if (inParentMode) {
+            addEntryButton.setVisibility(View.VISIBLE);
+            setPhoneNumberButton.setVisibility(View.VISIBLE);
+            parentModeButton.setText(getResources().getString(R.string.logout));
+            startHandler();
+        }
+        else {
+            addEntryButton.setVisibility(View.GONE);
+            setPhoneNumberButton.setVisibility(View.GONE);
+            parentModeButton.setText(getResources().getString(R.string.login));
+            stopHandler();
+        }
     }
     public String getPhoneNumber() {return phoneNumber;}
     public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}

@@ -40,7 +40,7 @@ public class parentModeSetPassword extends AppCompatDialogFragment{
                 else if(input1.getText().toString().equals(input2.getText().toString()))
                 {
                     ((MainActivity) getContext()).setPassword(input1.getText().toString());
-                    ((MainActivity) getContext()).setNotFirstTime(true);
+                    ((MainActivity) getContext()).setPasswordAlreadySet(true);
                     ((MainActivity) getContext()).setInParentMode(true);
 
                     Toast.makeText(getContext(),
