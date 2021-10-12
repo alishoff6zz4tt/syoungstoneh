@@ -21,7 +21,7 @@ public class phoneNumberDialog extends AppCompatDialogFragment {
 
         final EditText input = new EditText(this.getContext());
         input.setHint("0000000000");
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
