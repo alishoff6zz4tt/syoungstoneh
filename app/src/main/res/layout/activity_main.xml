@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-poopy poopy poopy
-=======
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -66,4 +63,3 @@ poopy poopy poopy
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> parent of d7f8a72... breaking another thing in the app
