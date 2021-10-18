@@ -49,11 +49,18 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
             this.onEntryListener = onEntryListener;
 
             view.setOnClickListener(this);
+            if (editEntryButton != null) {
+                editEntryButton.setOnClickListener(this);
+            }
         }
 
         @Override
         public void onClick(View view) {
-            onEntryListener.onEntryClick(getAdapterPosition());
+            if (editEntryButton != null && view.getId() == editEntryButton.getId()) {
+                onEntryListener.onEditClick(getAdapterPosition());
+            } else {
+                onEntryListener.onEntryClick(getAdapterPosition());
+            }
         }
     }
 
@@ -81,12 +88,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
         nameTextView.setText(entry.getEntryName());
         descriptionTextView.setText(entry.getDescription());
-        editEntryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
         viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
@@ -104,6 +105,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
     public interface OnEntryListener {
         void onEntryClick(int position);
+        void onEditClick(int position);
     }
 
 }

@@ -70,16 +70,16 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         setPhoneNumberButton.setVisibility(View.GONE);
 
         parentModeButton.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if(!inParentMode) {openDialog(passwordAlreadySet);}
-                  else {
-                      setInParentMode(false);
-                      Toast.makeText(MainActivity.this,
-                              "Logged Out",
-                              Toast.LENGTH_SHORT).show();
-                  }
-              }
+            @Override
+            public void onClick(View view) {
+                if(!inParentMode) {openDialog(passwordAlreadySet);}
+                else {
+                    setInParentMode(false);
+                    Toast.makeText(MainActivity.this,
+                            "Logged Out",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
         setPhoneNumberButton.setOnClickListener(new View.OnClickListener() {
@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                     phoneDialog.show(getSupportFragmentManager(), "Set Phone Number");
                 }
                 else {
-                  Toast.makeText(MainActivity.this,
-                          "Please Enter Parent Mode to Add a Phone Number",
-                          Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            "Please Enter Parent Mode to Add a Phone Number",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -128,6 +128,15 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 toDoEntries.add(newToDoEntry);
             }
         }
+        if (requestCode == EDIT_ENTRY_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = result.getExtras();
+                ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
+                int position = extras.getInt("position");
+                toDoEntries.set(position, changedToDoEntry);
+                recyclerView.setAdapter(adapter);
+            }
+        }
         if (requestCode == VIEW_ENTRY_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
@@ -148,6 +157,14 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         intent.putExtra("ToDoEntry", toDoEntries.get(position));
         intent.putExtra("position", position);
         startActivityForResult(intent, VIEW_ENTRY_REQUEST);
+    }
+
+    @Override
+    public void onEditClick(int position) {
+        Intent intent = new Intent(this, CreateToDoEntryActivity.class);
+        intent.putExtra("ToDoEntry", toDoEntries.get(position));
+        intent.putExtra("position", position);
+        startActivityForResult(intent, EDIT_ENTRY_REQUEST);
     }
 
     public void setPointsDisplay() {

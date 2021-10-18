@@ -1,5 +1,6 @@
 package com.example.kidstodoapp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -45,5 +46,10 @@ public class ToDoEntryActivity extends AppCompatActivity {
         pointsTextView.setText(points);
 
         completionCheckBox.setChecked(mToDoEntry.isCompleted());
+
+        if (getSupportActionBar() != null) {
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
     }
 }

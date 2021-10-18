@@ -22,29 +22,38 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
         final EditText entryDescriptionEditText = findViewById(R.id.entry_description_txt);
         final EditText entryPointsEditText = findViewById(R.id.entry_points_txt);
 
+        Intent intent = getIntent();
+        if(intent.hasExtra("ToDoEntry")) {
+            ToDoEntry toDoEntry = (ToDoEntry) intent.getExtras().getSerializable("ToDoEntry");
+            createEntryButton.setText("Save");
+            entryNameEditText.setText(toDoEntry.getEntryName());
+            entryDescriptionEditText.setText(toDoEntry.getDescription());
+            entryPointsEditText.setText(String.valueOf(toDoEntry.getPointValue()));
+        }
+
         createEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (TextUtils.isEmpty(entryNameEditText.getText().toString())) {
-                    cancel();
+            if (TextUtils.isEmpty(entryNameEditText.getText().toString())) {
+                cancel();
+            }
+            else {
+                int points;
+                if (TextUtils.isEmpty(entryPointsEditText.getText().toString())) {
+                    points = 0;
                 }
                 else {
-                    int points;
-                    if (TextUtils.isEmpty(entryPointsEditText.getText().toString())) {
-                        points = 0;
-                    }
-                    else {
-                        points = Integer.parseInt(entryPointsEditText.getText().toString());
-                    }
-                    ToDoEntry newEntry = new ToDoEntry(
-                            entryNameEditText.getText().toString(),
-                            entryDescriptionEditText.getText().toString(),
-                            points
-                    );
-                    Intent result = new Intent();
-                    result.putExtra("ToDoEntry", newEntry);
-                    setResult(RESULT_OK, result);
-                    finish();
+                    points = Integer.parseInt(entryPointsEditText.getText().toString());
                 }
+                ToDoEntry newEntry = new ToDoEntry(
+                    entryNameEditText.getText().toString(),
+                    entryDescriptionEditText.getText().toString(),
+                    points
+                );
+                Intent result = new Intent();
+                result.putExtra("ToDoEntry", newEntry);
+                setResult(RESULT_OK, result);
+                finish();
+            }
             }
         });
 
