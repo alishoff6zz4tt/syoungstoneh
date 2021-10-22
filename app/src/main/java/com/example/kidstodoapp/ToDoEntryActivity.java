@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class ToDoEntryActivity extends AppCompatActivity {
 
     private ToDoEntry mToDoEntry;
@@ -27,6 +30,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
 
         TextView nameTextView = findViewById(R.id.entry_name_textview);
         TextView descriptionTextView = findViewById(R.id.entry_description_textview);
+        TextView dateTimeTextView = findViewById(R.id.entry_datetime_textview);
         TextView pointsTextView = findViewById(R.id.entry_points_textview);
         final CheckBox completionCheckBox = findViewById(R.id.completion_check_box);
 
@@ -42,6 +46,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
 
         nameTextView.setText(mToDoEntry.getEntryName());
         descriptionTextView.setText(mToDoEntry.getDescription());
+        dateTimeTextView.setText(mToDoEntry.getDateTimeString());
         String points = "$" + mToDoEntry.getPointValue();
         pointsTextView.setText(points);
 

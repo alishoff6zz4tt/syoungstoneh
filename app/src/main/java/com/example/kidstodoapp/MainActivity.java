@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 Bundle extras = result.getExtras();
                 ToDoEntry newToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
                 toDoEntries.add(newToDoEntry);
+                adapter.notifyItemInserted(toDoEntries.size() - 1);
             }
         }
         if (requestCode == EDIT_ENTRY_REQUEST) {
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
                 int position = extras.getInt("position");
                 toDoEntries.set(position, changedToDoEntry);
-                recyclerView.setAdapter(adapter);
+                adapter.notifyItemChanged(position);
             }
         }
         if (requestCode == VIEW_ENTRY_REQUEST) {
