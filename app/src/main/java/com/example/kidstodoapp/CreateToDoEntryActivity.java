@@ -10,9 +10,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,6 +40,12 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
 
         Button createEntryButton = findViewById(R.id.create_entry_button);
         Button cancelEntryButton = findViewById(R.id.cancel_entry_button);
+
+        final Spinner categorySpinner = findViewById(R.id.category_spinner);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, ToDoEntry.getCategories());
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
 
         final TextView entryDateTextView = findViewById(R.id.edit_date_textview);
         final TextView entryTimeTextView = findViewById(R.id.edit_time_textview);
@@ -102,6 +110,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
             cal = toDoEntry.getDateTimeDue();
             entryDateTextView.setText(getDateString(cal));
             entryTimeTextView.setText(getTimeString(cal));
+            categorySpinner.setSelection(ToDoEntry.getCategories().indexOf(toDoEntry.getCategory()));
             createEntryButton.setText("Save");
             entryNameEditText.setText(toDoEntry.getEntryName());
             entryDescriptionEditText.setText(toDoEntry.getDescription());
@@ -131,7 +140,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 ToDoEntry newEntry = new ToDoEntry(
                         entryNameEditText.getText().toString(),
                         entryDescriptionEditText.getText().toString(),
-                        points, cal
+                        points, cal, categorySpinner.getSelectedItem().toString()
                 );
                 Intent result = new Intent();
                 result.putExtra("ToDoEntry", newEntry);

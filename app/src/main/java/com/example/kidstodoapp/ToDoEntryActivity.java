@@ -28,6 +28,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
         this.mToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
         this.position = extras.getInt("position");
 
+        TextView categoryTextView = findViewById(R.id.category_textview);
         TextView nameTextView = findViewById(R.id.entry_name_textview);
         TextView descriptionTextView = findViewById(R.id.entry_description_textview);
         TextView dateTimeTextView = findViewById(R.id.entry_datetime_textview);
@@ -44,6 +45,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
             }
         });
 
+        categoryTextView.setText(mToDoEntry.getCategory());
         nameTextView.setText(mToDoEntry.getEntryName());
         descriptionTextView.setText(mToDoEntry.getDescription());
         dateTimeTextView.setText(mToDoEntry.getDateTimeString());
