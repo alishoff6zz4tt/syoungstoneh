@@ -14,6 +14,7 @@ import android.widget.Toast;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 // This comment was made by Sean Youngstone
@@ -126,7 +127,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 Bundle extras = result.getExtras();
                 ToDoEntry newToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
                 toDoEntries.add(newToDoEntry);
-                adapter.notifyItemInserted(toDoEntries.size() - 1);
+                Collections.sort(toDoEntries);
+                recyclerView.setAdapter(adapter);
             }
         }
         if (requestCode == EDIT_ENTRY_REQUEST) {
@@ -135,7 +137,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
                 int position = extras.getInt("position");
                 toDoEntries.set(position, changedToDoEntry);
-                adapter.notifyItemChanged(position);
+                Collections.sort(toDoEntries);
+                recyclerView.setAdapter(adapter);
             }
         }
         if (requestCode == VIEW_ENTRY_REQUEST) {

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class ToDoEntry implements Serializable {
+public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
 
     public static List<String> categories = Arrays.asList(
             "School", "Home", "Family", "Athletics", "Creative");
@@ -29,6 +29,11 @@ public class ToDoEntry implements Serializable {
         completed = false;
         this.dateTimeDue = dateTimeDue;
         this.category = category;
+    }
+
+    @Override
+    public int compareTo(ToDoEntry toDoEntry) {
+        return dateTimeDue.compareTo(toDoEntry.getDateTimeDue());
     }
 
     public String getDescription() {
