@@ -134,10 +134,15 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         if (requestCode == EDIT_ENTRY_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
-                ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
                 int position = extras.getInt("position");
-                toDoEntries.set(position, changedToDoEntry);
-                Collections.sort(toDoEntries);
+                if (extras.getBoolean("Deleted")) {
+                    toDoEntries.remove(position);
+                    adapter.notifyItemRemoved(position);
+                } else {
+                    ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
+                    toDoEntries.set(position, changedToDoEntry);
+                    Collections.sort(toDoEntries);
+                }
                 recyclerView.setAdapter(adapter);
             }
         }

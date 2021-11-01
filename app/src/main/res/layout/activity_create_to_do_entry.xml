@@ -123,4 +123,16 @@
         app:layout_constraintTop_toBottomOf="@+id/entry_name_txt"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/delete_entry_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#FF5959"
+        android:text="DELETE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_entry_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

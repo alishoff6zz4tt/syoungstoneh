@@ -40,6 +40,9 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
 
         Button createEntryButton = findViewById(R.id.create_entry_button);
         Button cancelEntryButton = findViewById(R.id.cancel_entry_button);
+        Button deleteEntryButton = findViewById(R.id.delete_entry_button);
+
+        deleteEntryButton.setVisibility(View.INVISIBLE);
 
         final Spinner categorySpinner = findViewById(R.id.category_spinner);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
@@ -115,6 +118,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
             entryNameEditText.setText(toDoEntry.getEntryName());
             entryDescriptionEditText.setText(toDoEntry.getDescription());
             entryPointsEditText.setText(String.valueOf(toDoEntry.getPointValue()));
+            deleteEntryButton.setVisibility(View.VISIBLE);
         }
 
         createEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -144,9 +148,19 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 );
                 Intent result = new Intent();
                 result.putExtra("ToDoEntry", newEntry);
+                result.putExtra("Deleted", false);
                 setResult(RESULT_OK, result);
                 finish();
             }
+            }
+        });
+
+        deleteEntryButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent result = new Intent();
+                result.putExtra("Deleted", true);
+                setResult(RESULT_OK, result);
+                finish();
             }
         });
 
