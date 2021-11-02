@@ -13,12 +13,16 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
 // This comment was made by Sean Youngstone
 public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEntryListener {
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
