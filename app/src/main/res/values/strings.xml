@@ -11,4 +11,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="login">Log In</string>
     <string name="logout">Log Out</string>
+    <string name="p">p</string>
+    <string name="password">Password:</string>
+    <string name="phone_number">Phone Number:</string>
+    <string name="enter">Enter</string>
 </resources>
