@@ -27,10 +27,6 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
     private static int pointsEarned = 0;
-    private static String password;
-    private static String phoneNumber;
-    private static Boolean passwordAlreadySet = false;
-    private static Boolean inParentMode = false;
 
     private final int NEW_ENTRY_REQUEST = 1;
     private final int VIEW_ENTRY_REQUEST = 2;
