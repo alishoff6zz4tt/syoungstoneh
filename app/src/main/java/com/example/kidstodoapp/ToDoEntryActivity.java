@@ -59,7 +59,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Utility.getPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
+                if(Utility.isPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
                 else {
                     Toast.makeText(ToDoEntryActivity.this,
                             "A Phone Number Has Not Been Added",

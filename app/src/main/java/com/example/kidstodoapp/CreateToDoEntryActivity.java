@@ -174,7 +174,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                if(Utility.getInParentMode()) {
+                if(Utility.isInParentMode()) {
                     Utility.setInParentMode(false);
                     Toast.makeText(CreateToDoEntryActivity.this,
                             "Logged Out Due to Inactivity",

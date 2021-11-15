@@ -70,19 +70,17 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         addEntryButton.setVisibility(View.GONE);
         setPhoneNumberButton.setVisibility(View.GONE);
 
-        if(Utility.getInParentMode()) {setPhoneNumberButton.setVisibility(View.GONE);}
-        else {setPhoneNumberButton.setVisibility(View.VISIBLE);}
-
         parentModeButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  if(Utility.getInParentMode()) {
-                      setInParentMode(false);
+                  if(Utility.isInParentMode()) {
+                      Utility.setInParentMode(false);
+                      onParentModeChanged();
                       Toast.makeText(MainActivity.this,
                               "Logged Out",
                               Toast.LENGTH_SHORT).show();
                   }
-                  else if(Utility.getNotFirstTime() == null) {
+                  else if(Utility.isNotFirstTime() == null) {
                       Intent intent = new Intent(view.getContext(), ParentModeFirstTime.class);
                       startActivity(intent);
                   }
@@ -106,8 +104,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         runnable = new Runnable() {
             @Override
             public void run() {
-                if(Utility.getInParentMode()) {
-                    setInParentMode(false);
+                if(Utility.isInParentMode()) {
+                    Utility.setInParentMode(false);
+                    onParentModeChanged();
                     Toast.makeText(MainActivity.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
@@ -134,15 +133,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     public void onResume() {
         super.onResume();
         Utility.startHandler(parentModeTimeOut, runnable);
-
-        if(Utility.getInParentMode()) {
-            addEntryButton.setVisibility(View.VISIBLE);
-            setPhoneNumberButton.setVisibility(View.VISIBLE);
-        }
-        else {
-            addEntryButton.setVisibility(View.GONE);
-            setPhoneNumberButton.setVisibility(View.GONE);
-        }
+        onParentModeChanged();
     }
 
     @Override
@@ -206,15 +197,19 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         pointsDisplay.setText(String.format(Locale.US, "$%d", pointsEarned));
     }
 
-    public void setInParentMode(Boolean inParentMode) {
-        Utility.setInParentMode(inParentMode);
-        if(inParentMode) {
+    public void onParentModeChanged() {
+        if(Utility.isInParentMode()) {
             setPhoneNumberButton.setVisibility(View.VISIBLE);
             addEntryButton.setVisibility(View.VISIBLE);
+            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
+            parentModeButton.setText(getResources().getString(R.string.logout));
         }
         else {
             setPhoneNumberButton.setVisibility(View.GONE);
             addEntryButton.setVisibility(View.GONE);
+            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);
+            parentModeButton.setText(getResources().getString(R.string.login));
         }
+        recyclerView.setAdapter(adapter);
     }
 }
