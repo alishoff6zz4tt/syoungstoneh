@@ -1,5 +1,6 @@
 package com.example.kidstodoapp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -35,8 +36,10 @@ public class ToDoEntryActivity extends AppCompatActivity {
         this.mToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
         this.position = extras.getInt("position");
 
+        TextView categoryTextView = findViewById(R.id.category_textview);
         final TextView nameTextView = findViewById(R.id.entry_name_textview);
         TextView descriptionTextView = findViewById(R.id.entry_description_textview);
+        TextView dateTimeTextView = findViewById(R.id.entry_datetime_textview);
         TextView pointsTextView = findViewById(R.id.entry_points_textview);
         final CheckBox completionCheckBox = findViewById(R.id.completion_check_box);
         ImageButton sms = findViewById(R.id.sms);
@@ -51,10 +54,12 @@ public class ToDoEntryActivity extends AppCompatActivity {
             }
         });
 
+        categoryTextView.setText(mToDoEntry.getCategory());
+
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Utility.getPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
+                if(Utility.isPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
                 else {
                     Toast.makeText(ToDoEntryActivity.this,
                             "A Phone Number Has Not Been Added",
@@ -65,10 +70,16 @@ public class ToDoEntryActivity extends AppCompatActivity {
 
         nameTextView.setText(mToDoEntry.getEntryName());
         descriptionTextView.setText(mToDoEntry.getDescription());
+        dateTimeTextView.setText(mToDoEntry.getDateTimeString());
         String points = "$" + mToDoEntry.getPointValue();
         pointsTextView.setText(points);
 
         completionCheckBox.setChecked(mToDoEntry.isCompleted());
+
+        if (getSupportActionBar() != null) {
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
     }
 
     @SuppressLint("IntentReset")

@@ -37,13 +37,13 @@
 
     <Button
         android:id="@+id/pM"
-        android:layout_width="36dp"
-        android:layout_height="37dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/p"
+        android:layout_marginBottom="16dp"
+        android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -52,28 +52,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_toStartOf="@id/pM"
+        android:layout_toLeftOf="@id/pM"
         android:contentDescription="@android:string/emptyPhoneNumber"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/stat_sys_phone_call"
         tools:ignore="MissingConstraints" />
-
-    <ImageButton
-        android:id="@+id/faq"
-        android:layout_width="44dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/phone"
-        app:layout_constraintHorizontal_bias="0.346"
-        app:layout_constraintStart_toEndOf="@+id/pM"
-        app:srcCompat="@android:drawable/ic_menu_help"
-        android:contentDescription="@string/faq" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

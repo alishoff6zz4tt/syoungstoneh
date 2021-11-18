@@ -17,7 +17,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".EditEvents" />
         <activity
             android:name=".TrophyCase"
             android:label="@string/title_activity_trophy_case"

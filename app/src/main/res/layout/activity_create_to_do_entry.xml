@@ -10,7 +10,7 @@
         android:id="@+id/entry_name_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Task"
         android:inputType="textPersonName"
@@ -18,26 +18,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_time_textview" />
 
     <EditText
         android:id="@+id/entry_description_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Description"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entry_name_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/category_spinner" />
 
     <EditText
         android:id="@+id/entry_points_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Points"
         android:inputType="number"
@@ -47,25 +47,92 @@
         app:layout_constraintTop_toBottomOf="@+id/entry_description_txt" />
 
     <Button
-        android:id="@+id/create_entry_button"
+        android:id="@+id/cancel_entry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Create"
+        android:layout_marginTop="24dp"
+        android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.309"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_points_txt" />
 
     <Button
-        android:id="@+id/cancel_entry_button"
+        android:id="@+id/create_entry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Cancel"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#69BCB2"
+        android:text="Create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.687"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_points_txt" />
+
+    <TextView
+        android:id="@+id/edit_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:hint="Select date"
+        android:textAlignment="center"
+        android:textColorLink="#501616"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/edit_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="Select time"
+        android:textAlignment="center"
+        android:textColorLink="#501616"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_date_textview" />
+
+    <Spinner
+        android:id="@+id/category_spinner"
+        android:layout_width="120dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="100dp"
+        android:padding="0px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/entry_name_txt" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="89dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="24dp"
+        android:padding="0px"
+        android:text="Category:"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/entry_description_txt"
+        app:layout_constraintEnd_toStartOf="@+id/category_spinner"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/entry_name_txt"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/delete_entry_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#FF5959"
+        android:text="DELETE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_entry_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

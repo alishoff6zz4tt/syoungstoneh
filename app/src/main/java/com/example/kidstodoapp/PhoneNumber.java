@@ -24,6 +24,10 @@ public class PhoneNumber extends Activity {
         enterPhoneNumber = findViewById(R.id.enterPhoneNumber);
         phoneNumberInput.setHint("111222233");
 
+        if (Utility.isPhoneNumberSet()) {
+            phoneNumberInput.setText(Utility.getPhoneNumber());
+        }
+
         enterPhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +57,7 @@ public class PhoneNumber extends Activity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                if (Utility.getInParentMode()) {
+                if (Utility.isInParentMode()) {
                     Utility.setInParentMode(false);
                     Toast.makeText(PhoneNumber.this,
                             "Logged Out Due to Inactivity",
