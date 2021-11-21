@@ -58,9 +58,9 @@ public class ToDoEntryActivity extends AppCompatActivity {
 
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {                                    //For sending messages to the parent asking for help
                 if(Utility.isPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
-                else {
+                else {                                                          //If a phone number hasn't been set
                     Toast.makeText(ToDoEntryActivity.this,
                             "A Phone Number Has Not Been Added",
                             Toast.LENGTH_SHORT).show();
@@ -83,25 +83,24 @@ public class ToDoEntryActivity extends AppCompatActivity {
     }
 
     @SuppressLint("IntentReset")
-    private void sendSms(AlertDialog dialog,final String title) {
+    private void sendSms(AlertDialog dialog,final String title) {               //Tries to send an sms
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("smsto:"));
         intent.setType("vnd.android-dir/mms-sms");
-        intent.putExtra("address", Utility.getPhoneNumber());
+        intent.putExtra("address", Utility.getPhoneNumber());            //The phone number that the sms is sent to
         intent.putExtra("sms_body", "I need help with " + title + "!");
-
+                                                                                //The message that is sent
         try {
-            startActivity(intent);
-            dialog.dismiss();
-        } catch (android.content.ActivityNotFoundException a) {
+            startActivity(intent);                                              //Tries to send the sms
+        } catch (android.content.ActivityNotFoundException a) {                 //If it fails for some reason, tell the user through a toast
             Toast.makeText(ToDoEntryActivity.this,
                     "SMS Failed to Send",
                     Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
         }
+        dialog.dismiss();
     }
-
-    private void smsPermissions(AlertDialog dialog, final String title) {
+                                                                                //Checks to see if the user has given SMS permissions
+    private void smsPermissions(AlertDialog dialog, final String title) {       //If they have given permissions, tries to send an SMS
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
         else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
@@ -110,7 +109,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
         }
     }
 
-    private void smsDialog(final String title) {
+    private void smsDialog(final String title) {                                //Dialog confirming that the user would like to send an SMS to their parent
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Send SMS");
         builder.setMessage("Would you like to send an SMS to your parent asking for help?");
@@ -119,6 +118,8 @@ public class ToDoEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //Later Overridden
+                //If there were cases where the dialog should NOT close onClick, then this same tactic would be used
+                //But in this case, doing this mainly to change it from an AlertDialog.Builder to an AlertDialog
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -134,7 +135,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                smsPermissions(dialog, title);
+                smsPermissions(dialog, title);                                 //Checks for permissions
             }
         });
 

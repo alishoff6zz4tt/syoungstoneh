@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
         parentModeButton = findViewById(R.id.pM);
         setPhoneNumberButton = findViewById(R.id.phone);
-        faqButton = findViewById(R.id.faq);
+        //faqButton = findViewById(R.id.faq);
 
         addEntryButton.setVisibility(View.GONE);
         setPhoneNumberButton.setVisibility(View.GONE);
@@ -75,18 +75,18 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         parentModeButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  if(Utility.isInParentMode()) {
+                  if(Utility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
                       Utility.setInParentMode(false);
                       onParentModeChanged();
                       Toast.makeText(MainActivity.this,
                               "Logged Out",
                               Toast.LENGTH_SHORT).show();
                   }
-                  else if(Utility.isNotFirstTime() == null) {
+                  else if(Utility.isPasswordSet() == null) {  //If it is the parents first time, creates a password
                       Intent intent = new Intent(view.getContext(), ParentModeFirstTime.class);
                       startActivity(intent);
                   }
-                  else {
+                  else {                                        //Else, sends to log in screen
                       Intent intent = new Intent(view.getContext(), ParentMode.class);
                       intent.putExtra(Utility.getPassword(), Utility.getPassword());
                       startActivity(intent);
@@ -96,23 +96,23 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
         setPhoneNumberButton.setOnClickListener(new View.OnClickListener() {
               @Override
-              public void onClick(View view) {
+              public void onClick(View view) {                   //Sets the phone number for the parent
                   Intent intent = new Intent(view.getContext(), PhoneNumber.class);
                   startActivity(intent);
               }
         });
 
-        faqButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), FAQ.class);
-                startActivity(intent);
-            }
-        });
+//        faqButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(view.getContext(), FAQ.class);
+//                startActivity(intent);
+//            }
+//        });
 
         parentModeTimeOut = new Handler();
-        runnable = new Runnable() {
-            @Override
+        runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
+            @Override                                             //interacts with the screen
             public void run() {
                 if(Utility.isInParentMode()) {
                     Utility.setInParentMode(false);
@@ -123,25 +123,25 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);
+        Utility.startHandler(parentModeTimeOut, runnable);         //Starts the countdown to running the runnable
     }
 
     @Override
     public void onUserInteraction() {
-        super.onUserInteraction();
+        super.onUserInteraction();                                 //Whenever the user interacts with the screen, it resets the handler
         Utility.stopHandler(parentModeTimeOut, runnable);
         Utility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onPause() {
-        super.onPause();
+        super.onPause();                                           //Whenever the user leaves MainActivity, it stops the handler
         Utility.stopHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onResume() {
-        super.onResume();
+        super.onResume();                                          //When the user returns to MainActivity, resumes the handler
         Utility.startHandler(parentModeTimeOut, runnable);
         onParentModeChanged();
     }
@@ -207,8 +207,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         pointsDisplay.setText(String.format(Locale.US, "$%d", pointsEarned));
     }
 
-    public void onParentModeChanged() {
-        if(Utility.isInParentMode()) {
+    public void onParentModeChanged() {                              //When parent mode is changed
+        if(Utility.isInParentMode()) {                               //Set the visibility and views accordingly
             setPhoneNumberButton.setVisibility(View.VISIBLE);
             addEntryButton.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);

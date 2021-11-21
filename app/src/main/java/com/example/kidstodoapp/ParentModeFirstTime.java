@@ -27,21 +27,21 @@ public class ParentModeFirstTime extends Activity {
             @Override
             public void onClick(View view) {
                 if(passwordInput1.getText().toString().isEmpty() || passwordInput2.getText().toString().isEmpty()){
-                    Toast.makeText(ParentModeFirstTime.this,
+                    Toast.makeText(ParentModeFirstTime.this,            //If either of the fields are empty
                             "Empty Field(s)",
                             Toast.LENGTH_SHORT).show();
                 }
                 else if(passwordInput1.getText().toString().equals(passwordInput2.getText().toString())) {
-                    Utility.setPassword(passwordInput1.getText().toString());
-                    Utility.setInParentMode(true);
+                    Utility.setPassword(passwordInput1.getText().toString());   //If the passwords match, set the password
+                    Utility.setInParentMode(true);                              //Set in parent mode
                     Toast.makeText(ParentModeFirstTime.this,
                             "Login Successful",
                             Toast.LENGTH_SHORT).show();
-                    Utility.setNotFirstTime(true);
+                    Utility.setPasswordSet(true);                              //It is no longer the first time
                     finish();
                 }
                 else {
-                    Toast.makeText(ParentModeFirstTime.this,
+                    Toast.makeText(ParentModeFirstTime.this,            //Otherwise, the passwords don't match
                             "Password Do Not Match",
                             Toast.LENGTH_SHORT).show();
                 }

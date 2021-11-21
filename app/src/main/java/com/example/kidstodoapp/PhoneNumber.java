@@ -32,21 +32,21 @@ public class PhoneNumber extends Activity {
             @Override
             public void onClick(View view) {
                 String numberString = phoneNumberInput.getText().toString();
-                if (numberString.length() == 10 || numberString.length() == 11) {
-                    if (containsOnlyDigits(numberString)) {
-                        Utility.setPhoneNumber(numberString);
-                        Utility.setPhoneNumberSet(true);
+                if (numberString.length() == 10 || numberString.length() == 11) {       //If the string is the correct length
+                    if (containsOnlyDigits(numberString)) {                             //If it only contains digits
+                        Utility.setPhoneNumber(numberString);                           //Sets the phone number
+                        Utility.setPhoneNumberSet(true);                                //Show the phone number has been set
                         Toast.makeText(PhoneNumber.this,
                                 "Phone Number Added",
                                 Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(PhoneNumber.this,
+                        Toast.makeText(PhoneNumber.this,                        //If it contains characters other than digits
                                 "Not a Valid Phone Number, Please Try Again",
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(PhoneNumber.this,
+                    Toast.makeText(PhoneNumber.this,                            //If it is not the correct length
                             "Incorrect Length, Please Try Again",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -56,9 +56,8 @@ public class PhoneNumber extends Activity {
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {
             @Override
-            public void run() {
-                if (Utility.isInParentMode()) {
-                    Utility.setInParentMode(false);
+            public void run() {                                                         //This runnable is here so that if the user is timed out while in the class
+                if (Utility.isInParentMode()) {                                         //It will return to MainActivity
                     Toast.makeText(PhoneNumber.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
@@ -88,7 +87,7 @@ public class PhoneNumber extends Activity {
         Utility.startHandler(parentModeTimeOut, runnable);
     }
 
-    boolean containsOnlyDigits(String str) {
+    boolean containsOnlyDigits(String str) {                                            //Checks to see a string contains only digits
         boolean result = true;
         for (int i = 0; i < str.length(); i++) {
             result = result && "0123456789".contains(str.charAt(i) + "");

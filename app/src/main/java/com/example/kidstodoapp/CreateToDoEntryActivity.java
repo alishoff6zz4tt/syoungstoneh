@@ -171,8 +171,8 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
         });
 
         parentModeTimeOut = new Handler();
-        runnable = new Runnable() {
-            @Override
+        runnable = new Runnable() {                                     //Need to have a runnable here in place of the one in MainActivity
+            @Override                                                   //so that this activity can be closed if tne timer runs out
             public void run() {
                 if(Utility.isInParentMode()) {
                     Utility.setInParentMode(false);

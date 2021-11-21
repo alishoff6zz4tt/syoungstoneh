@@ -8,7 +8,5 @@ public class FAQ extends Activity {
     public void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_faq);
-
-
     }
 }

@@ -23,14 +23,14 @@ public class ParentMode extends Activity {
         enterPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(passwordInput.getText().toString().equals(Utility.getPassword())) {
-                    Utility.setInParentMode(true);
+                if(passwordInput.getText().toString().equals(Utility.getPassword())) {  //If the input equals the password that has been set
+                    Utility.setInParentMode(true);                                      //Set it in parent mode
                     Toast.makeText(ParentMode.this,
                             "Login Successful",
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }
-                else {
+                else {                                                                  //Otherwise show the user a toast
                     Toast.makeText(ParentMode.this,
                             "Login Unsuccessful, Please Try Again",
                             Toast.LENGTH_SHORT).show();
