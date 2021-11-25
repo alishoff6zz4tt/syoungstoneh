@@ -10,8 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -84,17 +84,20 @@ public class ToDoEntryActivity extends AppCompatActivity {
 
     @SuppressLint("IntentReset")
     private void sendSms(AlertDialog dialog,final String title) {               //Tries to send an sms
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("smsto:"));
-        intent.setType("vnd.android-dir/mms-sms");
-        intent.putExtra("address", Utility.getPhoneNumber());            //The phone number that the sms is sent to
-        intent.putExtra("sms_body", "I need help with " + title + "!");
-                                                                                //The message that is sent
+        String message = "Automated message from KidsToDoApp:" + "\n" + "I need help with " + title + "!";
+        boolean sent = true;
         try {
-            startActivity(intent);                                              //Tries to send the sms
-        } catch (android.content.ActivityNotFoundException a) {                 //If it fails for some reason, tell the user through a toast
+            SmsManager.getDefault().sendTextMessage(Utility.getPhoneNumber(), null, message, null, null);
+        }
+        catch(Exception e) {
             Toast.makeText(ToDoEntryActivity.this,
-                    "SMS Failed to Send",
+                    "Unable to Send Message",
+                    Toast.LENGTH_SHORT).show();
+            sent = false;
+        }
+        if(sent) {
+            Toast.makeText(ToDoEntryActivity.this,
+                    "Message Sent",
                     Toast.LENGTH_SHORT).show();
         }
         dialog.dismiss();
