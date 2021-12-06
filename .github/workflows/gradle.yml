@@ -5,9 +5,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ master, branch_sean, branch_tara, branch_sierra, branch_shaquan, branch_tyler ]
+    branches: [ master, branch_sean, branch_tara2, branch_sierra, branch_shaquan, branch_tyler ]
   pull_request:
-    branches: [ master, branch_sean, branch_tara, branch_sierra, branch_shaquan, branch_tyler ]
+    branches: [ master, branch_sean, branch_tara2, branch_sierra, branch_shaquan, branch_tyler ]
 
 jobs:
   build:
