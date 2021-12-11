@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -84,21 +85,12 @@ public class ToDoEntryActivity extends AppCompatActivity {
 
     @SuppressLint("IntentReset")
     private void sendSms(AlertDialog dialog,final String title) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("smsto:"));
-        intent.setType("vnd.android-dir/mms-sms");
-        intent.putExtra("address", Utility.getPhoneNumber());
-        intent.putExtra("sms_body", "I need help with " + title + "!");
-
-        try {
-            startActivity(intent);
-            dialog.dismiss();
-        } catch (android.content.ActivityNotFoundException a) {
-            Toast.makeText(ToDoEntryActivity.this,
-                    "SMS Failed to Send",
-                    Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-        }
+        dialog.dismiss();
+        String message = "I need help with " + title + "!";
+        SmsManager.getDefault().sendTextMessage(Utility.getPhoneNumber(), null, message, null, null);
+        Toast.makeText(ToDoEntryActivity.this,
+                "Message Sent",
+                Toast.LENGTH_SHORT).show();
     }
 
     private void smsPermissions(AlertDialog dialog, final String title) {
