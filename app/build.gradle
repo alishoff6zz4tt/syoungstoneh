@@ -21,7 +21,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix ".debug"
+//            applicationIdSuffix ".debug"
             debuggable true
         }
 
@@ -33,7 +33,7 @@ android {
         staging {
             initWith debug
             manifestPlaceholders = [hostName:"internal.example.com"]
-            applicationIdSuffix ".debugStaging"
+//            applicationIdSuffix ".debugStaging"
         }
     }
 }
