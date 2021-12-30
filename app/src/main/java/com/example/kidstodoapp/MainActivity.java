@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private TextView pointsDisplay;
     private Button parentModeButton;
     private Button addEntryButton;
+    private Button trophyCaseButton;
     private ImageButton setPhoneNumberButton;
 
     private Handler parentModeTimeOut;
@@ -60,6 +61,14 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
                 startActivityForResult(intent, NEW_ENTRY_REQUEST);
+            }
+        });
+
+        trophyCaseButton = findViewById(R.id.TrophyCase);
+        trophyCaseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TrophyCase.class);
+                startActivity(intent);
             }
         });
 
