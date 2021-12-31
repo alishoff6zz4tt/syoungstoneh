@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private TextView pointsDisplay;
     private Button parentModeButton;
     private Button addEntryButton;
+
     private Button trophyCaseButton;
     private ImageButton setPhoneNumberButton;
 
