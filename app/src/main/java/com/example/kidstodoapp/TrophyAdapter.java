@@ -21,16 +21,16 @@ import java.util.List;
 
 public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder> {
 
-    private List<ToDoEntry> mToDoEntries;
-    private OnEntryListener mOnEntryListener;
+    private List<Trophy> Trophies;
+    private OnEntryListener OnEntryListener;
 
     public static final int ITEM_TYPE_NO_EDIT = 0;
     public static final int ITEM_TYPE_EDIT = 1;
     private int VIEW_TYPE = 0;
 
-    public TrophyAdapter(List<ToDoEntry> entries, OnEntryListener onEntryListener) {
-        this.mToDoEntries = entries;
-        this.mOnEntryListener = onEntryListener;
+    public TrophyAdapter(List<Trophy> trophies, OnEntryListener onEntryListener) {
+        this.Trophies = trophies;
+        this.OnEntryListener = onEntryListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -69,17 +69,17 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             layout = R.layout.item_to_do_entry_edit;
         }
         View contactView = inflater.inflate(layout, parent, false);
-        return new ViewHolder(contactView, mOnEntryListener);
+        return new ViewHolder(contactView, OnEntryListener);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        ToDoEntry entry = mToDoEntries.get(position);
+        Trophy entry = Trophies.get(position);
         TextView nameTextView = viewHolder.nameTextView;
         TextView descriptionTextView = viewHolder.descriptionTextView;
         ImageButton editEntryButton = viewHolder.editEntryButton;
 
-        nameTextView.setText(entry.getEntryName());
+        nameTextView.setText(entry.getName());
         descriptionTextView.setText(entry.getDescription());
         editEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,13 +88,13 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             }
         });
 
-        String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
-        viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
+        //String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
+        //viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
     }
 
     @Override
     public int getItemCount() {
-        return mToDoEntries.size();
+        return Trophies.size();
     }
 
     public void setVIEW_TYPE(int viewType) {
