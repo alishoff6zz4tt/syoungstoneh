@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 import java.lang.Object;
+/*
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
+ */
 
 public class Trophy implements Serializable {
 

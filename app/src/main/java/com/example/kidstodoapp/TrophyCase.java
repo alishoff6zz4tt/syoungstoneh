@@ -1,6 +1,7 @@
 package com.example.kidstodoapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,10 +42,16 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trophy_case);
 
-        adapter = new TrophyAdapter(existingTrophy, this);
+        // set up the RecyclerView
         recyclerView = findViewById(R.id.recycler_view);
+        int numberOfColumns = 3;
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        //adapter = new MyRecyclerViewAdapter(this, data);
+        //adapter = new TrophyAdapter(existingTrophy, this);
+        //adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
 
         addTrophy = findViewById(R.id.AddTrophy);
         addTrophy.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +91,18 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
                 temp.setCompleted(true);
                 archivedTrophy.add(temp);
             } */
+        if (requestCode == VIEW) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = result.getExtras();
+                int position = extras.getInt("position");
+                Trophy entry = existingTrophy.remove(position);
+                adapter.notifyItemRemoved(position);
+                entry.setCompleted(true);
+                archivedTrophy.add(entry);
+                //pointsEarned += entry.getPointValue();
+                //setPointsDisplay();
+            }
+        }
         }
 
 

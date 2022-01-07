@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
+    compile 'com.android.support:appcompat-v7:30.0.4'
+    compile 'com.android.support:recyclerview-v7:30.0.4'
     buildToolsVersion "30.0.2"
 
     defaultConfig {
