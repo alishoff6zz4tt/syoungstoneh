@@ -57,7 +57,7 @@ public class Trophy implements Serializable {
         this.pointValue = pointValue;
     }
 
-    public boolean isCompleted() {
+    public boolean isRedeemed() {
         return redeemed;
     }
 

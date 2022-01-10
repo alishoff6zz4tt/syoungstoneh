@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Telephony;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,19 +20,15 @@ import java.util.Locale;
 
 public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEntryListener  {
 
+
     private static ArrayList<Trophy> existingTrophy = new ArrayList<>();
     private static ArrayList<Trophy> archivedTrophy = new ArrayList<>();
 
     private TrophyAdapter adapter;
     private RecyclerView recyclerView;
 
- /*  Add total points count on
-    private TextView pointsDisplay;
-    private Button parentModeButton;
-    private Button addEntryButton;*/
-
     private ImageButton trophy;
-    private Button addTrophy;
+    private Button createNewTrophy;
 
     private final int VIEW = 1;
     private final int NEW = 2;
@@ -45,30 +42,21 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         // set up the RecyclerView
         recyclerView = findViewById(R.id.recycler_view);
         int numberOfColumns = 3;
-        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //adapter = new MyRecyclerViewAdapter(this, data);
         //adapter = new TrophyAdapter(existingTrophy, this);
         //adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
 
-
-
-        addTrophy = findViewById(R.id.AddTrophy);
-        addTrophy.setOnClickListener(new View.OnClickListener() {
+        createNewTrophy = findViewById(R.id.AddTrophy);
+        createNewTrophy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
+                Intent intent = new Intent(view.getContext(), AddTrophy.class);
                 startActivityForResult(intent, NEW);
             }
         });
-        //addTrophy.setVisibility(View.GONE); // unless in parent mode
 
-        trophy = findViewById(R.id.trophyButton);
-        trophy.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), EditTrophy.class);
-                startActivity(intent);
-            }
-        });
+        //createNewTrophy.setVisibility(View.GONE); // unless in parent mode
 
     }
 
@@ -82,29 +70,16 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
                 existingTrophy.add(newTemp);
             }
         }
-        /* if (requestCode == VIEW) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                int position = extras.getInt("position");
-                Trophy temp = existingTrophy.remove(position);
-                adapter.notifyItemRemoved(position);
-                temp.setCompleted(true);
-                archivedTrophy.add(temp);
-            } */
         if (requestCode == VIEW) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
                 int position = extras.getInt("position");
-                Trophy entry = existingTrophy.remove(position);
+                Trophy trophy = existingTrophy.remove(position);
                 adapter.notifyItemRemoved(position);
-                entry.setCompleted(true);
-                archivedTrophy.add(entry);
-                //pointsEarned += entry.getPointValue();
-                //setPointsDisplay();
+                trophy.setCompleted(true);
             }
         }
         }
-
 
     @Override
     public void onEntryClick(int position) {

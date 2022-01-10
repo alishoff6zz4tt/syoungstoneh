@@ -6,63 +6,34 @@
     android:layout_height="match_parent"
     tools:context="com.example.kidstodoapp.TrophyCase">
 
-=    <!--<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvNumbers"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </RelativeLayout>-->
+    <TextView
+        android:id="@+id/points_display"
+        android:layout_width="297dp"
+        android:layout_height="54dp"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="411dp"
         android:layout_height="670dp"
+        android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="19dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/trophyButton"
-        app:layout_constraintEnd_toStartOf="@+id/trophyButton">
-
-        <TextView
-            android:id="@+id/info_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:gravity="center" />
-
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/trophyButton"
-        android:layout_width="114dp"
-        android:layout_height="109dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="162dp"
-        android:layout_marginBottom="461dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.335"
-        tools:src="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/AddTrophy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="206dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginBottom="108dp"
         android:text="Add Trophy"
-        app:layout_constraintEnd_toEndOf="@+id/trophyButton"
-        app:layout_constraintTop_toBottomOf="@+id/trophyButton" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

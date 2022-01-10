@@ -21,30 +21,30 @@ import java.util.List;
 
 public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder> {
 
-    private List<Trophy> Trophies;
-    private OnEntryListener OnEntryListener;
+    private List<Trophy> mTrophies;
+    private OnEntryListener mOnEntryListener;
 
     public static final int ITEM_TYPE_NO_EDIT = 0;
     public static final int ITEM_TYPE_EDIT = 1;
     private int VIEW_TYPE = 0;
 
     public TrophyAdapter(List<Trophy> trophies, OnEntryListener onEntryListener) {
-        this.Trophies = trophies;
-        this.OnEntryListener = onEntryListener;
+        this.mTrophies = trophies;
+        this.mOnEntryListener = onEntryListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView nameTextView;
         public TextView descriptionTextView;
         public OnEntryListener onEntryListener;
-        public ImageButton editEntryButton;
+        public ImageButton editTrophyButton;
 
         public ViewHolder(View view, OnEntryListener onEntryListener) {
             super(view);
 
             nameTextView = itemView.findViewById(R.id.entry_name);
             descriptionTextView = itemView.findViewById(R.id.entry_description);
-            editEntryButton = itemView.findViewById(R.id.edit_entry_button);
+            editTrophyButton = itemView.findViewById(R.id.edit_entry_button);
 
             this.onEntryListener = onEntryListener;
 
@@ -69,32 +69,32 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             layout = R.layout.item_to_do_entry_edit;
         }
         View contactView = inflater.inflate(layout, parent, false);
-        return new ViewHolder(contactView, OnEntryListener);
+        return new ViewHolder(contactView, mOnEntryListener);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Trophy entry = Trophies.get(position);
+        Trophy entry = mTrophies.get(position);
         TextView nameTextView = viewHolder.nameTextView;
         TextView descriptionTextView = viewHolder.descriptionTextView;
-        ImageButton editEntryButton = viewHolder.editEntryButton;
+        ImageButton editTrophyButton = viewHolder.editTrophyButton;
 
         nameTextView.setText(entry.getName());
         descriptionTextView.setText(entry.getDescription());
-        editEntryButton.setOnClickListener(new View.OnClickListener() {
+        editTrophyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
 
-        //String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
-        //viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
+        String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
+        viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
     }
 
     @Override
     public int getItemCount() {
-        return Trophies.size();
+        return mTrophies.size();
     }
 
     public void setVIEW_TYPE(int viewType) {
