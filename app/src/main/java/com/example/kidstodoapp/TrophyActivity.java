@@ -19,15 +19,14 @@ public class TrophyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_to_do_entry);
 
         Intent intent = getIntent();
-
         Bundle extras = intent.getExtras();
         this.mTrophy = (Trophy) extras.getSerializable("Trophy");
         this.position = extras.getInt("position");
 
-        TextView nameTextView = findViewById(R.id.entry_name_textview);
-        TextView descriptionTextView = findViewById(R.id.entry_description_textview);
-        TextView pointsTextView = findViewById(R.id.entry_points_textview);
-        final CheckBox redeemed = findViewById(R.id.completion_check_box);
+        TextView nameTextView = findViewById(R.id.trophy_name_textview);
+        TextView descriptionTextView = findViewById(R.id.trophy_description_textview);
+        TextView pointsTextView = findViewById(R.id.trophy_points_textview);
+        final CheckBox redeemed = findViewById(R.id.redemption_check_box);
 
         redeemed.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

@@ -55,10 +55,9 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
                 startActivityForResult(intent, NEW);
             }
         });
-
         //createNewTrophy.setVisibility(View.GONE); // unless in parent mode
-
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {

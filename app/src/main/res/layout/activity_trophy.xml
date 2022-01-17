@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/entry_name_textview"
+        android:id="@+id/trophy_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,16 +20,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/entry_description_textview"
+        android:id="@+id/trophy_description_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entry_name_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/trophy_name_textview" />
 
     <CheckBox
-        android:id="@+id/completion_check_box"
+        android:id="@+id/redemption_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -38,11 +38,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/entry_points_textview"
+        android:id="@+id/trophy_points_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entry_description_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/trophy_description_textview" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="78dp"
+        android:layout_height="86dp"
+        tools:layout_editor_absoluteX="270dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerInside"
+/>
 </androidx.constraintlayout.widget.ConstraintLayout>

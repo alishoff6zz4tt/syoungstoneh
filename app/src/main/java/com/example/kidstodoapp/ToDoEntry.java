@@ -50,5 +50,4 @@ public class ToDoEntry implements Serializable {
         this.completed = completed;
     }
 
-
 }

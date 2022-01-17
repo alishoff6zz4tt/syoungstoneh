@@ -15,16 +15,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/input_points" />
 
-    <Button
-        android:id="@+id/pick_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="157dp"
-        android:layout_marginBottom="49dp"
-        android:text="Add Image"
-        app:layout_constraintBottom_toTopOf="@+id/input_name"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <EditText
         android:id="@+id/input_name"
         android:layout_width="wrap_content"
@@ -79,14 +69,42 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cancel_creation_button" />
 
-    <ImageView
-        android:id="@+id/trophy-icon"
-        android:layout_width="115dp"
-        android:layout_height="117dp"
-        android:layout_marginEnd="148dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/pick_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/trophy1" />
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="85dp"
+        android:layout_height="92dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/trophy1"
+        tools:layout_editor_absoluteX="65dp"
+        tools:layout_editor_absoluteY="150dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="97dp"
+        android:layout_height="92dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/trophy2"
+        tools:layout_editor_absoluteX="255dp"
+        tools:layout_editor_absoluteY="150dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton7"
+        android:layout_width="86dp"
+        android:layout_height="92dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/trophy3"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="150dp" />
+
+    <TextView
+        android:id="@+id/textView_selectImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Trophy Icon"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="112dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
