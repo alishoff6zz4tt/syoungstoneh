@@ -70,8 +70,7 @@ public class Trophy implements Serializable {
     public boolean isRedeemed() {
         return redeemed;
     }
-
-    public void setCompleted(boolean redeemed) {
+    public void setRedeemed(boolean redeemed) {
         this.redeemed = redeemed;
     }
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,26 +35,40 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         public TextView nameTextView;
         public TextView descriptionTextView;
+        public ImageView trophyImageView;
+        public TextView pointValueTextView;
+
         public OnEntryListener onEntryListener;
         public ImageButton editTrophyButton;
+
 
         public ViewHolder(View view, OnEntryListener onEntryListener) {
             super(view);
 
-            nameTextView = itemView.findViewById(R.id.entry_name);
-            descriptionTextView = itemView.findViewById(R.id.entry_description);
-            editTrophyButton = itemView.findViewById(R.id.edit_entry_button);
+            nameTextView = itemView.findViewById(R.id.trophy_name);
+            descriptionTextView = itemView.findViewById(R.id.trophy_description);
+            editTrophyButton = itemView.findViewById(R.id.edit_trophy_button);
+
+            this.onEntryListener = onEntryListener;
 
             this.onEntryListener = onEntryListener;
 
             view.setOnClickListener(this);
+            if (editTrophyButton != null) {
+                editTrophyButton.setOnClickListener(this);
+            }
         }
 
         @Override
         public void onClick(View view) {
-            onEntryListener.onEntryClick(getAdapterPosition());
+            if (editTrophyButton != null && view.getId() == editTrophyButton.getId()) {
+                onEntryListener.onEditClick(getAdapterPosition());
+            } else {
+                onEntryListener.onEntryClick(getAdapterPosition());
+            }
         }
     }
 
@@ -63,10 +78,10 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
         LayoutInflater inflater = LayoutInflater.from(context);
         int layout;
         if (VIEW_TYPE == ITEM_TYPE_NO_EDIT) {
-            layout = R.layout.item_to_do_entry_no_edit;
+            layout = R.layout.item_trophy_entry_no_edit;
         }
         else {
-            layout = R.layout.item_to_do_entry_edit;
+            layout = R.layout.item_trophy_entry_edit;
         }
         View contactView = inflater.inflate(layout, parent, false);
         return new ViewHolder(contactView, mOnEntryListener);
@@ -74,19 +89,17 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Trophy entry = mTrophies.get(position);
+        Trophy trophy = mTrophies.get(position);
         TextView nameTextView = viewHolder.nameTextView;
         TextView descriptionTextView = viewHolder.descriptionTextView;
-        ImageButton editTrophyButton = viewHolder.editTrophyButton;
+        TextView pointValueTextView = viewHolder.pointValueTextView;
 
-        nameTextView.setText(entry.getName());
-        descriptionTextView.setText(entry.getDescription());
-        editTrophyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //ImageView trophyImageView = ;
 
-            }
-        });
+        nameTextView.setText(trophy.getName());
+        descriptionTextView.setText(trophy.getDescription());
+        String pointString = "Buy for $" + trophy.getPoints();
+        pointValueTextView.setText(pointString);
 
         String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
         viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
@@ -104,8 +117,8 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
 
     public interface OnEntryListener {
         void onEntryClick(int position);
+        void onEditClick(int position);
     }
-
 }
 
 

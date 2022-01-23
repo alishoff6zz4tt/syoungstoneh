@@ -47,12 +47,12 @@
         app:layout_constraintTop_toBottomOf="@+id/trophy_description_textview" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/trophyIcon"
         android:layout_width="78dp"
         android:layout_height="86dp"
-        tools:layout_editor_absoluteX="270dp"
-        tools:layout_editor_absoluteY="16dp"
+        android:layout_marginStart="254dp"
         android:contentDescription="@string/app_name"
         android:scaleType="centerInside"
-/>
+        app:layout_constraintStart_toStartOf="@+id/trophy_name_textview"
+        app:layout_constraintTop_toTopOf="@+id/trophy_name_textview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

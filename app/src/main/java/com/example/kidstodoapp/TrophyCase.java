@@ -23,18 +23,24 @@ import android.widget.Toast;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEntryListener  {
 
+    private static ArrayList<Trophy> existingTrophies = new ArrayList<>();
+    private static ArrayList<Trophy> archivedTrophies = new ArrayList<>();
 
-    private static ArrayList<Trophy> existingTrophy = new ArrayList<>();
-    private static ArrayList<Trophy> archivedTrophy = new ArrayList<>();
-
+    private static int pointsEarned = 0;
     private TrophyAdapter adapter;
     private RecyclerView recyclerView;
 
+    private final int NEW_ENTRY_REQUEST = 1;
+    private final int VIEW_ENTRY_REQUEST = 2;
+    private final int EDIT_ENTRY_REQUEST = 3;
+
     private ImageButton trophy;
+    private TextView pointsDisplay;
     private Button createNewTrophy;
 
     private final int VIEW = 1;
@@ -47,27 +53,90 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trophy_case);
 
-        // set up the RecyclerView
+        //Points Display
+        pointsDisplay = findViewById(R.id.points_display);
+        setPointsDisplay();
+
+        //Set up recycler view
+        adapter = new TrophyAdapter(existingTrophies, this);
+
         recyclerView = findViewById(R.id.recycler_view);
-        int numberOfColumns = 3;
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //adapter = new MyRecyclerViewAdapter(this, data);
-        //adapter = new TrophyAdapter(existingTrophy, this);
-        //adapter.setClickListener(this);
 
-        createNewTrophy = findViewById(R.id.AddTrophy);
+        createNewTrophy = findViewById(R.id.add_trophy_button);
         createNewTrophy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AddTrophy.class);
-                startActivityForResult(intent, NEW);
+                Intent intent = new Intent(view.getContext(), CreateTrophyActivity.class);
+                startActivityForResult(intent, NEW_ENTRY_REQUEST);
             }
         });
-        //createNewTrophy.setVisibility(View.GONE); // unless in parent mode
+
+    }
+
+    public void setPointsDisplay() {
+        pointsDisplay.setText("Total points" + String.format(Locale.US, "$%d", pointsEarned));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+        if (requestCode == NEW_ENTRY_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = result.getExtras();
+                Trophy newTrophy = (Trophy) extras.getSerializable("Trophy");
+                existingTrophies.add(newTrophy);
+                //Collections.sort(existingTrophies);
+                recyclerView.setAdapter(adapter);
+            }
+        }
+        if (requestCode == EDIT_ENTRY_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = result.getExtras();
+                int position = extras.getInt("position");
+                if (extras.getBoolean("Deleted")) {
+                    existingTrophies.remove(position);
+                    adapter.notifyItemRemoved(position);
+                } else {
+                    Trophy editedTrophy = (Trophy) extras.getSerializable("Trophy");
+                    existingTrophies.set(position, editedTrophy);
+                    //Collections.sort(existingTrophies);
+                }
+                recyclerView.setAdapter(adapter);
+            }
+        }
+        if (requestCode == VIEW_ENTRY_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = result.getExtras();
+                int position = extras.getInt("position");
+                Trophy trophy = existingTrophies.remove(position);
+                adapter.notifyItemRemoved(position);
+                trophy.setRedeemed(true);
+                archivedTrophies.add(trophy);
+                pointsEarned += trophy.getPoints();
+                setPointsDisplay();
+            }
+        }
+    }
+
+    @Override
+    public void onEntryClick(int position) {
+        Intent intent = new Intent(this, TrophyActivity.class);
+        intent.putExtra("Trophy", existingTrophies.get(position));
+        intent.putExtra("position", position);
+        startActivityForResult(intent, VIEW_ENTRY_REQUEST);
+    }
+
+    @Override
+    public void onEditClick(int position) {
+        Intent intent = new Intent(this, CreateToDoEntryActivity.class);
+        intent.putExtra("Trophy", existingTrophies.get(position));
+        intent.putExtra("position", position);
+        startActivityForResult(intent, EDIT_ENTRY_REQUEST);
     }
 
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
         if (requestCode == NEW) {
@@ -86,7 +155,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
                 trophy.setCompleted(true);
             }
         }
-        }
+    }
 
     @Override
     public void onEntryClick(int position) {
@@ -96,7 +165,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         startActivityForResult(intent, VIEW);
     }
 
-    @SuppressLint("IntentReset")
+   @SuppressLint("IntentReset")
     private void sendSms(AlertDialog dialog,final String title) {               //Tries to send an sms
         String message = "Automated message from KidsToDoApp:" + "\n" + "I redeemed the" + title + "trophy!";
         boolean sent = true;
@@ -162,9 +231,9 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
                 dialog.dismiss();
             }
         });
-    }
+    }*/
 }
 
-}
+
 
 

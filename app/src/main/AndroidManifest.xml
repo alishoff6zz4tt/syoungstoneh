@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PickImage"></activity>
+        <activity
+            android:name=".CreateTrophyActivity"
+            android:label="@string/title_activity_create_trophy"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".PickImage" />
         <activity android:name=".TrophyActivity" />
         <activity android:name=".AddTrophy" />
         <activity android:name=".EditTrophy" />
