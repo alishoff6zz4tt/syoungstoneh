@@ -75,7 +75,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     }
 
     public void setPointsDisplay() {
-        pointsDisplay.setText("Total points" + String.format(Locale.US, "$%d", pointsEarned));
+        pointsDisplay.setText(String.format(Locale.US, "Total Points: $%d", pointsEarned));
     }
 
     @Override

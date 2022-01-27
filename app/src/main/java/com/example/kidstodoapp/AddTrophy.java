@@ -80,8 +80,8 @@ public class AddTrophy extends AppCompatActivity {
                     Trophy newTrophy = new Trophy(
                             addName.getText().toString(),
                             addDescription.getText().toString(),
-                            Integer.parseInt(addPoints.getText().toString()),
-                            imageLocation
+                            Integer.parseInt(addPoints.getText().toString())
+                            //,imageLocation
                     );
                     Intent result = new Intent();
                     result.putExtra("Trophy", newTrophy);

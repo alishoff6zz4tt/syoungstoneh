@@ -8,12 +8,11 @@
     android:clickable="true"
     android:focusable="true">
 
-
     <TextView
         android:id="@+id/trophy_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="108dp"
         android:layout_marginTop="16dp"
         android:paddingRight="100dp"
         android:textColor="@android:color/black"
@@ -23,10 +22,22 @@
 
     <TextView
         android:id="@+id/trophy_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="191dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="8dp"
+        android:paddingRight="100dp"
+        android:paddingBottom="16dp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trophy_name" />
+
+    <TextView
+        android:id="@+id/trophy_points"
+        android:layout_width="147dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="28dp"
         android:paddingRight="100dp"
         android:paddingBottom="16dp"
         android:textColor="@android:color/darker_gray"
@@ -43,4 +54,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
+<!--    //Trophy points -->
 </androidx.constraintlayout.widget.ConstraintLayout>

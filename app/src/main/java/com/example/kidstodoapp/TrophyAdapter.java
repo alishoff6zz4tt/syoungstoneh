@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-// Uses example from https://guides.codepath.com/android/using-the-recyclerview
-
 public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder> {
 
     private List<Trophy> mTrophies;
@@ -50,12 +48,12 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
 
             nameTextView = itemView.findViewById(R.id.trophy_name);
             descriptionTextView = itemView.findViewById(R.id.trophy_description);
+            pointValueTextView = itemView.findViewById(R.id.trophy_points);
+
             editTrophyButton = itemView.findViewById(R.id.edit_trophy_button);
+            trophyImageView = (ImageView) view.findViewById(R.id.icon_view);
 
             this.onEntryListener = onEntryListener;
-
-            this.onEntryListener = onEntryListener;
-
             view.setOnClickListener(this);
             if (editTrophyButton != null) {
                 editTrophyButton.setOnClickListener(this);
@@ -93,16 +91,12 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
         TextView nameTextView = viewHolder.nameTextView;
         TextView descriptionTextView = viewHolder.descriptionTextView;
         TextView pointValueTextView = viewHolder.pointValueTextView;
-
-        //ImageView trophyImageView = ;
+        //viewHolder.trophyImageView.setImageResource(); //IMAGE STUFF
 
         nameTextView.setText(trophy.getName());
         descriptionTextView.setText(trophy.getDescription());
         String pointString = "Buy for $" + trophy.getPoints();
         pointValueTextView.setText(pointString);
-
-        String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
-        viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
     }
 
     @Override
@@ -120,7 +114,6 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
         void onEditClick(int position);
     }
 }
-
 
 /*
 public class TrophyAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {

@@ -22,11 +22,11 @@ public class Trophy implements Serializable {
     private String imageLocation;
     //private BufferedImage image;
 
-    Trophy(String name, String description, int pointValue, String imageLocation) {
+    Trophy(String name, String description, int pointValue) { //, String imageLocation
         this.name = name;
         this.description = description;
         this.pointValue = pointValue;
-        this.imageLocation = imageLocation;
+        //this.imageLocation = imageLocation;
         //this.image = ImageIO.read(new File(name + ".png"));
     /*    try {
             img = ImageIO.read(new File("logo.png"));

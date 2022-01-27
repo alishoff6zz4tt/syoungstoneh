@@ -1,6 +1,8 @@
 package com.example.kidstodoapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +22,9 @@ public class CreateTrophyActivity extends AppCompatActivity {
 
     private Handler parentModeTimeOut;
     private Runnable runnable;
+    String iconPath = "@drawable/trophy1";
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,36 +33,52 @@ public class CreateTrophyActivity extends AppCompatActivity {
         Button createTrophyButton = findViewById(R.id.create_trophy_button);
         Button cancelTrophyButton = findViewById(R.id.cancel_trophy_button);
         Button deleteTrophyButton = findViewById(R.id.delete_trophy_button);
-        ImageButton icon1 = findViewById(R.id.icon1);
-        ImageButton icon2 = findViewById(R.id.icon2);
-        ImageButton icon3 = findViewById(R.id.icon3);
 
+        final ImageButton icon1 = findViewById(R.id.icon1);
+        final ImageButton icon2 = findViewById(R.id.icon2);
+        final ImageButton icon3 = findViewById(R.id.icon3);
+
+        final ImageView border1 = findViewById(R.id.border1);
+        final ImageView border2 = findViewById(R.id.border2);
+        final ImageView border3 = findViewById(R.id.border3);
+
+        border1.setVisibility(View.INVISIBLE);
+        border2.setVisibility(View.INVISIBLE);
+        border3.setVisibility(View.INVISIBLE);
         deleteTrophyButton.setVisibility(View.INVISIBLE);
 
         final EditText trophyNameEditText = findViewById(R.id.trophy_name_txt);
         final EditText trophyDescriptionEditText = findViewById(R.id.trophy_description_txt);
         final EditText trophyPointsEditText = findViewById(R.id.trophy_points_txt);
 
-/*
         icon1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                final EditText trophyIcon = findViewById(R.id.delete_trophy_button).setImageResource(R.drawable.heart_maths);
-                setContentView(R.layout.physics);
-                image = (ImageButton) findViewById(R.id.icon1);
-                image.setImageResource(R.drawable.heart_maths);
+                iconPath = "@drawable/trophy1";
+                border1.setVisibility(View.INVISIBLE);
+                border2.setVisibility(View.VISIBLE);
+                border3.setVisibility(View.INVISIBLE);
             }
         });
 
+        icon2.setOnTouchListener(new ButtonHighlight(icon2));
         icon2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                cancel();
+                iconPath = "@drawable/trophy2";
+                border1.setVisibility(View.VISIBLE);
+                border2.setVisibility(View.INVISIBLE);
+                border3.setVisibility(View.INVISIBLE);
             }
         });
+
+        icon3.setOnTouchListener(new ButtonHighlight(icon3));
         icon3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                cancel();
+                iconPath = "@drawable/trophy3";
+                border1.setVisibility(View.INVISIBLE);
+                border2.setVisibility(View.INVISIBLE);
+                border3.setVisibility(View.VISIBLE);
             }
-        });*/
+        });
 
         Intent intent = getIntent();
         if(intent.hasExtra("Trophy")) {
@@ -88,7 +108,8 @@ public class CreateTrophyActivity extends AppCompatActivity {
                     Trophy newEntry = new Trophy(
                             trophyNameEditText.getText().toString(),
                             trophyDescriptionEditText.getText().toString(),
-                            points, null //GO BACK AND FIX IMAGES
+                            points
+                            //iconPath
                     );
                     Intent result = new Intent();
                     result.putExtra("Trophy", newEntry);

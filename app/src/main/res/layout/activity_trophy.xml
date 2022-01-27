@@ -11,8 +11,8 @@
         android:id="@+id/trophy_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="28dp"
         android:paddingRight="60dp"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -23,9 +23,8 @@
         android:id="@+id/trophy_description_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/trophy_name_textview"
         app:layout_constraintTop_toBottomOf="@+id/trophy_name_textview" />
 
     <CheckBox
@@ -41,18 +40,18 @@
         android:id="@+id/trophy_points_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trophy_description_textview" />
 
     <ImageView
-        android:id="@+id/trophyIcon"
-        android:layout_width="78dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="254dp"
-        android:contentDescription="@string/app_name"
-        android:scaleType="centerInside"
-        app:layout_constraintStart_toStartOf="@+id/trophy_name_textview"
-        app:layout_constraintTop_toTopOf="@+id/trophy_name_textview" />
+        android:id="@+id/icon_view"
+        android:layout_width="92dp"
+        android:layout_height="85dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/trophy_name_textview"
+        app:layout_constraintTop_toTopOf="@+id/trophy_name_textview"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
