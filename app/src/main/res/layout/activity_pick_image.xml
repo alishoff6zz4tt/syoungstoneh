@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kidstodoapp.PickImage">
+
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="129dp"
+        android:layout_height="117dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/trophy1"
+        tools:layout_editor_absoluteX="225dp"
+        tools:layout_editor_absoluteY="153dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="139dp"
+        android:layout_height="121dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/trophy2"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="153dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="145dp"
+        android:layout_height="136dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/trophy3"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="297dp" />
+
+    <TextView
+        android:id="@+id/text_pickImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Trophy Icon"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="106dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
