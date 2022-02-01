@@ -11,37 +11,45 @@
         android:id="@+id/imageButton"
         android:layout_width="129dp"
         android:layout_height="117dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="461dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/trophy1"
-        tools:layout_editor_absoluteX="225dp"
-        tools:layout_editor_absoluteY="153dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton2"
+        app:srcCompat="@drawable/trophy1" />
 
     <ImageButton
         android:id="@+id/imageButton2"
         android:layout_width="139dp"
         android:layout_height="121dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="24dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/trophy2"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="153dp" />
+        app:layout_constraintBottom_toTopOf="@+id/imageButton3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/trophy2" />
 
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="145dp"
         android:layout_height="136dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="298dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/trophy3"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="297dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/trophy3" />
 
     <TextView
         android:id="@+id/text_pickImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="147dp"
+        android:layout_marginTop="106dp"
         android:text="Select Trophy Icon"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="106dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
