@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 public class TrophyActivity extends AppCompatActivity {
 
+    //Talk about redeemed vs purchases
+    //Fix images
+    //Fix format of linearlayout
     private Trophy mTrophy;
     private int position;
 
