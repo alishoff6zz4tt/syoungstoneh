@@ -1,0 +1,9 @@
+diff a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml	(rejected hunks)
+@@ -13,6 +13,7 @@
+ +        <activity android:name=".CreateToDoEntryActivity"/>
+ +=======
+          <activity android:name=".CreateToDoEntryActivity" />
+++>>>>>>> Stashed changes
+          <activity
+              android:name=".ToDoEntryActivity"
+              android:parentActivityName=".MainActivity">

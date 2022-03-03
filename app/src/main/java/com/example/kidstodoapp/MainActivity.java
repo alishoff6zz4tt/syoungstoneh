@@ -12,17 +12,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.TextView;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-// This comment was made by Sean Youngstone
 public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEntryListener {
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
@@ -37,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private TextView pointsDisplay;
     private Button parentModeButton;
     private Button addEntryButton;
+
+    private Button trophyCaseButton;
     private ImageButton setPhoneNumberButton;
     private ImageButton faqButton;
 
@@ -62,6 +58,14 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
                 startActivityForResult(intent, NEW_ENTRY_REQUEST);
+            }
+        });
+
+        trophyCaseButton = findViewById(R.id.TrophyCase);
+        trophyCaseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TrophyCase.class);
+                startActivity(intent);
             }
         });
 
