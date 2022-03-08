@@ -1,10 +1,14 @@
 package com.example.kidstodoapp;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+
+import com.google.firebase.Timestamp;
 
 public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
 
@@ -15,7 +19,7 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
     private String description;
     private int pointValue;
     private boolean completed;
-    private Calendar dateTimeDue;
+    private Timestamp dateTimeDue;
     private String category;
 
     ToDoEntry(String entryName,
@@ -27,13 +31,13 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
         this.description = description;
         this.pointValue = pointValue;
         completed = false;
-        this.dateTimeDue = dateTimeDue;
+        this.dateTimeDue = new Timestamp(dateTimeDue.getTime());
         this.category = category;
     }
 
     @Override
     public int compareTo(ToDoEntry toDoEntry) {
-        return dateTimeDue.compareTo(toDoEntry.getDateTimeDue());
+        return this.getDateTimeDue().compareTo(toDoEntry.getDateTimeDue());
     }
 
     public String getDescription() {
@@ -53,12 +57,14 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
     }
 
     public Calendar getDateTimeDue() {
-        return dateTimeDue;
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(dateTimeDue.getSeconds() * 1000);
+        return cal;
     }
 
     public String getDateTimeString() {
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, h:mm a");
-        return formatter.format(dateTimeDue.getTime());
+        return formatter.format(dateTimeDue);
     }
 
     public String getCategory() {
@@ -70,5 +76,17 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
     }
 
     public static List<String> getCategories() { return categories; }
+
+    public static ToDoEntry buildToDoEntry(HashMap<String,Object> map) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(((Timestamp)map.get("dateTimeDue")).getSeconds() * 1000);
+        return new ToDoEntry(
+                (String)map.get("entryName"),
+                (String)map.get("description"),
+                (Integer)map.get("pointValue"),
+                cal,
+                (String)map.get("category")
+                );
+    }
 
 }
