@@ -77,6 +77,7 @@ public class SignInActivity extends Activity {
                             "Login Successful",
                             Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    finish();
                 } else {
                     if (task.getException() != null) {
                         Toast.makeText(SignInActivity.this,
@@ -88,4 +89,7 @@ public class SignInActivity extends Activity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {}
 }

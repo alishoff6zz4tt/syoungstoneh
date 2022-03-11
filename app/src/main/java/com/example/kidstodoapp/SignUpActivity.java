@@ -106,6 +106,7 @@ public class SignUpActivity extends Activity {
                                 "Registration Successful",
                                 Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        finish();
                     } else {
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                             Toast.makeText(SignUpActivity.this,
