@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
-    private static int pointsEarned = 0;
+    private static long pointsEarned = 0;
     private static String uid;
 
     private final int NEW_ENTRY_REQUEST = 1;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
                 toDoEntries = buildToDoEntries((ArrayList<HashMap<String,Object>>)snapshot.get("toDoEntries"));
                 completedEntries = buildToDoEntries((ArrayList<HashMap<String,Object>>)snapshot.get("completedEntries"));
-                pointsEarned = ((Long)snapshot.get("pointsEarned")).intValue();
+                pointsEarned = (Long)snapshot.get("pointsEarned");
                 Utility.setPhoneNumber(snapshot.getString("phoneNumber"));
                 adapter = new ToDoAdapter(toDoEntries, MainActivity.this);
                 recyclerView.setAdapter(adapter);
@@ -196,8 +196,10 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
                 adapter.notifyItemRemoved(position);
                 entry.setCompleted(true);
                 completedEntries.add(entry);
+                pointsEarned += entry.getPointValue();
+                setPointsDisplay();
                 documentReference.update("toDoEntries", toDoEntries);
-                documentReference.update("pointsEarned", pointsEarned + entry.getPointValue());
+                documentReference.update("pointsEarned", pointsEarned);
             }
         }
     }

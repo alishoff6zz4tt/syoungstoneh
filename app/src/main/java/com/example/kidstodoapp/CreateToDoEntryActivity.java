@@ -110,7 +110,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
             ToDoEntry toDoEntry = (ToDoEntry) intent.getExtras().getSerializable("ToDoEntry");
             dateSet = true;
             timeSet = true;
-            cal = toDoEntry.getDateTimeDue();
+            cal.setTimeInMillis(toDoEntry.getDateTimeMillis());
             entryDateTextView.setText(getDateString(cal));
             entryTimeTextView.setText(getTimeString(cal));
             categorySpinner.setSelection(ToDoEntry.getCategories().indexOf(toDoEntry.getCategory()));
@@ -144,7 +144,9 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 ToDoEntry newEntry = new ToDoEntry(
                         entryNameEditText.getText().toString(),
                         entryDescriptionEditText.getText().toString(),
-                        points, cal, categorySpinner.getSelectedItem().toString()
+                        points, cal.getTimeInMillis(),
+                        getDateTimeString(cal),
+                        categorySpinner.getSelectedItem().toString()
                 );
                 Intent result = new Intent();
                 result.putExtra("ToDoEntry", newEntry);
@@ -193,6 +195,11 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
 
     private String getTimeString(Calendar cal) {
         SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        return formatter.format(cal.getTime());
+    }
+
+    private String getDateTimeString(Calendar cal) {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, h:mm a");
         return formatter.format(cal.getTime());
     }
 
