@@ -1,7 +1,5 @@
 package com.example.kidstodoapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,14 +13,22 @@ public class LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+        Utility.setApplicationContext(this.getApplicationContext());
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            if (Utility.retrievePasswordHash()) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            } else {
+                mAuth.signOut();
+                startActivity(new Intent(getApplicationContext(),SignInActivity.class));
+            }
         } else {
             startActivity(new Intent(getApplicationContext(),SignInActivity.class));
         }
         finish();
+
 
     }
 }

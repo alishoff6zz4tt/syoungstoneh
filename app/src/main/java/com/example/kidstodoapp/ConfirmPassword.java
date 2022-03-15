@@ -23,7 +23,7 @@ public class ConfirmPassword extends Activity {
         enterPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Utility.isPasswordSet() && passwordInput.getText().toString().equals(Utility.getPassword())) {
+                if(Utility.isCorrectPassword(passwordInput.getText().toString())) {
                     Utility.setInParentMode(true);
                     Toast.makeText(ConfirmPassword.this,
                             "Welcome",
