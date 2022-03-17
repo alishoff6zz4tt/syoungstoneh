@@ -34,7 +34,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         notificationIntent.putExtra(NOTIFICATION, notification);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        long notificationTimeMillis = toDoEntry.getDateTimeDue().getTimeInMillis() - 1800000;
+        long notificationTimeMillis = toDoEntry.getDateTimeMillis() - 1800000;
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP, notificationTimeMillis, pendingIntent);
