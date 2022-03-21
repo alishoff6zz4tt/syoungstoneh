@@ -8,12 +8,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class PhoneNumber extends Activity {
     private EditText phoneNumberInput;
     private Button enterPhoneNumber;
 
     private Handler parentModeTimeOut;
     private Runnable runnable;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     public void onCreate(Bundle SavedInstanceState) {
@@ -22,7 +31,10 @@ public class PhoneNumber extends Activity {
 
         phoneNumberInput = findViewById(R.id.phoneNumberInput);
         enterPhoneNumber = findViewById(R.id.enterPhoneNumber);
-        phoneNumberInput.setHint("111222233");
+        phoneNumberInput.setHint("111-222-3333");
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         if (Utility.isPhoneNumberSet()) {
             phoneNumberInput.setText(Utility.getPhoneNumber());
@@ -31,23 +43,18 @@ public class PhoneNumber extends Activity {
         enterPhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String numberString = phoneNumberInput.getText().toString();
-                if (numberString.length() == 10 || numberString.length() == 11) {       //If the string is the correct length
-                    if (containsOnlyDigits(numberString)) {                             //If it only contains digits
-                        Utility.setPhoneNumber(numberString);                           //Sets the phone number
-                        Utility.setPhoneNumberSet(true);                                //Show the phone number has been set
-                        Toast.makeText(PhoneNumber.this,
-                                "Phone Number Added",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(PhoneNumber.this,                        //If it contains characters other than digits
-                                "Not a Valid Phone Number, Please Try Again",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                String numberString = phoneNumberInput.getText().toString().replaceAll("\\D+","");
+                if (numberString.length() == 10 || numberString.length() == 11) {
+                    String uid = mAuth.getCurrentUser().getUid();
+                    DocumentReference documentReference = db.collection("users").document(uid);
+                    documentReference.update("phoneNumber", numberString);
+                    Toast.makeText(PhoneNumber.this,
+                            "Phone Number Updated",
+                            Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
-                    Toast.makeText(PhoneNumber.this,                            //If it is not the correct length
-                            "Incorrect Length, Please Try Again",
+                    Toast.makeText(PhoneNumber.this,
+                            "Phone number must contain 10 or 11 digits",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -85,13 +92,5 @@ public class PhoneNumber extends Activity {
     public void onResume() {
         super.onResume();
         Utility.startHandler(parentModeTimeOut, runnable);
-    }
-
-    boolean containsOnlyDigits(String str) {                                            //Checks to see a string contains only digits
-        boolean result = true;
-        for (int i = 0; i < str.length(); i++) {
-            result = result && "0123456789".contains(str.charAt(i) + "");
-        }
-        return result;
     }
 }

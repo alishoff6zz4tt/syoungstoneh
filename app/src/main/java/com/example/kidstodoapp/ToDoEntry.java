@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+
+import com.google.firebase.Timestamp;
 
 public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
 
@@ -13,27 +16,30 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
 
     private String entryName;
     private String description;
-    private int pointValue;
+    private long pointValue;
     private boolean completed;
-    private Calendar dateTimeDue;
+    private long dateTimeMillis;
+    private String dateTimeString;
     private String category;
 
     ToDoEntry(String entryName,
               String description,
-              int pointValue,
-              Calendar dateTimeDue,
+              long pointValue,
+              long dateTimeMillis,
+              String dateTimeString,
               String category) {
         this.entryName = entryName;
         this.description = description;
         this.pointValue = pointValue;
         completed = false;
-        this.dateTimeDue = dateTimeDue;
+        this.dateTimeMillis = dateTimeMillis;
+        this.dateTimeString = dateTimeString;
         this.category = category;
     }
 
     @Override
     public int compareTo(ToDoEntry toDoEntry) {
-        return dateTimeDue.compareTo(toDoEntry.getDateTimeDue());
+        return Long.compare(this.dateTimeMillis, toDoEntry.getDateTimeMillis());
     }
 
     public String getDescription() {
@@ -44,7 +50,7 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
         return entryName;
     }
 
-    public int getPointValue() {
+    public long getPointValue() {
         return pointValue;
     }
 
@@ -52,13 +58,12 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
         return completed;
     }
 
-    public Calendar getDateTimeDue() {
-        return dateTimeDue;
+    public long getDateTimeMillis() {
+        return dateTimeMillis;
     }
 
     public String getDateTimeString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, h:mm a");
-        return formatter.format(dateTimeDue.getTime());
+        return dateTimeString;
     }
 
     public String getCategory() {
@@ -70,5 +75,16 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
     }
 
     public static List<String> getCategories() { return categories; }
+
+    public static ToDoEntry buildToDoEntry(HashMap<String,Object> map) {
+        return new ToDoEntry(
+                (String)map.get("entryName"),
+                (String)map.get("description"),
+                (Long)map.get("pointValue"),
+                (Long)map.get("dateTimeMillis"),
+                (String)map.get("dateTimeString"),
+                (String)map.get("category")
+                );
+    }
 
 }
