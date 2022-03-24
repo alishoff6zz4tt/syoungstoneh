@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
         parentModeButton = findViewById(R.id.pM);
         setPhoneNumberButton = findViewById(R.id.phone);
-        //faqButton = findViewById(R.id.faq);
+        faqButton = findViewById(R.id.faq);
 
         addEntryButton.setVisibility(View.GONE);
         setPhoneNumberButton.setVisibility(View.GONE);
@@ -134,13 +134,13 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
               }
         });
 
-//        faqButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), FAQ.class);
-//                startActivity(intent);
-//            }
-//        });
+        faqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), FAQ.class);
+                startActivity(intent);
+            }
+        });
 
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
