@@ -2,6 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/faq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="FAQ"
+        android:textAlignment="center"
+        android:textSize="90sp"/>
+
+    <View
+        android:id="@+id/divider11"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,19 +27,174 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
                 android:id="@+id/faq_entry_1_title"
-                android:text="Title"
-                android:clickable="true"
-                android:onClick="toggle_contents"
-                android:focusable="true" />
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/faq_entry_1_text"
+                style="@style/textFAQ"
                 android:text="Text"/>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_2_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_2_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_3_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_3_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_4_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_4_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_5_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_5_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_6_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_6_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_7_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_7_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_8_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_8_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider8"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_9_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_9_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/faq_entry_10_title"
+                style="@style/titleFAQ"
+                android:height="60sp"
+                android:text="• Title" />
+
+            <TextView
+                android:id="@+id/faq_entry_10_text"
+                style="@style/textFAQ"
+                android:text="Text"/>
+
+            <View
+                android:id="@+id/divider10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
