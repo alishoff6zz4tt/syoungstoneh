@@ -70,7 +70,7 @@ public class FAQ extends Activity {
             case R.id.faq_entry_1_title:
                 if(faqText1.isShown()) {
                     faqText1.setVisibility(View.GONE);
-//                    toggleClose(this, faqText1);
+//                  toggleClose(this, faqText1);
                 }
                 else {
                     faqText1.setVisibility(View.VISIBLE);

@@ -1,19 +1,28 @@
 package com.example.kidstodoapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,7 +35,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEntryListener {
+public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEntryListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
@@ -40,12 +49,13 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private ToDoAdapter adapter;
     private RecyclerView recyclerView;
     private TextView pointsDisplay;
-    private Button parentModeButton;
     private Button addEntryButton;
 
     private Button trophyCaseButton;
-    private ImageButton setPhoneNumberButton;
-    private ImageButton faqButton;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     private Handler parentModeTimeOut;
     private Runnable runnable;
@@ -57,6 +67,24 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Main Activity");
+        setSupportActionBar(toolbar);
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggleDrawer = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggleDrawer);
+        toggleDrawer.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.setCheckedItem(R.id.home);
+        navigationView.getMenu().findItem(R.id.login).setTitle("Parent Mode");
+        navigationView.getMenu().findItem(R.id.phone).setVisible(false);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -87,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         setPointsDisplay();
 
         addEntryButton = findViewById(R.id.add_entry_button);
+
         addEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
@@ -98,46 +127,6 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         trophyCaseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), TrophyCase.class);
-                startActivity(intent);
-            }
-        });
-
-        parentModeButton = findViewById(R.id.pM);
-        setPhoneNumberButton = findViewById(R.id.phone);
-        faqButton = findViewById(R.id.faq);
-
-        addEntryButton.setVisibility(View.GONE);
-        setPhoneNumberButton.setVisibility(View.GONE);
-
-        parentModeButton.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if(Utility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
-                      Utility.setInParentMode(false);
-                      onParentModeChanged();
-                      Toast.makeText(MainActivity.this,
-                              "Exiting parent mode",
-                              Toast.LENGTH_SHORT).show();
-                  }
-                  else {
-                      Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
-                      startActivity(intent);
-                  }
-              }
-        });
-
-        setPhoneNumberButton.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {                   //Sets the phone number for the parent
-                  Intent intent = new Intent(view.getContext(), PhoneNumber.class);
-                  startActivity(intent);
-              }
-        });
-
-        faqButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), FAQ.class);
                 startActivity(intent);
             }
         });
@@ -246,16 +235,16 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     public void onParentModeChanged() {                              //When parent mode is changed
         if(Utility.isInParentMode()) {                               //Set the visibility and views accordingly
-            setPhoneNumberButton.setVisibility(View.VISIBLE);
             addEntryButton.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
-            parentModeButton.setText(getResources().getString(R.string.child));
+            navigationView.getMenu().findItem(R.id.login).setTitle("Child Mode");
+            navigationView.getMenu().findItem(R.id.phone).setVisible(true);
         }
         else {
-            setPhoneNumberButton.setVisibility(View.GONE);
             addEntryButton.setVisibility(View.GONE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);
-            parentModeButton.setText(getResources().getString(R.string.parent));
+            navigationView.getMenu().findItem(R.id.login).setTitle("Parent Mode");
+            navigationView.getMenu().findItem(R.id.phone).setVisible(false);
         }
         recyclerView.setAdapter(adapter);
     }
@@ -269,5 +258,41 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {super.onBackPressed();}
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                break;
+            case R.id.login:
+                if(Utility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
+                    Utility.setInParentMode(false);
+                    onParentModeChanged();
+                    Toast.makeText(MainActivity.this,
+                            "Exiting parent mode",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(this, ConfirmPassword.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.phone:
+                Intent intent = new Intent(this, PhoneNumber.class);
+                startActivity(intent);
+                break;
+            case R.id.faq:
+                Intent intent1 = new Intent(this, FAQ.class);
+                startActivity(intent1);
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

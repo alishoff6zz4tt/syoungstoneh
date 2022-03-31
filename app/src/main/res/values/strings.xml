@@ -16,4 +16,6 @@
     <string name="enter">Enter</string>
     <string name="faq">FAQ</string>
     <string name="title_activity_create_trophy">CreateTrophyActivity</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
