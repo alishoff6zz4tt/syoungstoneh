@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                toDoEntries = buildToDoEntries((ArrayList<HashMap<String,Object>>)snapshot.get("toDoEntries"));
-                completedEntries = buildToDoEntries((ArrayList<HashMap<String,Object>>)snapshot.get("completedEntries"));
-                pointsEarned = (Long)snapshot.get("pointsEarned");
+                toDoEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("toDoEntries"));
+                completedEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
+                pointsEarned = (Long) snapshot.get("pointsEarned");
                 Utility.setPhoneNumber(snapshot.getString("phoneNumber"));
                 adapter = new ToDoAdapter(toDoEntries, MainActivity.this);
                 recyclerView.setAdapter(adapter);
@@ -108,35 +108,34 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         setPhoneNumberButton.setVisibility(View.GONE);
 
         parentModeButton.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if(Utility.isInParentMode()) {
-                      Utility.setInParentMode(false);
-                      onParentModeChanged();
-                      Toast.makeText(MainActivity.this,
-                              "Exiting parent mode",
-                              Toast.LENGTH_SHORT).show();
-                  }
-                  else {
-                      Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
-                      startActivity(intent);
-                  }
-              }
+            @Override
+            public void onClick(View view) {
+                if (Utility.isInParentMode()) {
+                    Utility.setInParentMode(false);
+                    onParentModeChanged();
+                    Toast.makeText(MainActivity.this,
+                            "Exiting parent mode",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
+                    startActivity(intent);
+                }
+            }
         });
 
         setPhoneNumberButton.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  Intent intent = new Intent(view.getContext(), PhoneNumber.class);
-                  startActivity(intent);
-              }
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PhoneNumber.class);
+                startActivity(intent);
+            }
         });
 
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
-                if(Utility.isInParentMode()) {
+                if (Utility.isInParentMode()) {
                     Utility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
@@ -235,13 +234,12 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     }
 
     public void onParentModeChanged() {
-        if(Utility.isInParentMode()) {
+        if (Utility.isInParentMode()) {
             setPhoneNumberButton.setVisibility(View.VISIBLE);
             addEntryButton.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
             parentModeButton.setText(getResources().getString(R.string.child));
-        }
-        else {
+        } else {
             setPhoneNumberButton.setVisibility(View.GONE);
             addEntryButton.setVisibility(View.GONE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);
@@ -250,14 +248,15 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         recyclerView.setAdapter(adapter);
     }
 
-    public ArrayList<ToDoEntry> buildToDoEntries(ArrayList<HashMap<String,Object>> list) {
+    public ArrayList<ToDoEntry> buildToDoEntries(ArrayList<HashMap<String, Object>> list) {
         ArrayList<ToDoEntry> arrayList = new ArrayList<>();
-        for (HashMap<String,Object> map : list) {
+        for (HashMap<String, Object> map : list) {
             arrayList.add(ToDoEntry.buildToDoEntry(map));
         }
         return arrayList;
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+    }
 }

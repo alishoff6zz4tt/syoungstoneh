@@ -4,12 +4,20 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import org.apache.commons.codec.binary.Hex;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Objects;
+
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 public class Utility {
     private static Context applicationContext;
@@ -37,7 +45,7 @@ public class Utility {
         }
     }
     public static void setPassword(String password) {
-        Utility.passwordHash = hashPassword(password);
+        passwordHash = hashPassword(password);
         storePasswordHash();
     }
     public static boolean isCorrectPassword(String password) {
@@ -66,7 +74,18 @@ public class Utility {
     }
 
     private static String hashPassword(String password) {
-        return password;
+        try {
+            String salt = "1234";
+            int iterations = 10000;
+            int keyLength = 512;
+            byte[] saltBytes = salt.getBytes();
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+            PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), saltBytes, iterations, keyLength);
+            SecretKey key = skf.generateSecret(spec);
+            return Hex.encodeHexString(key.getEncoded());
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
     }
     private static void storePasswordHash() {
         try (FileOutputStream fos = applicationContext.openFileOutput(PASSWORD_HASH_FILE_NAME, Context.MODE_PRIVATE)) {
