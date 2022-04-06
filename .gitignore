@@ -12,3 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
+/.idea/checkstyle-idea.xml
+/.idea/checkstyleidea-libs/

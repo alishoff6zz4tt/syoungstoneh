@@ -6,8 +6,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +15,6 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         navigationView = findViewById(R.id.navigation_view);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Main Activity");
+        toolbar.setTitle("KidsToDoApp");
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
@@ -98,9 +95,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                toDoEntries = buildToDoEntries((ArrayList<HashMap<String,Object>>)snapshot.get("toDoEntries"));
-                completedEntries = buildToDoEntries((ArrayList<HashMap<String,Object>>)snapshot.get("completedEntries"));
-                pointsEarned = (Long)snapshot.get("pointsEarned");
+                toDoEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("toDoEntries"));
+                completedEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
+                pointsEarned = (Long) snapshot.get("pointsEarned");
                 Utility.setPhoneNumber(snapshot.getString("phoneNumber"));
                 adapter = new ToDoAdapter(toDoEntries, MainActivity.this);
                 recyclerView.setAdapter(adapter);
@@ -131,11 +128,13 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             }
         });
 
+        addEntryButton.setVisibility(View.GONE);
+
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
             @Override                                             //interacts with the screen
             public void run() {
-                if(Utility.isInParentMode()) {
+                if (Utility.isInParentMode()) {
                     Utility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
@@ -249,9 +248,9 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         recyclerView.setAdapter(adapter);
     }
 
-    public ArrayList<ToDoEntry> buildToDoEntries(ArrayList<HashMap<String,Object>> list) {
+    public ArrayList<ToDoEntry> buildToDoEntries(ArrayList<HashMap<String, Object>> list) {
         ArrayList<ToDoEntry> arrayList = new ArrayList<>();
-        for (HashMap<String,Object> map : list) {
+        for (HashMap<String, Object> map : list) {
             arrayList.add(ToDoEntry.buildToDoEntry(map));
         }
         return arrayList;
