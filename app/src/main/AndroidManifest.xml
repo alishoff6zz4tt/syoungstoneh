@@ -21,12 +21,14 @@
         <activity
             android:name=".CreateTrophyActivity"
             android:label="@string/title_activity_create_trophy"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".PickImage" />
         <activity android:name=".TrophyActivity" />
         <activity android:name=".AddTrophy" />
         <activity android:name=".EditTrophy" />
-        <activity android:name=".TrophyCase" />
+        <activity
+            android:name=".TrophyCase"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ToDoEntryActivity"
             android:parentActivityName=".MainActivity">

@@ -18,8 +18,10 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private RecyclerView recyclerView;
     private TextView pointsDisplay;
     private Button addEntryButton;
-
-    private Button trophyCaseButton;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         navigationView.setCheckedItem(R.id.home);
         navigationView.getMenu().findItem(R.id.login).setTitle("Parent Mode");
         navigationView.getMenu().findItem(R.id.phone).setVisible(false);
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        tabLayout.setupWithViewPager(viewPager);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -120,11 +124,27 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             }
         });
 
-        trophyCaseButton = findViewById(R.id.TrophyCase);
-        trophyCaseButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), TrophyCase.class);
-                startActivity(intent);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch(tab.getPosition()) {
+                    case 0:
+                        break;
+                    case 1:
+                        Intent intent = new Intent(MainActivity.this, TrophyCase.class);
+                        startActivity(intent);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
 
