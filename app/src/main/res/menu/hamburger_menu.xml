@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/home"
+            android:id="@+id/ToDoListFragment"
             android:title="Home"
             android:icon="@drawable/home"/>
     </group>
@@ -12,12 +12,12 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/login"
+                    android:id="@+id/ConfirmPassword"
                     android:title="Parent Mode"
                     android:icon="@drawable/login"/>
 
                 <item
-                    android:id="@+id/phone"
+                    android:id="@+id/PhoneNumber"
                     android:title="Phone Number"
                     android:icon="@drawable/phone"/>
             </group>
@@ -28,7 +28,7 @@
         android:checkableBehavior="single"
         android:id="@+id/Other">
         <item
-            android:id="@+id/faq"
+            android:id="@+id/FAQ"
             android:title="FAQ"
             android:icon="@drawable/faq"/>
     </group>

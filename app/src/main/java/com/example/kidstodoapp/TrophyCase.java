@@ -1,30 +1,18 @@
 package com.example.kidstodoapp;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Telephony;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 
 public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEntryListener  {
@@ -135,7 +123,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
 
     @Override
     public void onEditClick(int position) {
-        Intent intent = new Intent(this, CreateToDoEntryActivity.class);
+        Intent intent = new Intent(this, CreateToDoEntryFragment.class);
         intent.putExtra("Trophy", existingTrophies.get(position));
         intent.putExtra("position", position);
         startActivityForResult(intent, EDIT_ENTRY_REQUEST);

@@ -17,7 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateToDoEntryActivity" />
         <activity
             android:name=".CreateTrophyActivity"
             android:label="@string/title_activity_create_trophy"
@@ -30,24 +29,9 @@
             android:name=".TrophyCase"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".ToDoEntryActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity
-            android:name=".ConfirmPassword"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".PhoneNumber"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".FAQ"
-            android:parentActivityName=".MainActivity"/>
     </application>
 </manifest>

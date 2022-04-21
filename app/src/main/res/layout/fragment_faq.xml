@@ -16,20 +16,20 @@
 <!--        app:layout_scrollFlags="scroll|enterAlways"-->
 <!--        app:title="FAQ"/>-->
 
-    <TextView
-        android:id="@+id/faq"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="FAQ"
-        android:textAlignment="center"
-        android:textSize="90sp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/faq"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center_horizontal|center_vertical"-->
+<!--        android:text="FAQ"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="90sp"/>-->
 
-    <View
-        android:id="@+id/divider11"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
+<!--    <View-->
+<!--        android:id="@+id/divider11"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="?android:attr/listDivider" />-->
 
     <ScrollView
         android:layout_width="match_parent"

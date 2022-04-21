@@ -1,56 +1,60 @@
 package com.example.kidstodoapp;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ToDoEntryActivity extends AppCompatActivity {
+import static android.app.Activity.RESULT_OK;
+
+public class ToDoEntryFragment extends Fragment {
 
     private ToDoEntry mToDoEntry;
     private int position;
+    private Bundle bundle;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_to_do_entry);
+        View view = inflater.inflate(R.layout.fragment_to_do_entry, container, false);
 
-        Intent intent = getIntent();
+        bundle = getArguments();
 
-        Bundle extras = intent.getExtras();
-        this.mToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
-        this.position = extras.getInt("position");
+        this.mToDoEntry = (ToDoEntry) bundle.getSerializable("ToDoEntry");
+        this.position = bundle.getInt("position");
 
-        TextView categoryTextView = findViewById(R.id.category_textview);
-        final TextView nameTextView = findViewById(R.id.entry_name_textview);
-        TextView descriptionTextView = findViewById(R.id.entry_description_textview);
-        TextView dateTimeTextView = findViewById(R.id.entry_datetime_textview);
-        TextView pointsTextView = findViewById(R.id.entry_points_textview);
-        final CheckBox completionCheckBox = findViewById(R.id.completion_check_box);
-        ImageButton sms = findViewById(R.id.sms);
+        TextView categoryTextView = view.findViewById(R.id.category_textview);
+        final TextView nameTextView = view.findViewById(R.id.entry_name_textview);
+        TextView descriptionTextView = view.findViewById(R.id.entry_description_textview);
+        TextView dateTimeTextView = view.findViewById(R.id.entry_datetime_textview);
+        TextView pointsTextView = view.findViewById(R.id.entry_points_textview);
+        final CheckBox completionCheckBox = view.findViewById(R.id.completion_check_box);
+        ImageButton sms = view.findViewById(R.id.sms);
 
         completionCheckBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mToDoEntry.setCompleted(completionCheckBox.isChecked());
-                Intent result = new Intent();
-                result.putExtra("position", position);
-                setResult(RESULT_OK, result);
-                finish();
+                bundle.putInt("position", position);
+                bundle.putInt("resultCode", RESULT_OK);
+                FragmentViewModel.setReturnBundle(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
+                getActivity().getSupportFragmentManager().popBackStack();
+
             }
         });
 
@@ -61,7 +65,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
             public void onClick(View view) {                                    //For sending messages to the parent asking for help
                 if(Utility.isPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
                 else {                                                          //If a phone number hasn't been set
-                    Toast.makeText(ToDoEntryActivity.this,
+                    Toast.makeText(ToDoEntryFragment.this.getContext(),
                             "A Phone Number Has Not Been Added",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -76,10 +80,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
 
         completionCheckBox.setChecked(mToDoEntry.isCompleted());
 
-        if (getSupportActionBar() != null) {
-            ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(false);
-        }
+        return view;
     }
 
     @SuppressLint("IntentReset")
@@ -90,13 +91,13 @@ public class ToDoEntryActivity extends AppCompatActivity {
             SmsManager.getDefault().sendTextMessage(Utility.getPhoneNumber(), null, message, null, null);
         }
         catch(Exception e) {
-            Toast.makeText(ToDoEntryActivity.this,
+            Toast.makeText(ToDoEntryFragment.this.getContext(),
                     "Unable to Send Message",
                     Toast.LENGTH_SHORT).show();
             sent = false;
         }
         if(sent) {
-            Toast.makeText(ToDoEntryActivity.this,
+            Toast.makeText(ToDoEntryFragment.this.getContext(),
                     "Message Sent",
                     Toast.LENGTH_SHORT).show();
         }
@@ -104,16 +105,16 @@ public class ToDoEntryActivity extends AppCompatActivity {
     }
                                                                                 //Checks to see if the user has given SMS permissions
     private void smsPermissions(AlertDialog dialog, final String title) {       //If they have given permissions, tries to send an SMS
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
+        if (ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
         else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
+            if(ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
             else {dialog.dismiss();}
         }
     }
 
     private void smsDialog(final String title) {                                //Dialog confirming that the user would like to send an SMS to their parent
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ToDoEntryFragment.this.getContext());
         builder.setTitle("Send SMS");
         builder.setMessage("Would you like to send an SMS to your parent asking for help?");
 
