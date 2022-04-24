@@ -176,7 +176,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
         runnable = new Runnable() {                                     //Need to have a runnable here in place of the one in MainActivity
             @Override                                                   //so that this activity can be closed if tne timer runs out
             public void run() {
-                if(Utility.isInParentMode()) {
+                if(Utility.isInParentMode()  && !Utility.isParentDevice()) {
                     Utility.setInParentMode(false);
                     Toast.makeText(CreateToDoEntryActivity.this,
                             "Logged Out Due to Inactivity",

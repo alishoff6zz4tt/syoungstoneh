@@ -64,7 +64,7 @@ public class PhoneNumber extends Activity {
         runnable = new Runnable() {
             @Override
             public void run() {                                                         //This runnable is here so that if the user is timed out while in the class
-                if (Utility.isInParentMode()) {                                         //It will return to MainActivity
+                if (Utility.isInParentMode()  && !Utility.isParentDevice()) {                                         //It will return to MainActivity
                     Toast.makeText(PhoneNumber.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();

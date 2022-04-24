@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class NotificationPublisher extends BroadcastReceiver {
+public class NotificationHandler extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id";
     public static String NOTIFICATION = "notification";
@@ -29,7 +29,7 @@ public class NotificationPublisher extends BroadcastReceiver {
                 toDoEntry.getDateTimeString() + " and earn $" + toDoEntry.getPointValue() + "!");
         notificationBuilder.setSmallIcon(R.drawable.ic_launcher_foreground);
         Notification notification = notificationBuilder.build();
-        Intent notificationIntent = new Intent(context, NotificationPublisher.class);
+        Intent notificationIntent = new Intent(context, NotificationHandler.class);
         notificationIntent.putExtra(NOTIFICATION_ID, 1);
         notificationIntent.putExtra(NOTIFICATION, notification);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(

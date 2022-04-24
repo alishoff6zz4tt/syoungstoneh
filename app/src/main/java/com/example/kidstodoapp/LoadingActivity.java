@@ -19,6 +19,7 @@ public class LoadingActivity extends Activity {
 
         if (mAuth.getCurrentUser() != null) {
             if (Utility.retrievePasswordHash()) {
+                Utility.checkDeviceType();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             } else {
                 mAuth.signOut();
