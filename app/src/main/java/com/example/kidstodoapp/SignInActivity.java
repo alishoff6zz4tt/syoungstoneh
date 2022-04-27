@@ -76,7 +76,7 @@ public class SignInActivity extends Activity {
                     Toast.makeText(SignInActivity.this,
                             "Login Successful",
                             Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    startActivity(new Intent(getApplicationContext(),DeviceTypeActivity.class));
                     finish();
                 } else {
                     if (task.getException() != null) {

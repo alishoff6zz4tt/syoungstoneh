@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
             @Override                                             //interacts with the screen
             public void run() {
-                if (Utility.isInParentMode()) {
+                if (Utility.isInParentMode()  && !Utility.isParentDevice()) {
                     Utility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,

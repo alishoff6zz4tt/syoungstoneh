@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import javax.crypto.SecretKey;
@@ -22,8 +24,10 @@ import javax.crypto.spec.PBEKeySpec;
 public class Utility {
     private static Context applicationContext;
     private static final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
+    private static final String PARENT_DEVICE_FILE_NAME = "parent-device";
     private static String passwordHash;
     private static String phoneNumber;
+    private static Boolean parentDevice = false;
     private static Boolean inParentMode = false;
     private static Boolean phoneNumberSet = false;
 
@@ -53,6 +57,7 @@ public class Utility {
     }
 
     public static Boolean isInParentMode() {return inParentMode;}
+    public static Boolean isParentDevice() {return parentDevice;}
     public static void setInParentMode(Boolean inParentMode) {Utility.inParentMode = inParentMode;}
 
     public static String getPhoneNumber() {
@@ -90,6 +95,23 @@ public class Utility {
     private static void storePasswordHash() {
         try (FileOutputStream fos = applicationContext.openFileOutput(PASSWORD_HASH_FILE_NAME, Context.MODE_PRIVATE)) {
             fos.write(passwordHash.getBytes(StandardCharsets.UTF_8));
+        }
+        catch (Exception e) {
+            Log.e("Utility", Objects.requireNonNull(e.getMessage()));
+        }
+    }
+
+    public static void checkDeviceType() {
+        List<String> files = Arrays.asList(applicationContext.fileList());
+        parentDevice = files.contains(PARENT_DEVICE_FILE_NAME);
+        inParentMode = parentDevice;
+    }
+
+    public static void setParentDevice() {
+        try (FileOutputStream fos = applicationContext.openFileOutput(PARENT_DEVICE_FILE_NAME, Context.MODE_PRIVATE)) {
+            fos.write("Parent device".getBytes(StandardCharsets.UTF_8));
+            parentDevice = true;
+            inParentMode = true;
         }
         catch (Exception e) {
             Log.e("Utility", Objects.requireNonNull(e.getMessage()));

@@ -187,7 +187,6 @@ public class CreateToDoEntryFragment extends Fragment {
                 cancel();
             }
         });
-
         return view;
     }
 
