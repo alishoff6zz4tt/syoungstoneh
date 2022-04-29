@@ -1,6 +1,7 @@
 package com.example.kidstodoapp;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
@@ -31,6 +32,11 @@ public class Utility {
     private static Boolean inParentMode = false;
     private static Boolean phoneNumberSet = false;
 
+    private static Bundle returnBundle;
+
+    private static Boolean inParentModeSet = false;
+    private static Boolean returnBundleSet = false;
+
     public static void setApplicationContext(Context context) {
         applicationContext = context;
     }
@@ -58,7 +64,10 @@ public class Utility {
 
     public static Boolean isInParentMode() {return inParentMode;}
     public static Boolean isParentDevice() {return parentDevice;}
-    public static void setInParentMode(Boolean inParentMode) {Utility.inParentMode = inParentMode;}
+    public static void setInParentMode(Boolean inParentMode) {
+        Utility.inParentMode = inParentMode;
+        inParentModeSet = true;
+    }
 
     public static String getPhoneNumber() {
         return phoneNumber;
@@ -117,4 +126,19 @@ public class Utility {
             Log.e("Utility", Objects.requireNonNull(e.getMessage()));
         }
     }
+
+    public static void setReturnBundle(Bundle returnBundle) {
+        Utility.returnBundle = returnBundle;
+        returnBundleSet = true;
+    }
+
+    public static Boolean inParentModeSet() {return inParentModeSet;}
+
+    public static Bundle getReturnBundle() {return returnBundle;}
+
+    public static void setInParentModeObserver(Boolean inParentModeSet) {Utility.inParentModeSet = inParentModeSet;}
+
+    public static Boolean returnBundleSet() {return returnBundleSet;}
+
+    public static void setReturnBundleObserver(Boolean returnBundleSet) {Utility.returnBundleSet = returnBundleSet;}
 }

@@ -17,6 +17,7 @@ public class ConfirmPassword extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity)getActivity()).tabVisibility(false);
         View view = inflater.inflate(R.layout.fragment_confirm_password, container, false);
 
         enterPassword = view.findViewById(R.id.enter_button_confirm_password);
@@ -27,7 +28,7 @@ public class ConfirmPassword extends Fragment {
             @Override
             public void onClick(View view) {
                 if(Utility.isCorrectPassword(passwordInput.getText().toString())) {
-                    FragmentViewModel.setInParentMode(true);
+                    Utility.setInParentMode(true);
                     Toast.makeText(ConfirmPassword.this.getContext(),
                             "Welcome",
                             Toast.LENGTH_SHORT).show();

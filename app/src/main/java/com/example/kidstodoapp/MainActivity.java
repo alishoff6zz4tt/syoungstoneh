@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private TabLayout tabLayout;
 
     private Handler parentModeTimeOut;
     private Runnable runnable;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
         navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -245,6 +246,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().popBackStack();
             }
         }
+    }
+
+    public void tabVisibility(Boolean bool) {
+        if(bool == true) {tabLayout.setVisibility(View.VISIBLE);}
+        else {tabLayout.setVisibility(View.GONE);}
     }
 
     public void toggleVisibility(View view) {

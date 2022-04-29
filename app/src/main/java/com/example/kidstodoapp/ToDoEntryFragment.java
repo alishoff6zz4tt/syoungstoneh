@@ -31,6 +31,7 @@ public class ToDoEntryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity)getActivity()).tabVisibility(true);
         View view = inflater.inflate(R.layout.fragment_to_do_entry, container, false);
 
         bundle = getArguments();
@@ -51,7 +52,7 @@ public class ToDoEntryFragment extends Fragment {
                 mToDoEntry.setCompleted(completionCheckBox.isChecked());
                 bundle.putInt("position", position);
                 bundle.putInt("resultCode", RESULT_OK);
-                FragmentViewModel.setReturnBundle(bundle);
+                Utility.setReturnBundle(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
                 getActivity().getSupportFragmentManager().popBackStack();
 

@@ -53,6 +53,7 @@ public class ToDoListFragment extends Fragment implements ToDoAdapter.OnEntryLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity)getActivity()).tabVisibility(true);
         View view = inflater.inflate(R.layout.fragment_to_do_list, container, false);
 
         mAuth = FirebaseAuth.getInstance();
@@ -109,66 +110,57 @@ public class ToDoListFragment extends Fragment implements ToDoAdapter.OnEntryLis
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FragmentViewModel.isInParentMode().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(FragmentViewModel.inParentModeSet()){                    //This is to prevent the code below from being called every time the fragment comes back into view
-                    FragmentViewModel.setInParentModeObserver(false);       //Read something about an event wrapper being the proper means of subverting this but I can't find anything not in Kotlin gibberish
-                    ((MainActivity) getActivity()).onParentModeChanged();   //https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
-                }
-            }
-        });
-        FragmentViewModel.getReturnBundle().observe(getViewLifecycleOwner(), new Observer<Bundle>() {
-            @Override
-            public void onChanged(Bundle bundle) {
-                if(FragmentViewModel.returnBundleSet()) {
-                    FragmentViewModel.setReturnBundleObserver(false);
-                    if(bundle != null) {
-                        int requestCode = bundle.getInt("requestCode");
-                        int resultCode = bundle.getInt("resultCode");
+        if(Utility.inParentModeSet()){
+            Utility.setInParentModeObserver(false);
+            ((MainActivity) getActivity()).onParentModeChanged();
+        }
+        if(Utility.returnBundleSet()) {
+            Utility.setReturnBundleObserver(false);
+            Bundle bundle = Utility.getReturnBundle();
+            if(bundle != null) {
+                int requestCode = bundle.getInt("requestCode");
+                int resultCode = bundle.getInt("resultCode");
 
-                        if (requestCode == NEW_ENTRY_REQUEST) {
-                            if (resultCode == Activity.RESULT_OK) {
-                                ToDoEntry newToDoEntry = (ToDoEntry) bundle.getSerializable("ToDoEntry");
-                                toDoEntries.add(newToDoEntry);
-                                Collections.sort(toDoEntries);
-                                recyclerView.setAdapter(adapter);
-                                documentReference.update("toDoEntries", toDoEntries);
-                            }
+                if (requestCode == NEW_ENTRY_REQUEST) {
+                    if (resultCode == Activity.RESULT_OK) {
+                        ToDoEntry newToDoEntry = (ToDoEntry) bundle.getSerializable("ToDoEntry");
+                        toDoEntries.add(newToDoEntry);
+                        Collections.sort(toDoEntries);
+                        recyclerView.setAdapter(adapter);
+                        documentReference.update("toDoEntries", toDoEntries);
+                    }
+                }
+                if (requestCode == EDIT_ENTRY_REQUEST) {
+                    if (resultCode == Activity.RESULT_OK) {
+                        int position = bundle.getInt("position");
+                        if (bundle.getBoolean("Deleted")) {
+                            toDoEntries.remove(position);
+                            adapter.notifyItemRemoved(position);
                         }
-                        if (requestCode == EDIT_ENTRY_REQUEST) {
-                            if (resultCode == Activity.RESULT_OK) {
-                                int position = bundle.getInt("position");
-                                if (bundle.getBoolean("Deleted")) {
-                                    toDoEntries.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                }
-                                else {
-                                    ToDoEntry changedToDoEntry = (ToDoEntry) bundle.getSerializable("ToDoEntry");
-                                    toDoEntries.set(position, changedToDoEntry);
-                                    Collections.sort(toDoEntries);
-                                }
-                                recyclerView.setAdapter(adapter);
-                                documentReference.update("toDoEntries", toDoEntries);
-                            }
+                        else {
+                            ToDoEntry changedToDoEntry = (ToDoEntry) bundle.getSerializable("ToDoEntry");
+                            toDoEntries.set(position, changedToDoEntry);
+                            Collections.sort(toDoEntries);
                         }
-                        if (requestCode == VIEW_ENTRY_REQUEST) {
-                            if (resultCode == Activity.RESULT_OK) {
-                                int position = bundle.getInt("position");
-                                ToDoEntry entry = toDoEntries.remove(position);
-                                adapter.notifyItemRemoved(position);
-                                entry.setCompleted(true);
-                                completedEntries.add(entry);
-                                pointsEarned += entry.getPointValue();
-                                setPointsDisplay();
-                                documentReference.update("toDoEntries", toDoEntries);
-                                documentReference.update("pointsEarned", pointsEarned);
-                            }
-                        }
+                        recyclerView.setAdapter(adapter);
+                        documentReference.update("toDoEntries", toDoEntries);
+                    }
+                }
+                if (requestCode == VIEW_ENTRY_REQUEST) {
+                    if (resultCode == Activity.RESULT_OK) {
+                        int position = bundle.getInt("position");
+                        ToDoEntry entry = toDoEntries.remove(position);
+                        adapter.notifyItemRemoved(position);
+                        entry.setCompleted(true);
+                        completedEntries.add(entry);
+                        pointsEarned += entry.getPointValue();
+                        setPointsDisplay();
+                        documentReference.update("toDoEntries", toDoEntries);
+                        documentReference.update("pointsEarned", pointsEarned);
                     }
                 }
             }
-        });
+        }
     }
 
     @Override

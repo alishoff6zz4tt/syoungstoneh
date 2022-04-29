@@ -50,6 +50,7 @@ public class CreateToDoEntryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MainActivity)getActivity()).tabVisibility(true);
         View view = inflater.inflate(R.layout.fragment_create_to_do_entry, container, false);
 
         Button createEntryButton = view.findViewById(R.id.create_entry_button);
@@ -165,7 +166,7 @@ public class CreateToDoEntryFragment extends Fragment {
                 bundle.putSerializable("ToDoEntry", newEntry);
                 bundle.putBoolean("Deleted", false);
                 bundle.putInt("resultCode", RESULT_OK);
-                FragmentViewModel.setReturnBundle(bundle);
+                Utility.setReturnBundle(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
@@ -176,7 +177,7 @@ public class CreateToDoEntryFragment extends Fragment {
             public void onClick(View view) {
                 bundle.putBoolean("Deleted", true);
                 bundle.putInt("resultCode", RESULT_OK);
-                FragmentViewModel.setReturnBundle(bundle);
+                Utility.setReturnBundle(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
@@ -207,7 +208,7 @@ public class CreateToDoEntryFragment extends Fragment {
 
     private void cancel() {
         bundle.putInt("resultCode", RESULT_CANCELED);
-        FragmentViewModel.setReturnBundle(bundle);
+        Utility.setReturnBundle(bundle);
         getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }
