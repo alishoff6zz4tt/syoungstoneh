@@ -51,7 +51,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             pointValueTextView = itemView.findViewById(R.id.trophy_points);
 
             editTrophyButton = itemView.findViewById(R.id.edit_trophy_button);
-            trophyImageView = (ImageView) view.findViewById(R.id.icon_view);
+            trophyImageView = itemView.findViewById(R.id.icon_view);
 
             this.onEntryListener = onEntryListener;
             view.setOnClickListener(this);
@@ -95,8 +95,8 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
 
         nameTextView.setText(trophy.getName());
         descriptionTextView.setText(trophy.getDescription());
-        String pointString = "Buy for $" + trophy.getPoints();
-        pointValueTextView.setText(pointString);
+        //String pointString = "Buy for $" + trophy.getPoints();
+        //pointValueTextView.setText(pointString);
     }
 
     @Override

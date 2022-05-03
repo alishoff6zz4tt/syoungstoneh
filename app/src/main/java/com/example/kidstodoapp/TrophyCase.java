@@ -135,7 +135,6 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         startActivityForResult(intent, EDIT_ENTRY_REQUEST);
     }
 
-
    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
