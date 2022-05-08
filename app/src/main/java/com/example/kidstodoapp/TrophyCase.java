@@ -6,12 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Telephony;
@@ -23,7 +18,6 @@ import android.widget.Toast;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 
 public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEntryListener  {
@@ -42,6 +36,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     private ImageButton trophy;
     private TextView pointsDisplay;
     private Button createNewTrophy;
+    private Button parentModeButton;
 
     private final int VIEW = 1;
     private final int NEW = 2;
@@ -57,13 +52,14 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         pointsDisplay = findViewById(R.id.points_display);
         setPointsDisplay();
 
-        //Set up recycler view
+        //Recycler View Setup
         adapter = new TrophyAdapter(existingTrophies, this);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //Button to create new trophy
         createNewTrophy = findViewById(R.id.add_trophy_button);
         createNewTrophy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -72,10 +68,41 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
             }
         });
 
+        parentModeButton = findViewById(R.id.pM);
+        parentModeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Utility.isInParentMode()) {
+                    Utility.setInParentMode(false);
+                    onParentModeChanged();
+                    Toast.makeText(TrophyCase.this,
+                            "Exiting parent mode",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 
     public void setPointsDisplay() {
         pointsDisplay.setText(String.format(Locale.US, "Total Points: $%d", pointsEarned));
+    }
+
+    public void onParentModeChanged() {
+        if(Utility.isInParentMode()) {
+            createNewTrophy.setVisibility(View.VISIBLE);
+            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
+            parentModeButton.setText(getResources().getString(R.string.child));
+        }
+        else {
+            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);
+            parentModeButton.setText(getResources().getString(R.string.parent));
+        }
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -135,34 +162,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         startActivityForResult(intent, EDIT_ENTRY_REQUEST);
     }
 
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
-        super.onActivityResult(requestCode, resultCode, result);
-        if (requestCode == NEW) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                Trophy newTemp = (Trophy) extras.getSerializable("Trophy");
-                existingTrophy.add(newTemp);
-            }
-        }
-        if (requestCode == VIEW) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                int position = extras.getInt("position");
-                Trophy trophy = existingTrophy.remove(position);
-                adapter.notifyItemRemoved(position);
-                trophy.setCompleted(true);
-            }
-        }
-    }
-
-    @Override
-    public void onEntryClick(int position) {
-        Intent intent = new Intent(this, ToDoEntryActivity.class);
-        intent.putExtra("Trophy", existingTrophy.get(position));
-        intent.putExtra("position", position);
-        startActivityForResult(intent, VIEW);
-    }
+   /*
 
    @SuppressLint("IntentReset")
     private void sendSms(AlertDialog dialog,final String title) {               //Tries to send an sms
