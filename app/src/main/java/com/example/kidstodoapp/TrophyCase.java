@@ -1,6 +1,6 @@
 package com.example.kidstodoapp;
-
 import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -68,7 +68,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
             }
         });
 
-        parentModeButton = findViewById(R.id.pM);
+        parentModeButton = findViewById(R.id.parentModeTC);
         parentModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,11 +95,11 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     public void onParentModeChanged() {
         if(Utility.isInParentMode()) {
             createNewTrophy.setVisibility(View.VISIBLE);
-            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
+            adapter.setVIEW_TYPE(TrophyAdapter.ITEM_TYPE_EDIT);
             parentModeButton.setText(getResources().getString(R.string.child));
         }
         else {
-            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);
+            adapter.setVIEW_TYPE(TrophyAdapter.ITEM_TYPE_NO_EDIT);
             parentModeButton.setText(getResources().getString(R.string.parent));
         }
         recyclerView.setAdapter(adapter);
@@ -161,76 +161,6 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         intent.putExtra("position", position);
         startActivityForResult(intent, EDIT_ENTRY_REQUEST);
     }
-
-   /*
-
-   @SuppressLint("IntentReset")
-    private void sendSms(AlertDialog dialog,final String title) {               //Tries to send an sms
-        String message = "Automated message from KidsToDoApp:" + "\n" + "I redeemed the" + title + "trophy!";
-        boolean sent = true;
-        try {
-            SmsManager.getDefault().sendTextMessage(Utility.getPhoneNumber(), null, message, null, null);
-        }
-        catch(Exception e) {
-            Toast.makeText(TrophyActivity.this,
-                    "Unable to Send Message",
-                    Toast.LENGTH_SHORT).show();
-            sent = false;
-        }
-        if(sent) {
-            Toast.makeText(TrophyActivity.this,
-                    "Message Sent",
-                    Toast.LENGTH_SHORT).show();
-        }
-        dialog.dismiss();
-    }
-    //Checks to see if the user has given SMS permissions
-    private void smsPermissions(AlertDialog dialog, final String title) {       //If they have given permissions, tries to send an SMS
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
-        else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
-            else {dialog.dismiss();}
-        }
-    }
-
-    private void smsDialog(final String title) {                                //Dialog confirming that the user would like to send an SMS to their parent
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Send SMS");
-        builder.setMessage("Would you like to send an SMS to your parent asking for help?");
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //Later Overridden
-                //If there were cases where the dialog should NOT close onClick, then this same tactic would be used
-                //But in this case, doing this mainly to change it from an AlertDialog.Builder to an AlertDialog
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //Later Overridden
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                smsPermissions(dialog, title);   //Checks for permissions
-            }
-        });
-
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-    }*/
 }
 
 
