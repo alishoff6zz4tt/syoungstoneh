@@ -135,20 +135,20 @@ public class CreateTrophyActivity extends AppCompatActivity {
             }
         });
 
-      /*  parentModeTimeOut = new Handler();
+        parentModeTimeOut = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
                 if(Utility.isInParentMode()) {
                     Utility.setInParentMode(false);
-                    Toast.makeText(CreateToDoEntryActivity.this,
+                    Toast.makeText(CreateTrophyActivity.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);*/
+        Utility.startHandler(parentModeTimeOut, runnable);
     }
 
     private void cancel() {
@@ -157,7 +157,6 @@ public class CreateTrophyActivity extends AppCompatActivity {
         finish();
     }
 
-   /* @Override
     public void onUserInteraction() {
         super.onUserInteraction();
         Utility.stopHandler(parentModeTimeOut, runnable);
@@ -174,5 +173,5 @@ public class CreateTrophyActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         Utility.startHandler(parentModeTimeOut, runnable);
-    }*/
+    }
 }

@@ -34,15 +34,6 @@ public class AddTrophy extends AppCompatActivity {
         final EditText addDescription = findViewById(R.id.input_description);
         final EditText addPoints = findViewById(R.id.input_points);
 
-        /*button = (Button)findViewById(R.id.pick_icon);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PickImage.class);
-                startActivity(intent);
-            }
-        });
-*/
         image1 = findViewById(R.id.imageButton);
         image1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
