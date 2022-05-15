@@ -26,13 +26,6 @@ public class Trophy implements Serializable {
         this.name = name;
         this.description = description;
         this.pointValue = pointValue;
-        //this.imageLocation = imageLocation;
-        //this.image = ImageIO.read(new File(name + ".png"));
-    /*    try {
-            img = ImageIO.read(new File("logo.png"));
-        } catch (IOException e) {
-        }
-        redeemed = false;*/
     }
 
     public String getName() {
