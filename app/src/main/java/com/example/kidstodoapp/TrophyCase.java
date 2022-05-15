@@ -1,21 +1,16 @@
 package com.example.kidstodoapp;
-import androidx.appcompat.app.AlertDialog;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Telephony;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -38,6 +33,8 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     private Button createNewTrophy;
     private Button parentModeButton;
 
+    private Toolbar toolbar;
+
     private final int VIEW = 1;
     private final int NEW = 2;
     private final int EDIT = 3;
@@ -47,6 +44,10 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trophy_case);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("KidsToDoApp");
+        setSupportActionBar(toolbar);
 
         //Points Display
         pointsDisplay = findViewById(R.id.points_display);
@@ -156,7 +157,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
 
     @Override
     public void onEditClick(int position) {
-        Intent intent = new Intent(this, CreateToDoEntryActivity.class);
+        Intent intent = new Intent(this, CreateToDoEntryFragment.class);
         intent.putExtra("Trophy", existingTrophies.get(position));
         intent.putExtra("position", position);
         startActivityForResult(intent, EDIT_ENTRY_REQUEST);

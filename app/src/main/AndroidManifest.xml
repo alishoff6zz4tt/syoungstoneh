@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kidstodoapp">
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -11,37 +12,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DeviceTypeActivity"></activity>
         <activity android:name=".LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateToDoEntryActivity" />
         <activity
             android:name=".CreateTrophyActivity"
             android:label="@string/title_activity_create_trophy"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".PickImage" />
         <activity android:name=".TrophyActivity" />
         <activity android:name=".AddTrophy" />
         <activity android:name=".EditTrophy" />
-        <activity android:name=".TrophyCase" />
         <activity
-            android:name=".ToDoEntryActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity android:name=".MainActivity" />
+            android:name=".TrophyCase"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity
-            android:name=".ConfirmPassword"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".PhoneNumber"
-            android:parentActivityName=".MainActivity" />
     </application>
+
 </manifest>

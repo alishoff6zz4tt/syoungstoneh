@@ -1,23 +1,7 @@
-Group I and GitHub IDs:
-Tara: rammohant
-Sean: syoungstone
-Tyler: t-dunn
-Sierra: scc2758 try to commit
-Shaquan: haganssd - shaq
-
-Tara was here 
-Again
 # KidsToDoApp
-CMSC 355 class project
-
-//Tyler was here
-//
-
-Adding a commit
-This is Sean adding stuff again
-
-Hey guys I was talking to a customer and she brought up "What if a family has multiple kids sharing one device?"
-Do we want to mess with that?
-
-How is everyone feeling today?
-Meh -Sean
+ 
+ This app is a collaboration between Sierra Conner, Tyler Dunn, Shaquan Hagans, Tara Ram Mohan, and Sean Youngstone. Our goal is to create a gamified to do app to incentivize elementary-aged children learning from home to complete tasks throughout their day.
+ 
+ Parents assign point-valued tasks to their children, and children can spend accumulated points on in-app rewards ("trophies") that parents may choose to associate with real-world incentives. 
+ 
+ We utilize Google Firebase to store user data and include a password-protected parent mode so that parents and children may interact with the app using a shared device or across multiple devices.
