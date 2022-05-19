@@ -49,15 +49,16 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             nameTextView = itemView.findViewById(R.id.trophy_name);
             descriptionTextView = itemView.findViewById(R.id.trophy_description);
             pointValueTextView = itemView.findViewById(R.id.trophy_points);
+            trophyImageView = itemView.findViewById(R.id.trophy_icon);
 
             editTrophyButton = itemView.findViewById(R.id.edit_trophy_button);
-            trophyImageView = itemView.findViewById(R.id.icon_view);
 
             this.onEntryListener = onEntryListener;
             view.setOnClickListener(this);
             if (editTrophyButton != null) {
                 editTrophyButton.setOnClickListener(this);
             }
+
         }
 
         @Override
@@ -91,12 +92,15 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
         TextView nameTextView = viewHolder.nameTextView;
         TextView descriptionTextView = viewHolder.descriptionTextView;
         TextView pointValueTextView = viewHolder.pointValueTextView;
-        //viewHolder.trophyImageView.setImageResource(); //IMAGE STUFF
+        ImageView trophyImageView = viewHolder.trophyImageView;
+
 
         nameTextView.setText(trophy.getName());
         descriptionTextView.setText(trophy.getDescription());
+        //trophyImageView.setImageResource(R.drawable.trophy2); //IMAGE STUFF
+        //viewHolder.trophyImageView.setImageResource(Integer.parseInt(trophy.getImage())); //IMAGE STUFF
         //String pointString = "Buy for $" + trophy.getPoints();
-        //pointValueTextView.setText(pointString);
+        //pointValueTextView.setText(trophy.getPoints());
     }
 
     @Override

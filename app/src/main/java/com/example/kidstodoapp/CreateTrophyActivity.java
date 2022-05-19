@@ -38,6 +38,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
         final ImageButton icon2 = findViewById(R.id.icon2);
         final ImageButton icon3 = findViewById(R.id.icon3);
 
+
         final ImageView border1 = findViewById(R.id.border1);
         final ImageView border2 = findViewById(R.id.border2);
         final ImageView border3 = findViewById(R.id.border3);
@@ -50,33 +51,37 @@ public class CreateTrophyActivity extends AppCompatActivity {
         final EditText trophyNameEditText = findViewById(R.id.trophy_name_txt);
         final EditText trophyDescriptionEditText = findViewById(R.id.trophy_description_txt);
         final EditText trophyPointsEditText = findViewById(R.id.trophy_points_txt);
+        final ImageView imageView = findViewById(R.id.icon_view);
 
         icon1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                iconPath = "@drawable/trophy1";
+                iconPath = "R.drawable.trophy1";
                 border1.setVisibility(View.INVISIBLE);
                 border2.setVisibility(View.VISIBLE);
                 border3.setVisibility(View.INVISIBLE);
+                //imageView.setImageResource(R.drawable.trophy1);
             }
         });
 
         icon2.setOnTouchListener(new ButtonHighlight(icon2));
         icon2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                iconPath = "@drawable/trophy2";
+                iconPath = "R.drawable.trophy2";
                 border1.setVisibility(View.VISIBLE);
                 border2.setVisibility(View.INVISIBLE);
                 border3.setVisibility(View.INVISIBLE);
+                //imageView.setImageResource(R.drawable.trophy2);
             }
         });
 
         icon3.setOnTouchListener(new ButtonHighlight(icon3));
         icon3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                iconPath = "@drawable/trophy3";
+                iconPath = "R.drawable.trophy3";
                 border1.setVisibility(View.INVISIBLE);
                 border2.setVisibility(View.INVISIBLE);
                 border3.setVisibility(View.VISIBLE);
+                //imageView.setImageResource(R.drawable.trophy3);
             }
         });
 
@@ -86,7 +91,30 @@ public class CreateTrophyActivity extends AppCompatActivity {
             createTrophyButton.setText("Save");
             trophyNameEditText.setText(trophy.getName());
             trophyDescriptionEditText.setText(trophy.getDescription());
+            //int id = getResources().getIdentifier(trophy.getImage(), "drawable", getPackageName());
+
             trophyPointsEditText.setText(String.valueOf(trophy.getPoints()));
+
+            /*icon1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy1);
+                }
+            });
+
+            icon2.setOnTouchListener(new ButtonHighlight(icon2));
+            icon2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy2);
+                }
+            });
+
+            icon3.setOnTouchListener(new ButtonHighlight(icon3));
+            icon3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy3);
+                }
+            });*/
+
             deleteTrophyButton.setVisibility(View.VISIBLE);
         }
 
@@ -109,7 +137,6 @@ public class CreateTrophyActivity extends AppCompatActivity {
                             trophyNameEditText.getText().toString(),
                             trophyDescriptionEditText.getText().toString(),
                             points
-                            //iconPath
                     );
                     Intent result = new Intent();
                     result.putExtra("Trophy", newEntry);

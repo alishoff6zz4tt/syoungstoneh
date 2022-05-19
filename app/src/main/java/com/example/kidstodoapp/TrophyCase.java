@@ -83,6 +83,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
                 else {
                     Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
                     startActivity(intent);
+                    //createNewTrophy.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -162,6 +163,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         intent.putExtra("position", position);
         startActivityForResult(intent, EDIT_ENTRY_REQUEST);
     }
+
 }
 
 
