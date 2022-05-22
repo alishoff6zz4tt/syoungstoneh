@@ -7,63 +7,79 @@
     tools:context="com.example.kidstodoapp.TrophyActivity">
 
 
-    <TextView
-        android:id="@+id/redeem_text"
+    <CheckBox
+        android:id="@+id/redemption_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
-        android:layout_marginEnd="8dp"
-        android:text="To redeem:"
-        app:layout_constraintEnd_toStartOf="@+id/redemption_check_box"
-        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="128dp"
+        app:layout_constraintBottom_toBottomOf="@+id/icon_view"
+        app:layout_constraintStart_toEndOf="@+id/trophy_points_textview"
+        app:layout_constraintTop_toTopOf="@+id/icon_view"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/trophy_name_textview"
+        android:layout_width="133dp"
+        android:layout_height="28dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="92dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingRight="60dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/trophy_points_textview"
+        app:layout_constraintTop_toTopOf="@+id/icon_view" />
 
     <ImageView
         android:id="@+id/icon_view"
         android:layout_width="92dp"
         android:layout_height="85dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="160dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="148dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/trophy1" />
 
     <TextView
-        android:id="@+id/trophy_name_textview"
-        android:layout_width="121dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="22dp"
-        android:paddingRight="60dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/trophy_description_textview"
-        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
-
-    <TextView
         android:id="@+id/trophy_description_textview"
-        android:layout_width="158dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintEnd_toEndOf="@+id/trophy_points_textview"
-        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
+        android:layout_width="160dp"
+        android:layout_height="85dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="368dp"
+        android:gravity="center_vertical|center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/trophy_points_textview"
-        android:layout_width="187dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="144dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
+        android:layout_width="158dp"
+        android:layout_height="26dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="132dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_description_textview"
+        app:layout_constraintStart_toStartOf="@+id/trophy_description_textview"
+        app:layout_constraintTop_toTopOf="@+id/icon_view"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <CheckBox
-        android:id="@+id/redemption_check_box"
+    <TextView
+        android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
-        android:layout_marginEnd="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/trophy_points_textview"
-        app:layout_constraintTop_toBottomOf="@+id/icon_view" />
+        android:layout_marginEnd="128dp"
+        android:text="Name:  "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toBottomOf="@+id/trophy_name_textview"
+        app:layout_constraintEnd_toEndOf="@+id/trophy_name_textview"
+        app:layout_constraintTop_toTopOf="@+id/trophy_name_textview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -121,9 +121,9 @@ public class CreateTrophyActivity extends AppCompatActivity {
         createTrophyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(trophyNameEditText.getText().toString())) {
-                    Toast.makeText(CreateTrophyActivity.this,
-                            "Please give this trophy a name",
-                            Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateTrophyActivity.this,
+                                "Please give this trophy a name",
+                                Toast.LENGTH_LONG).show();
                 }
                 else {
                     int points;

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -138,11 +139,20 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
                 int position = extras.getInt("position");
-                Trophy trophy = existingTrophies.remove(position);
-                adapter.notifyItemRemoved(position);
-                trophy.setRedeemed(true);
-                archivedTrophies.add(trophy);
-                pointsEarned += trophy.getPoints();
+                Trophy trophy = existingTrophies.get(position);
+                if(pointsEarned - trophy.getPoints() < 0) {
+                    Toast toast = Toast.makeText(TrophyCase.this,
+                            "You don't have enough money to buy this trophy.\nSorry!",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else {
+                    trophy = existingTrophies.remove(position);
+                    adapter.notifyItemRemoved(position);
+                    trophy.setRedeemed(true);
+                    archivedTrophies.add(trophy);
+                    pointsEarned -= trophy.getPoints();
+                }
                 setPointsDisplay();
             }
         }

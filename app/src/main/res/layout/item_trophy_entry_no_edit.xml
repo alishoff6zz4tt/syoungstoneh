@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/trophy_name"
-        android:layout_width="71dp"
-        android:layout_height="23dp"
+        android:layout_width="203dp"
+        android:layout_height="19dp"
         android:layout_marginStart="160dp"
         android:layout_marginTop="4dp"
         android:textColor="@android:color/black"
@@ -32,8 +32,8 @@
 
     <TextView
         android:id="@+id/trophy_description"
-        android:layout_width="104dp"
-        android:layout_height="22dp"
+        android:layout_width="206dp"
+        android:layout_height="21dp"
         android:paddingBottom="16dp"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="@+id/trophy_points"
@@ -41,8 +41,8 @@
 
     <TextView
         android:id="@+id/trophy_points"
-        android:layout_width="63dp"
-        android:layout_height="16dp"
+        android:layout_width="205dp"
+        android:layout_height="19dp"
         app:layout_constraintStart_toStartOf="@+id/trophy_name"
         app:layout_constraintTop_toBottomOf="@+id/trophy_description" />
 
