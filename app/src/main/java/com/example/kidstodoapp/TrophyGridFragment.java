@@ -1,3 +1,4 @@
+/*
 package com.example.kidstodoapp;
 
 import android.content.Intent;
@@ -229,3 +230,4 @@ public class TrophyGridFragment extends Fragment implements TrophyAdapter.OnEntr
     }
 }
 }
+*/

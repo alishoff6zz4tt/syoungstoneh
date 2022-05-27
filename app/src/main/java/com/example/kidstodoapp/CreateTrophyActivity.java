@@ -91,9 +91,29 @@ public class CreateTrophyActivity extends AppCompatActivity {
             createTrophyButton.setText("Save");
             trophyNameEditText.setText(trophy.getName());
             trophyDescriptionEditText.setText(trophy.getDescription());
+            //int id = getResources().getIdentifier(trophy.getImage(), "drawable", getPackageName());
 
             trophyPointsEditText.setText(String.valueOf(trophy.getPoints()));
-            
+
+            /*icon1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy1);
+                }
+            });
+
+            icon2.setOnTouchListener(new ButtonHighlight(icon2));
+            icon2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy2);
+                }
+            });
+
+            icon3.setOnTouchListener(new ButtonHighlight(icon3));
+            icon3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy3);
+                }
+            });*/
 
             deleteTrophyButton.setVisibility(View.VISIBLE);
         }
