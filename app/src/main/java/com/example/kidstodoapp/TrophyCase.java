@@ -70,6 +70,11 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
             }
         });
 
+        if(Utility.isInParentMode()) {
+            createNewTrophy.setVisibility(View.VISIBLE);
+        } else {
+            createNewTrophy.setVisibility(View.VISIBLE);
+        }
         parentModeButton = findViewById(R.id.parentModeTC);
         parentModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +89,6 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
                 else {
                     Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
                     startActivity(intent);
-                    //createNewTrophy.setVisibility(View.VISIBLE);
                 }
             }
         });
