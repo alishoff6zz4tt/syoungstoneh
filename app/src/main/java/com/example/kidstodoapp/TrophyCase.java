@@ -65,16 +65,17 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         createNewTrophy = findViewById(R.id.add_trophy_button);
         createNewTrophy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CreateTrophyActivity.class);
-                startActivityForResult(intent, NEW_ENTRY_REQUEST);
-            }
-        });
+                if(Utility.isInParentMode()) {
+                    createNewTrophy.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(view.getContext(), CreateTrophyActivity.class);
+                    startActivityForResult(intent, NEW_ENTRY_REQUEST);
+                } else {
+                    createNewTrophy.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
+                    startActivity(intent);
+                }
+        }});
 
-        if(Utility.isInParentMode()) {
-            createNewTrophy.setVisibility(View.VISIBLE);
-        } else {
-            createNewTrophy.setVisibility(View.VISIBLE);
-        }
         parentModeButton = findViewById(R.id.parentModeTC);
         parentModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
