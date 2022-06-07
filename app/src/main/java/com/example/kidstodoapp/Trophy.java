@@ -19,7 +19,7 @@ public class Trophy implements Serializable {
     private int imageLocation;
     //private BufferedImage image;
 
-    Trophy(String name, String description, int pointValue) { //, String imageLocation
+    Trophy(String name, int pointValue) { //, String imageLocation
         this.name = name;
         this.description = description;
         this.pointValue = pointValue;

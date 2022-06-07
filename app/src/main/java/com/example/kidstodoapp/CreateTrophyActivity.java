@@ -49,7 +49,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
         deleteTrophyButton.setVisibility(View.INVISIBLE);
 
         final EditText trophyNameEditText = findViewById(R.id.trophy_name_txt);
-        final EditText trophyDescriptionEditText = findViewById(R.id.trophy_description_txt);
+        //final EditText trophyDescriptionEditText = findViewById(R.id.trophy_description_txt);
         final EditText trophyPointsEditText = findViewById(R.id.trophy_points_txt);
         final ImageView imageView = findViewById(R.id.icon_view);
 
@@ -90,7 +90,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
             Trophy trophy = (Trophy) intent.getExtras().getSerializable("Trophy");
             createTrophyButton.setText("Save");
             trophyNameEditText.setText(trophy.getName());
-            trophyDescriptionEditText.setText(trophy.getDescription());
+            //trophyDescriptionEditText.setText(trophy.getDescription());
             //int id = getResources().getIdentifier(trophy.getImage(), "drawable", getPackageName());
 
             trophyPointsEditText.setText(String.valueOf(trophy.getPoints()));
@@ -135,7 +135,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
                     }
                     Trophy newEntry = new Trophy(
                             trophyNameEditText.getText().toString(),
-                            trophyDescriptionEditText.getText().toString(),
+                            //trophyDescriptionEditText.getText().toString(),
                             points
                     );
                     Intent result = new Intent();

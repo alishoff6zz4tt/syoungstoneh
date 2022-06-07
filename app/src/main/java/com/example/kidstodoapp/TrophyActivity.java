@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +18,8 @@ public class TrophyActivity extends AppCompatActivity {
     //Fix format of linearlayout
     private Trophy mTrophy;
     private int position;
-
+    private Button cancelButton;
+    private Button buyButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,8 @@ public class TrophyActivity extends AppCompatActivity {
 
         final CheckBox redeemed = findViewById(R.id.redemption_check_box);
 
-        redeemed.setOnClickListener(new View.OnClickListener() {
+        buyButton = findViewById(R.id.buy_button);
+        buyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mTrophy.setRedeemed(redeemed.isChecked());
                 Intent result = new Intent();
@@ -45,13 +48,10 @@ public class TrophyActivity extends AppCompatActivity {
             }
         });
 
-        redeemed.setOnClickListener(new View.OnClickListener() {
+        cancelButton = findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mTrophy.setRedeemed(redeemed.isChecked());
-                Intent result = new Intent();
-                result.putExtra("position", position);
-                setResult(RESULT_OK, result);
-                finish();
+                cancel();
             }
         });
 
@@ -77,5 +77,11 @@ public class TrophyActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
 
+    }
+
+    private void cancel() {
+        Intent result = new Intent();
+        setResult(RESULT_CANCELED, result);
+        finish();
     }
 }
