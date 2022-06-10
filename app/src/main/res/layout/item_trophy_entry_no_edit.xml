@@ -15,6 +15,7 @@
         android:layout_marginStart="44dp"
         android:textColor="@android:color/black"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trophy_icon" />
 
@@ -35,6 +36,7 @@
         android:layout_marginStart="116dp"
         android:layout_marginBottom="20dp"
         android:paddingBottom="16dp"
+        android:gravity="center"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/trophy_name"
         app:layout_constraintEnd_toEndOf="@+id/trophy_icon"
@@ -47,6 +49,7 @@
         android:layout_height="19dp"
         android:layout_marginStart="119dp"
         android:layout_marginTop="16dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="@+id/trophy_icon"
         app:layout_constraintHorizontal_bias="0.013"
         app:layout_constraintStart_toStartOf="@+id/trophy_icon"

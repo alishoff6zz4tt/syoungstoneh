@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="2dp"
-        android:gravity="center_vertical|center_horizontal"
+        android:gravity="center"
         android:paddingRight="60dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
@@ -45,10 +45,8 @@
         android:id="@+id/trophy_description_textview"
         android:layout_width="160dp"
         android:layout_height="85dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_marginTop="67dp"
-        android:gravity="center_vertical|center_horizontal"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="@+id/cancel_button"
         app:layout_constraintTop_toTopOf="@+id/cancel_button" />
 
@@ -56,11 +54,9 @@
         android:id="@+id/trophy_points_textview"
         android:layout_width="118dp"
         android:layout_height="25dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_marginStart="28dp"
         android:layout_marginBottom="68dp"
-        android:gravity="center_vertical|center_horizontal"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/trophy_description_textview"
         app:layout_constraintStart_toStartOf="@+id/buy_button" />
@@ -71,6 +67,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:text="Redeem"
+
+
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/trophy_name_textview"
         app:layout_constraintEnd_toEndOf="@+id/trophy_points_textview" />
