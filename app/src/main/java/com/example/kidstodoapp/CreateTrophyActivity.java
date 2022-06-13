@@ -38,6 +38,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
         final ImageButton icon2 = findViewById(R.id.icon2);
         final ImageButton icon3 = findViewById(R.id.icon3);
 
+
         final ImageView border1 = findViewById(R.id.border1);
         final ImageView border2 = findViewById(R.id.border2);
         final ImageView border3 = findViewById(R.id.border3);
@@ -48,35 +49,39 @@ public class CreateTrophyActivity extends AppCompatActivity {
         deleteTrophyButton.setVisibility(View.INVISIBLE);
 
         final EditText trophyNameEditText = findViewById(R.id.trophy_name_txt);
-        final EditText trophyDescriptionEditText = findViewById(R.id.trophy_description_txt);
+        //final EditText trophyDescriptionEditText = findViewById(R.id.trophy_description_txt);
         final EditText trophyPointsEditText = findViewById(R.id.trophy_points_txt);
+        final ImageView imageView = findViewById(R.id.icon_view);
 
         icon1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                iconPath = "@drawable/trophy1";
+                iconPath = "R.drawable.trophy1";
                 border1.setVisibility(View.INVISIBLE);
                 border2.setVisibility(View.VISIBLE);
                 border3.setVisibility(View.INVISIBLE);
+                //imageView.setImageResource(R.drawable.trophy1);
             }
         });
 
         icon2.setOnTouchListener(new ButtonHighlight(icon2));
         icon2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                iconPath = "@drawable/trophy2";
+                iconPath = "R.drawable.trophy2";
                 border1.setVisibility(View.VISIBLE);
                 border2.setVisibility(View.INVISIBLE);
                 border3.setVisibility(View.INVISIBLE);
+                //imageView.setImageResource(R.drawable.trophy2);
             }
         });
 
         icon3.setOnTouchListener(new ButtonHighlight(icon3));
         icon3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                iconPath = "@drawable/trophy3";
+                iconPath = "R.drawable.trophy3";
                 border1.setVisibility(View.INVISIBLE);
                 border2.setVisibility(View.INVISIBLE);
                 border3.setVisibility(View.VISIBLE);
+                //imageView.setImageResource(R.drawable.trophy3);
             }
         });
 
@@ -85,17 +90,40 @@ public class CreateTrophyActivity extends AppCompatActivity {
             Trophy trophy = (Trophy) intent.getExtras().getSerializable("Trophy");
             createTrophyButton.setText("Save");
             trophyNameEditText.setText(trophy.getName());
-            trophyDescriptionEditText.setText(trophy.getDescription());
+            //trophyDescriptionEditText.setText(trophy.getDescription());
+            //int id = getResources().getIdentifier(trophy.getImage(), "drawable", getPackageName());
+
             trophyPointsEditText.setText(String.valueOf(trophy.getPoints()));
+
+            /*icon1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy1);
+                }
+            });
+
+            icon2.setOnTouchListener(new ButtonHighlight(icon2));
+            icon2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy2);
+                }
+            });
+
+            icon3.setOnTouchListener(new ButtonHighlight(icon3));
+            icon3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    imageView.setImageResource(R.drawable.trophy3);
+                }
+            });*/
+
             deleteTrophyButton.setVisibility(View.VISIBLE);
         }
 
         createTrophyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(trophyNameEditText.getText().toString())) {
-                    Toast.makeText(CreateTrophyActivity.this,
-                            "Please give this trophy a name",
-                            Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateTrophyActivity.this,
+                                "Please give this trophy a name",
+                                Toast.LENGTH_LONG).show();
                 }
                 else {
                     int points;
@@ -107,9 +135,8 @@ public class CreateTrophyActivity extends AppCompatActivity {
                     }
                     Trophy newEntry = new Trophy(
                             trophyNameEditText.getText().toString(),
-                            trophyDescriptionEditText.getText().toString(),
+                            //trophyDescriptionEditText.getText().toString(),
                             points
-                            //iconPath
                     );
                     Intent result = new Intent();
                     result.putExtra("Trophy", newEntry);
@@ -135,20 +162,20 @@ public class CreateTrophyActivity extends AppCompatActivity {
             }
         });
 
-      /*  parentModeTimeOut = new Handler();
+        parentModeTimeOut = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
                 if(Utility.isInParentMode()) {
                     Utility.setInParentMode(false);
-                    Toast.makeText(CreateToDoEntryActivity.this,
+                    Toast.makeText(CreateTrophyActivity.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);*/
+        Utility.startHandler(parentModeTimeOut, runnable);
     }
 
     private void cancel() {
@@ -157,7 +184,6 @@ public class CreateTrophyActivity extends AppCompatActivity {
         finish();
     }
 
-   /* @Override
     public void onUserInteraction() {
         super.onUserInteraction();
         Utility.stopHandler(parentModeTimeOut, runnable);
@@ -174,5 +200,5 @@ public class CreateTrophyActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         Utility.startHandler(parentModeTimeOut, runnable);
-    }*/
+    }
 }

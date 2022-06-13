@@ -1,9 +1,6 @@
 package com.example.kidstodoapp;
 
-import java.io.File;
 import java.io.Serializable;
-import java.util.Date;
-import java.lang.Object;
 /*
 import java.awt.*;
 import java.awt.event.*;
@@ -19,20 +16,13 @@ public class Trophy implements Serializable {
     private String description;
     private int pointValue;
     private boolean redeemed;
-    private String imageLocation;
+    private int imageLocation;
     //private BufferedImage image;
 
-    Trophy(String name, String description, int pointValue) { //, String imageLocation
+    Trophy(String name, int pointValue) { //, String imageLocation
         this.name = name;
         this.description = description;
         this.pointValue = pointValue;
-        //this.imageLocation = imageLocation;
-        //this.image = ImageIO.read(new File(name + ".png"));
-    /*    try {
-            img = ImageIO.read(new File("logo.png"));
-        } catch (IOException e) {
-        }
-        redeemed = false;*/
     }
 
     public String getName() {
@@ -59,11 +49,11 @@ public class Trophy implements Serializable {
         this.pointValue = pointValue;
     }
 
-    public String getImage() {
+    public int getImage() {
         return imageLocation;
     }
 
-    public void setImage(String imageLocation) {
+    public void setImage(int imageLocation) {
         this.imageLocation = imageLocation;
     }
 

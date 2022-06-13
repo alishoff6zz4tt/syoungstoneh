@@ -7,51 +7,90 @@
     tools:context="com.example.kidstodoapp.TrophyActivity">
 
 
-    <TextView
-        android:id="@+id/trophy_name_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="28dp"
-        android:paddingRight="60dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/trophy_description_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/trophy_name_textview"
-        app:layout_constraintTop_toBottomOf="@+id/trophy_name_textview" />
-
     <CheckBox
         android:id="@+id/redemption_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/cancel_button"
+        app:layout_constraintStart_toEndOf="@+id/trophy_points_textview" />
 
     <TextView
-        android:id="@+id/trophy_points_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trophy_description_textview" />
+        android:id="@+id/trophy_name_textview"
+        android:layout_width="93dp"
+        android:layout_height="37dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:paddingRight="60dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_points_textview"
+        app:layout_constraintEnd_toEndOf="@+id/trophy_points_textview" />
 
     <ImageView
         android:id="@+id/icon_view"
         android:layout_width="92dp"
         android:layout_height="85dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/trophy_name_textview"
-        app:layout_constraintTop_toTopOf="@+id/trophy_name_textview"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        android:layout_marginEnd="160dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/trophy1" />
+
+    <TextView
+        android:id="@+id/trophy_description_textview"
+        android:layout_width="160dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="67dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/cancel_button"
+        app:layout_constraintTop_toTopOf="@+id/cancel_button" />
+
+    <TextView
+        android:id="@+id/trophy_points_textview"
+        android:layout_width="118dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="68dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_description_textview"
+        app:layout_constraintStart_toStartOf="@+id/buy_button" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Redeem"
+
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_name_textview"
+        app:layout_constraintEnd_toEndOf="@+id/trophy_points_textview" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="84dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="340dp"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/buy_button"
+        android:layout_width="84dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="18dp"
+        android:text="Buy"
+        app:layout_constraintBottom_toTopOf="@+id/trophy_description_textview"
+        app:layout_constraintEnd_toStartOf="@+id/cancel_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

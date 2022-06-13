@@ -49,15 +49,16 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             nameTextView = itemView.findViewById(R.id.trophy_name);
             descriptionTextView = itemView.findViewById(R.id.trophy_description);
             pointValueTextView = itemView.findViewById(R.id.trophy_points);
+            trophyImageView = itemView.findViewById(R.id.trophy_icon);
 
             editTrophyButton = itemView.findViewById(R.id.edit_trophy_button);
-            trophyImageView = (ImageView) view.findViewById(R.id.icon_view);
 
             this.onEntryListener = onEntryListener;
             view.setOnClickListener(this);
             if (editTrophyButton != null) {
                 editTrophyButton.setOnClickListener(this);
             }
+
         }
 
         @Override
@@ -91,12 +92,15 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
         TextView nameTextView = viewHolder.nameTextView;
         TextView descriptionTextView = viewHolder.descriptionTextView;
         TextView pointValueTextView = viewHolder.pointValueTextView;
-        //viewHolder.trophyImageView.setImageResource(); //IMAGE STUFF
+        ImageView trophyImageView = viewHolder.trophyImageView;
+
 
         nameTextView.setText(trophy.getName());
         descriptionTextView.setText(trophy.getDescription());
-        String pointString = "Buy for $" + trophy.getPoints();
-        pointValueTextView.setText(pointString);
+        //trophyImageView.setImageResource(R.drawable.trophy2); //IMAGE STUFF
+        //viewHolder.trophyImageView.setImageResource(Integer.parseInt(trophy.getImage())); //IMAGE STUFF
+        //String pointString = "Buy for $" + trophy.getPoints();
+        //pointValueTextView.setText(trophy.getPoints());
     }
 
     @Override
@@ -115,68 +119,3 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
     }
 }
 
-/*
-public class TrophyAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
-
-    private String[] mData;
-    private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
-
-    // data is passed into the constructor
-    MyRecyclerViewAdapter(Context context, String[] data) {
-        this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
-    }
-
-    // inflates the cell layout from xml when needed
-    @Override
-    @NonNull
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recyclerview_item, parent, false);
-        return new ViewHolder(view);
-    }
-
-    // binds the data to the TextView in each cell
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.myTextView.setText(mData[position]);
-    }
-
-    // total number of cells
-    @Override
-    public int getItemCount() {
-        return mData.length;
-    }
-
-
-    // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            myTextView = itemView.findViewById(R.id.info_text);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-        }
-    }
-
-    // convenience method for getting data at click position
-    String getItem(int id) {
-        return mData[id];
-    }
-
-    // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
-}*/
