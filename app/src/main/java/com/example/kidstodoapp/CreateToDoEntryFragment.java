@@ -50,7 +50,6 @@ public class CreateToDoEntryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity)getActivity()).tabVisibility(true);
         View view = inflater.inflate(R.layout.fragment_create_to_do_entry, container, false);
 
         Button createEntryButton = view.findViewById(R.id.create_entry_button);

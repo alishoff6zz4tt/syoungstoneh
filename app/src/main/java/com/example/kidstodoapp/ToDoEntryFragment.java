@@ -31,7 +31,6 @@ public class ToDoEntryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity)getActivity()).tabVisibility(true);
         View view = inflater.inflate(R.layout.fragment_to_do_entry, container, false);
 
         bundle = getArguments();

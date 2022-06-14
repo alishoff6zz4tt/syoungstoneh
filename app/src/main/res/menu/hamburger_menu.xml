@@ -4,11 +4,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/ToDoListFragment"
-            android:title="Home"
+            android:title="To Do List"
             android:icon="@drawable/home"/>
+        <item
+            android:id="@+id/TrophyCase"
+            android:title="Trophy Case"
+            android:icon="@drawable/trophy"/>
     </group>
 
-    <item android:title="Profile">
+    <item
+        android:title="Profile"
+        android:iconTint="@color/textColor">
         <menu>
             <group android:checkableBehavior="single">
                 <item
@@ -31,5 +37,10 @@
             android:id="@+id/FAQ"
             android:title="FAQ"
             android:icon="@drawable/faq"/>
+
+        <item
+            android:id="@+id/settings"
+            android:title="Settings"
+            android:icon="@drawable/settings"/>
     </group>
 </menu>

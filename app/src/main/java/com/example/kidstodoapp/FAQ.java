@@ -21,7 +21,6 @@ public class FAQ extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity)getActivity()).tabVisibility(false);
         View view = inflater.inflate(R.layout.fragment_faq, container, false);
 
         faqText1 = view.findViewById(R.id.faq_entry_1_text);

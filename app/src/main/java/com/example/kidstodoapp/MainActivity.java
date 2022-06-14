@@ -14,17 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
 
     private Handler parentModeTimeOut;
     private Runnable runnable;
@@ -40,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.navigation_view);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("KidsToDoApp");
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
@@ -54,41 +50,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
         navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
 
-        tabLayout = findViewById(R.id.tab_layout);
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch(tab.getPosition()) {
-                    case 0:
-                        removeCurrentFragment();
-                        break;
-                    case 1:
-                        Intent intent = new Intent(MainActivity.this, TrophyCase.class);
-                        startActivity(intent);
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
             @Override                                             //interacts with the screen
             public void run() {
                 if (Utility.isInParentMode()  && !Utility.isParentDevice()) {
                     Utility.setInParentMode(false);
+                    removeCurrentFragment("");
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
                             "Exiting parent mode due to inactivity",
@@ -132,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else {
             navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
             navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
-            removeCurrentFragment("");
         }
         Fragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
         if(toDoListFragment != null && toDoListFragment.isVisible()) {
@@ -155,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.ToDoListFragment:
                 removeCurrentFragment();
+                break;
+            case R.id.TrophyCase:
+                Intent intent = new Intent(MainActivity.this, TrophyCase.class);
+                startActivity(intent);
                 break;
             case R.id.ConfirmPassword:
                 if(Utility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
@@ -196,6 +167,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .commit();
                 }
                 break;
+            case R.id.settings:
+                SettingsFragment settingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS");
+                if(settingsFragment == null) {
+                    removeCurrentFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new SettingsFragment(), "SETTINGS")
+                            .addToBackStack("SETTINGS")
+                            .commit();
+                }
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -210,12 +191,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FAQ faq = (FAQ) getSupportFragmentManager().findFragmentByTag("FAQ");
             ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
             CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
+            SettingsFragment settingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS");
 
             if(confirmPassword != null) {fragment = confirmPassword;}
             else if(phoneNumber != null) {fragment = phoneNumber;}
             else if(faq != null) {fragment = faq;}
             else if(toDoEntryFragment != null) {fragment = toDoEntryFragment;}
             else if(createToDoEntryFragment != null) {fragment = createToDoEntryFragment;}
+            else if(settingsFragment != null) {fragment = settingsFragment;}
 
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             getSupportFragmentManager().popBackStack();
@@ -223,34 +206,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void removeCurrentFragment(String s) {
-        ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
-        Fragment fragment = null;
-        if(toDoListFragment == null || !toDoListFragment.isVisible()) {
-            PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
-            ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
-            CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
+            ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
+            Fragment fragment = null;
+            if(toDoListFragment == null || !toDoListFragment.isVisible()) {
+                PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
+                ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
+                CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
 
-            if(phoneNumber != null) {
-                fragment = phoneNumber;
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getSupportFragmentManager().popBackStack();
+                if(phoneNumber != null) {
+                    fragment = phoneNumber;
+                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    getSupportFragmentManager().popBackStack();
+                }
+                else if(toDoEntryFragment != null) {
+                    fragment = toDoEntryFragment;
+                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    getSupportFragmentManager().popBackStack();
+                }
+                else if(createToDoEntryFragment != null) {
+                    fragment = createToDoEntryFragment;
+                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    getSupportFragmentManager().popBackStack();
+                }
             }
-            else if(toDoEntryFragment != null) {
-                fragment = toDoEntryFragment;
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getSupportFragmentManager().popBackStack();
-            }
-            else if(createToDoEntryFragment != null) {
-                fragment = createToDoEntryFragment;
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getSupportFragmentManager().popBackStack();
-            }
-        }
-    }
-
-    public void tabVisibility(Boolean bool) {
-        if(bool == true) {tabLayout.setVisibility(View.VISIBLE);}
-        else {tabLayout.setVisibility(View.GONE);}
     }
 
     public void toggleVisibility(View view) {

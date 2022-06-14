@@ -47,7 +47,6 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         setContentView(R.layout.activity_trophy_case);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("KidsToDoApp");
         setSupportActionBar(toolbar);
 
         //Points Display

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.kidstodoapp.PickImage">
+    tools:context="com.example.kidstodoapp.PickImage"
+    android:background="@color/backgroundColor">
 
 
     <ImageButton
@@ -50,6 +51,7 @@
         android:layout_marginStart="147dp"
         android:layout_marginTop="106dp"
         android:text="Select Trophy Icon"
+        android:theme="@style/TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

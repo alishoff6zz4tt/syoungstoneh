@@ -24,7 +24,6 @@ public class PhoneNumber extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity)getActivity()).tabVisibility(false);
         View view = inflater.inflate(R.layout.fragment_phone_number, container, false);
 
         phoneNumberInput = view.findViewById(R.id.phoneNumberInput);

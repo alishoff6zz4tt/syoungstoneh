@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@color/backgroundColor">
 
 
     <!-- <data>
@@ -23,6 +24,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Trophy Name"
+        android:theme="@style/EditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,6 +38,7 @@
         android:ems="10"
         android:inputType="number"
         android:text="Point Value"
+        android:theme="@style/EditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
