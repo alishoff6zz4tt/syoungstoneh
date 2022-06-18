@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +43,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     private ImageButton trophy;
     private TextView pointsDisplay;
     private Button createNewTrophy;
+    private Toolbar toolbar;
 
     private final int VIEW = 1;
     private final int NEW = 2;
@@ -52,6 +54,10 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trophy_case);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("KidsToDoApp");
+        setSupportActionBar(toolbar);
 
         //Points Display
         pointsDisplay = findViewById(R.id.points_display);
