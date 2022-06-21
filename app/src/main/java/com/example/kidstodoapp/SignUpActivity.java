@@ -93,7 +93,7 @@ public class SignUpActivity extends Activity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Utility.setPassword(password);
+                        ParentModeUtility.setPassword(password);
                         uid = mAuth.getCurrentUser().getUid();
                         DocumentReference documentReference = db.collection("users").document(uid);
                         Map<String,Object> user = new HashMap<>();

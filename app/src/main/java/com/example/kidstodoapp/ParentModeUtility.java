@@ -21,7 +21,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class Utility {
+public class ParentModeUtility {
     private static Context applicationContext;
     private static final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
     private static final String PARENT_DEVICE_FILE_NAME = "parent-device";
@@ -53,18 +53,19 @@ public class Utility {
         storePasswordHash();
     }
     public static boolean isCorrectPassword(String password) {
-        return hashPassword(password).equals(Utility.passwordHash);
+        return hashPassword(password).equals(ParentModeUtility.passwordHash);
     }
 
     public static Boolean isInParentMode() {return inParentMode;}
     public static Boolean isParentDevice() {return parentDevice;}
-    public static void setInParentMode(Boolean inParentMode) {Utility.inParentMode = inParentMode;}
+    public static void setInParentMode(Boolean inParentMode) {
+        ParentModeUtility.inParentMode = inParentMode;}
 
     public static String getPhoneNumber() {
         return phoneNumber;
     }
     public static void setPhoneNumber(String phoneNumber) {
-        Utility.phoneNumber = phoneNumber;
+        ParentModeUtility.phoneNumber = phoneNumber;
         phoneNumberSet = true;
     }
     public static Boolean isPhoneNumberSet() {

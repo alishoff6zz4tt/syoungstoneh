@@ -54,15 +54,15 @@ public class FAQ extends Activity {
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
             @Override                                             //interacts with the screen
             public void run() {
-                if(Utility.isInParentMode()) {
-                    Utility.setInParentMode(false);
+                if(ParentModeUtility.isInParentMode()) {
+                    ParentModeUtility.setInParentMode(false);
                     Toast.makeText(FAQ.this,
                             "Exiting parent mode due to inactivity",
                             Toast.LENGTH_SHORT).show();
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     public void toggleVisibility(View view) {
@@ -194,19 +194,19 @@ public class FAQ extends Activity {
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        Utility.stopHandler(parentModeTimeOut, runnable);
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Utility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 }

@@ -59,7 +59,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {                                    //For sending messages to the parent asking for help
-                if(Utility.isPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
+                if(ParentModeUtility.isPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
                 else {                                                          //If a phone number hasn't been set
                     Toast.makeText(ToDoEntryActivity.this,
                             "A Phone Number Has Not Been Added",
@@ -87,7 +87,7 @@ public class ToDoEntryActivity extends AppCompatActivity {
         String message = "Automated message from KidsToDoApp:" + "\n" + "I need help with " + title + "!";
         boolean sent = true;
         try {
-            SmsManager.getDefault().sendTextMessage(Utility.getPhoneNumber(), null, message, null, null);
+            SmsManager.getDefault().sendTextMessage(ParentModeUtility.getPhoneNumber(), null, message, null, null);
         }
         catch(Exception e) {
             Toast.makeText(ToDoEntryActivity.this,

@@ -8,10 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class PhoneNumber extends Activity {
@@ -36,8 +34,8 @@ public class PhoneNumber extends Activity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        if (Utility.isPhoneNumberSet()) {
-            phoneNumberInput.setText(Utility.getPhoneNumber());
+        if (ParentModeUtility.isPhoneNumberSet()) {
+            phoneNumberInput.setText(ParentModeUtility.getPhoneNumber());
         }
 
         enterPhoneNumber.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +62,7 @@ public class PhoneNumber extends Activity {
         runnable = new Runnable() {
             @Override
             public void run() {                                                         //This runnable is here so that if the user is timed out while in the class
-                if (Utility.isInParentMode()  && !Utility.isParentDevice()) {                                         //It will return to MainActivity
+                if (ParentModeUtility.isInParentMode()  && !ParentModeUtility.isParentDevice()) {                                         //It will return to MainActivity
                     Toast.makeText(PhoneNumber.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
@@ -72,25 +70,25 @@ public class PhoneNumber extends Activity {
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        Utility.stopHandler(parentModeTimeOut, runnable);
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Utility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 }

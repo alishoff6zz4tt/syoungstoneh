@@ -176,8 +176,8 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
         runnable = new Runnable() {                                     //Need to have a runnable here in place of the one in MainActivity
             @Override                                                   //so that this activity can be closed if tne timer runs out
             public void run() {
-                if(Utility.isInParentMode()  && !Utility.isParentDevice()) {
-                    Utility.setInParentMode(false);
+                if(ParentModeUtility.isInParentMode()  && !ParentModeUtility.isParentDevice()) {
+                    ParentModeUtility.setInParentMode(false);
                     Toast.makeText(CreateToDoEntryActivity.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
@@ -185,7 +185,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     private String getDateString(Calendar cal) {
@@ -212,19 +212,19 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        Utility.stopHandler(parentModeTimeOut, runnable);
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Utility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 }
