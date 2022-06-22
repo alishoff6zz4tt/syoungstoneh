@@ -14,9 +14,7 @@ public class LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        Context applicationContext = this.getApplicationContext();
-        ParentModeUtility.setApplicationContext(applicationContext);
-        NotificationUtility.setApplicationContext(applicationContext);
+        ParentModeUtility.setApplicationContext(this.getApplicationContext());
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -99,15 +100,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                ArrayList<ToDoEntry> completedEntriesNew =
-                        buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
-                if (completedEntriesNew.size() > completedEntries.size() && ParentModeUtility.isParentDevice()) {
-                    for (int i = completedEntries.size() ; i < completedEntriesNew.size() ; i++) {
-                        NotificationUtility.sendTaskCompletedNotification(completedEntriesNew.get(i));
-                    }
-                }
                 toDoEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("toDoEntries"));
-                completedEntries = completedEntriesNew;
+                completedEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
                 pointsEarned = (Long) snapshot.get("pointsEarned");
                 ParentModeUtility.setPhoneNumber(snapshot.getString("phoneNumber"));
                 adapter = new ToDoAdapter(toDoEntries, MainActivity.this);
@@ -134,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch(tab.getPosition()) {
+                switch (tab.getPosition()) {
                     case 0:
                         break;
                     case 1:
@@ -161,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
             @Override                                             //interacts with the screen
             public void run() {
-                if (ParentModeUtility.isInParentMode()  && !ParentModeUtility.isParentDevice()) {
+                if (ParentModeUtility.isInParentMode() && !ParentModeUtility.isParentDevice()) {
                     ParentModeUtility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
@@ -261,13 +255,12 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     }
 
     public void onParentModeChanged() {                              //When parent mode is changed
-        if(ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
+        if (ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
             addEntryButton.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
             navigationView.getMenu().findItem(R.id.login).setTitle("Child Mode");
             navigationView.getMenu().findItem(R.id.phone).setVisible(true);
-        }
-        else {
+        } else {
             addEntryButton.setVisibility(View.GONE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);
             navigationView.getMenu().findItem(R.id.login).setTitle("Parent Mode");
@@ -286,10 +279,11 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-        else {super.onBackPressed();}
     }
 
     @Override
@@ -298,14 +292,13 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             case R.id.home:
                 break;
             case R.id.login:
-                if(ParentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
+                if (ParentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
                     ParentModeUtility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
                             "Exiting parent mode",
                             Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Intent intent = new Intent(this, ConfirmPassword.class);
                     startActivity(intent);
                 }

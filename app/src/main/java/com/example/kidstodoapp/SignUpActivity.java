@@ -94,18 +94,11 @@ public class SignUpActivity extends Activity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         ParentModeUtility.setPassword(password);
-                        uid = mAuth.getCurrentUser().getUid();
-                        DocumentReference documentReference = db.collection("users").document(uid);
-                        Map<String,Object> user = new HashMap<>();
-                        user.put("phoneNumber", phone);
-                        user.put("toDoEntries", new ArrayList<ToDoEntry>());
-                        user.put("completedEntries", new ArrayList<ToDoEntry>());
-                        user.put("pointsEarned", 0);
-                        documentReference.set(user);
+                        createDbEntry(phone);
                         Toast.makeText(SignUpActivity.this,
                                 "Registration Successful",
                                 Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),DeviceTypeActivity.class));
+                        startActivity(new Intent(getApplicationContext(), DeviceTypeActivity.class));
                         finish();
                     } else {
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
@@ -123,6 +116,17 @@ public class SignUpActivity extends Activity {
             });
 
         }
+    }
+
+    private void createDbEntry(String phone) {
+        uid = mAuth.getCurrentUser().getUid();
+        DocumentReference documentReference = db.collection("users").document(uid);
+        Map<String,Object> user = new HashMap<>();
+        user.put("phoneNumber", phone);
+        user.put("toDoEntries", new ArrayList<ToDoEntry>());
+        user.put("completedEntries", new ArrayList<ToDoEntry>());
+        user.put("pointsEarned", 0);
+        documentReference.set(user);
     }
 
     @Override
