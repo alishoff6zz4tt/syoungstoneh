@@ -100,13 +100,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                toDoEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("toDoEntries"));
-                completedEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
-                pointsEarned = (Long) snapshot.get("pointsEarned");
-                ParentModeUtility.setPhoneNumber(snapshot.getString("phoneNumber"));
-                adapter = new ToDoAdapter(toDoEntries, MainActivity.this);
-                recyclerView.setAdapter(adapter);
-                setPointsDisplay();
+                updateData(snapshot);
             }
         });
 
@@ -167,6 +161,16 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         ParentModeUtility.startHandler(parentModeTimeOut, runnable);         //Starts the countdown to running the runnable
     }
 
+    private void updateData(@Nullable DocumentSnapshot snapshot) {
+        toDoEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("toDoEntries"));
+        completedEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
+        pointsEarned = (Long) snapshot.get("pointsEarned");
+        ParentModeUtility.setPhoneNumber(snapshot.getString("phoneNumber"));
+        adapter = new ToDoAdapter(toDoEntries, MainActivity.this);
+        recyclerView.setAdapter(adapter);
+        setPointsDisplay();
+    }
+
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();                                 //Whenever the user interacts with the screen, it resets the handler
@@ -194,44 +198,56 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         if (requestCode == NEW_ENTRY_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
-                ToDoEntry newToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
-                toDoEntries.add(newToDoEntry);
-                Collections.sort(toDoEntries);
-                recyclerView.setAdapter(adapter);
-                documentReference.update("toDoEntries", toDoEntries);
+                createEntry(documentReference, extras);
             }
         }
         if (requestCode == EDIT_ENTRY_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
-                int position = extras.getInt("position");
-                if (extras.getBoolean("Deleted")) {
-                    toDoEntries.remove(position);
-                    adapter.notifyItemRemoved(position);
-                } else {
-                    ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
-                    toDoEntries.set(position, changedToDoEntry);
-                    Collections.sort(toDoEntries);
-                }
-                recyclerView.setAdapter(adapter);
-                documentReference.update("toDoEntries", toDoEntries);
+                updateEntry(documentReference, extras);
             }
         }
         if (requestCode == VIEW_ENTRY_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
-                int position = extras.getInt("position");
-                ToDoEntry entry = toDoEntries.remove(position);
-                adapter.notifyItemRemoved(position);
-                entry.setCompleted(true);
-                completedEntries.add(entry);
-                pointsEarned += entry.getPointValue();
-                setPointsDisplay();
-                documentReference.update("completedEntries", completedEntries);
-                documentReference.update("toDoEntries", toDoEntries);
-                documentReference.update("pointsEarned", pointsEarned);
+                markEntryCompleted(documentReference, extras);
             }
         }
+    }
+
+    private void createEntry(DocumentReference documentReference, Bundle extras) {
+        ToDoEntry newToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
+        toDoEntries.add(newToDoEntry);
+        Collections.sort(toDoEntries);
+        recyclerView.setAdapter(adapter);
+        documentReference.update("toDoEntries", toDoEntries);
+    }
+
+    private void updateEntry(DocumentReference documentReference, Bundle extras) {
+        int position = extras.getInt("position");
+        if (extras.getBoolean("Deleted")) {
+            toDoEntries.remove(position);
+            adapter.notifyItemRemoved(position);
+        } else {
+            ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
+            toDoEntries.set(position, changedToDoEntry);
+            Collections.sort(toDoEntries);
+        }
+        recyclerView.setAdapter(adapter);
+        documentReference.update("toDoEntries", toDoEntries);
+    }
+
+    private void markEntryCompleted(DocumentReference documentReference, Bundle extras) {
+        int position = extras.getInt("position");
+        ToDoEntry entry = toDoEntries.remove(position);
+        adapter.notifyItemRemoved(position);
+        entry.setCompleted(true);
+        completedEntries.add(entry);
+        pointsEarned += entry.getPointValue();
+        setPointsDisplay();
+        documentReference.update("completedEntries", completedEntries);
+        documentReference.update("toDoEntries", toDoEntries);
+        documentReference.update("pointsEarned", pointsEarned);
     }
 
     @Override

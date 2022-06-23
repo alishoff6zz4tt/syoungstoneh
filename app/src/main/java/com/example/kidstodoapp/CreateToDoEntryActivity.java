@@ -123,37 +123,37 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
 
         createEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-            if (TextUtils.isEmpty(entryNameEditText.getText().toString())) {
-                Toast.makeText(CreateToDoEntryActivity.this,
-                        "Please give this task a name",
-                        Toast.LENGTH_SHORT).show();
-            }
-            else if (!dateSet || !timeSet) {
-                Toast.makeText(CreateToDoEntryActivity.this,
-                        "Please select a date and time",
-                        Toast.LENGTH_SHORT).show();
-            }
-            else {
-                int points;
-                if (TextUtils.isEmpty(entryPointsEditText.getText().toString())) {
-                    points = 0;
+                if (TextUtils.isEmpty(entryNameEditText.getText().toString())) {
+                    Toast.makeText(CreateToDoEntryActivity.this,
+                            "Please give this task a name",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else if (!dateSet || !timeSet) {
+                    Toast.makeText(CreateToDoEntryActivity.this,
+                            "Please select a date and time",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    points = Integer.parseInt(entryPointsEditText.getText().toString());
+                    int points;
+                    if (TextUtils.isEmpty(entryPointsEditText.getText().toString())) {
+                        points = 0;
+                    }
+                    else {
+                        points = Integer.parseInt(entryPointsEditText.getText().toString());
+                    }
+                    ToDoEntry newEntry = new ToDoEntry(
+                            entryNameEditText.getText().toString(),
+                            entryDescriptionEditText.getText().toString(),
+                            points, cal.getTimeInMillis(),
+                            getDateTimeString(cal),
+                            categorySpinner.getSelectedItem().toString()
+                    );
+                    Intent result = new Intent();
+                    result.putExtra("ToDoEntry", newEntry);
+                    result.putExtra("Deleted", false);
+                    setResult(RESULT_OK, result);
+                    finish();
                 }
-                ToDoEntry newEntry = new ToDoEntry(
-                        entryNameEditText.getText().toString(),
-                        entryDescriptionEditText.getText().toString(),
-                        points, cal.getTimeInMillis(),
-                        getDateTimeString(cal),
-                        categorySpinner.getSelectedItem().toString()
-                );
-                Intent result = new Intent();
-                result.putExtra("ToDoEntry", newEntry);
-                result.putExtra("Deleted", false);
-                setResult(RESULT_OK, result);
-                finish();
-            }
             }
         });
 
