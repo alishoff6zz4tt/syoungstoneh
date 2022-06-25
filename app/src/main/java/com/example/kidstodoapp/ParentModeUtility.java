@@ -76,7 +76,7 @@ public class ParentModeUtility {
         handler.removeCallbacks(runnable);
     }
     public static void startHandler(Handler handler, Runnable runnable) {
-        handler.postDelayed(runnable, 10000);
+        handler.postDelayed(runnable, 60000);
     }
 
     private static String hashPassword(String password) {

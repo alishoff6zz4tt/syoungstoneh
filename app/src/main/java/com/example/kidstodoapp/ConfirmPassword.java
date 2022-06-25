@@ -1,41 +1,46 @@
 package com.example.kidstodoapp;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class ConfirmPassword extends Activity {
+import androidx.fragment.app.Fragment;
+
+public class ConfirmPassword extends Fragment {
     private Button enterPassword;
     private EditText passwordInput;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm_password);
+        View view = inflater.inflate(R.layout.fragment_confirm_password, container, false);
 
-        enterPassword = findViewById(R.id.enter_button_confirm_password);
-        passwordInput = findViewById(R.id.password_confirm);
+        enterPassword = view.findViewById(R.id.enter_button_confirm_password);
+        passwordInput = view.findViewById(R.id.password_confirm);
         passwordInput.setHint("Password");
 
         enterPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(ParentModeUtility.isCorrectPassword(passwordInput.getText().toString())) {
-                    ParentModeUtility.setInParentMode(true);
-                    Toast.makeText(ConfirmPassword.this,
+                    FragmentViewModel.setInParentMode(true);
+                    Toast.makeText(ConfirmPassword.this.getContext(),
                             "Welcome",
                             Toast.LENGTH_SHORT).show();
-                    finish();
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(ConfirmPassword.this).commit();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
                 else {
-                    Toast.makeText(ConfirmPassword.this,
+                    Toast.makeText(ConfirmPassword.this.getContext(),
                             "Incorrect Password, Please Try Again",
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        return view;
     }
 }

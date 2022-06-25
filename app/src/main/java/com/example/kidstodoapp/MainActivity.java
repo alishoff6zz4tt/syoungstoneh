@@ -1,55 +1,26 @@
 package com.example.kidstodoapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Locale;
-
-public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEntryListener, NavigationView.OnNavigationItemSelectedListener {
-
-    private static ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
-    private static ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
-    private static long pointsEarned = 0;
-    private static String uid;
-
-    private final int NEW_ENTRY_REQUEST = 1;
-    private final int VIEW_ENTRY_REQUEST = 2;
-    private final int EDIT_ENTRY_REQUEST = 3;
-
-    private ToDoAdapter adapter;
-    private RecyclerView recyclerView;
-    private TextView pointsDisplay;
-    private Button addEntryButton;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -58,8 +29,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
     private Handler parentModeTimeOut;
     private Runnable runnable;
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private Fragment FAQ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,49 +51,18 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.home);
-        navigationView.getMenu().findItem(R.id.login).setTitle("Parent Mode");
-        navigationView.getMenu().findItem(R.id.phone).setVisible(false);
+        navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
+        navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
         tabLayout.setupWithViewPager(viewPager);
-
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-
-        uid = mAuth.getCurrentUser().getUid();
-
-        pointsDisplay = findViewById(R.id.points_display);
-        adapter = new ToDoAdapter(toDoEntries, this);
-
-        final DocumentReference documentReference = db.collection("users").document(uid);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                updateData(snapshot);
-            }
-        });
-
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        setPointsDisplay();
-
-        addEntryButton = findViewById(R.id.add_entry_button);
-
-        addEntryButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CreateToDoEntryActivity.class);
-                startActivityForResult(intent, NEW_ENTRY_REQUEST);
-            }
-        });
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        removeCurrentFragment();
                         break;
                     case 1:
                         Intent intent = new Intent(MainActivity.this, TrophyCase.class);
@@ -143,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             }
         });
 
-        addEntryButton.setVisibility(View.GONE);
-
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
             @Override                                             //interacts with the screen
@@ -159,16 +96,11 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
             }
         };
         ParentModeUtility.startHandler(parentModeTimeOut, runnable);         //Starts the countdown to running the runnable
-    }
 
-    private void updateData(@Nullable DocumentSnapshot snapshot) {
-        toDoEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("toDoEntries"));
-        completedEntries = buildToDoEntries((ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
-        pointsEarned = (Long) snapshot.get("pointsEarned");
-        ParentModeUtility.setPhoneNumber(snapshot.getString("phoneNumber"));
-        adapter = new ToDoAdapter(toDoEntries, MainActivity.this);
-        recyclerView.setAdapter(adapter);
-        setPointsDisplay();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, new ToDoListFragment(), "TO_DO_LIST")
+                .addToBackStack("TO_DO_LIST")                      //addToBackStack, so when any fragments replace it, and the user presses the back button
+                .commit();                                         //they return to this fragment
     }
 
     @Override
@@ -191,144 +123,131 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.OnEnt
         onParentModeChanged();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
-        final DocumentReference documentReference = db.collection("users").document(uid);
-        super.onActivityResult(requestCode, resultCode, result);
-        if (requestCode == NEW_ENTRY_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                createEntry(documentReference, extras);
-            }
-        }
-        if (requestCode == EDIT_ENTRY_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                updateEntry(documentReference, extras);
-            }
-        }
-        if (requestCode == VIEW_ENTRY_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                markEntryCompleted(documentReference, extras);
-            }
-        }
-    }
-
-    private void createEntry(DocumentReference documentReference, Bundle extras) {
-        ToDoEntry newToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
-        toDoEntries.add(newToDoEntry);
-        Collections.sort(toDoEntries);
-        recyclerView.setAdapter(adapter);
-        documentReference.update("toDoEntries", toDoEntries);
-    }
-
-    private void updateEntry(DocumentReference documentReference, Bundle extras) {
-        int position = extras.getInt("position");
-        if (extras.getBoolean("Deleted")) {
-            toDoEntries.remove(position);
-            adapter.notifyItemRemoved(position);
-        } else {
-            ToDoEntry changedToDoEntry = (ToDoEntry) extras.getSerializable("ToDoEntry");
-            toDoEntries.set(position, changedToDoEntry);
-            Collections.sort(toDoEntries);
-        }
-        recyclerView.setAdapter(adapter);
-        documentReference.update("toDoEntries", toDoEntries);
-    }
-
-    private void markEntryCompleted(DocumentReference documentReference, Bundle extras) {
-        int position = extras.getInt("position");
-        ToDoEntry entry = toDoEntries.remove(position);
-        adapter.notifyItemRemoved(position);
-        entry.setCompleted(true);
-        completedEntries.add(entry);
-        pointsEarned += entry.getPointValue();
-        setPointsDisplay();
-        documentReference.update("completedEntries", completedEntries);
-        documentReference.update("toDoEntries", toDoEntries);
-        documentReference.update("pointsEarned", pointsEarned);
-    }
-
-    @Override
-    public void onEntryClick(int position) {
-        Intent intent = new Intent(this, ToDoEntryActivity.class);
-        intent.putExtra("ToDoEntry", toDoEntries.get(position));
-        intent.putExtra("position", position);
-        startActivityForResult(intent, VIEW_ENTRY_REQUEST);
-    }
-
-    @Override
-    public void onEditClick(int position) {
-        Intent intent = new Intent(this, CreateToDoEntryActivity.class);
-        intent.putExtra("ToDoEntry", toDoEntries.get(position));
-        intent.putExtra("position", position);
-        startActivityForResult(intent, EDIT_ENTRY_REQUEST);
-    }
-
-    public void setPointsDisplay() {
-        pointsDisplay.setText(String.format(Locale.US, "$%d", pointsEarned));
-    }
-
     public void onParentModeChanged() {                              //When parent mode is changed
-        if (ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
-            addEntryButton.setVisibility(View.VISIBLE);
-            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
-            navigationView.getMenu().findItem(R.id.login).setTitle("Child Mode");
-            navigationView.getMenu().findItem(R.id.phone).setVisible(true);
-        } else {
-            addEntryButton.setVisibility(View.GONE);
-            adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);
-            navigationView.getMenu().findItem(R.id.login).setTitle("Parent Mode");
-            navigationView.getMenu().findItem(R.id.phone).setVisible(false);
+        if(ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
+            navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Child Mode");
+            navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(true);
         }
-        recyclerView.setAdapter(adapter);
-    }
-
-    public ArrayList<ToDoEntry> buildToDoEntries(ArrayList<HashMap<String, Object>> list) {
-        ArrayList<ToDoEntry> arrayList = new ArrayList<>();
-        for (HashMap<String, Object> map : list) {
-            arrayList.add(ToDoEntry.buildToDoEntry(map));
+        else {
+            navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
+            navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
+            removeCurrentFragment("");
         }
-        return arrayList;
+        Fragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
+        if(toDoListFragment != null && toDoListFragment.isVisible()) {
+            ((com.example.kidstodoapp.ToDoListFragment) toDoListFragment).onParentModeChanged();
+        }
     }
 
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        }
+        else if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            removeCurrentFragment();        //Removes the current fragment as long as it is not ToDoListFragment
         }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home:
+            case R.id.ToDoListFragment:
+                removeCurrentFragment();
                 break;
-            case R.id.login:
-                if (ParentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
+            case R.id.ConfirmPassword:
+                if(ParentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
                     ParentModeUtility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
                             "Exiting parent mode",
                             Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(this, ConfirmPassword.class);
-                    startActivity(intent);
+                }
+                else {
+                    ConfirmPassword confirmPassword = (ConfirmPassword) getSupportFragmentManager().findFragmentByTag("CONFIRM_PASSWORD");
+                    if(confirmPassword == null) {
+                        removeCurrentFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new ConfirmPassword(), "CONFIRM_PASSWORD")
+                                .addToBackStack("CONFIRM_PASSWORD")
+                                .commit();
+                    }
                 }
                 break;
-            case R.id.phone:
-                Intent intent = new Intent(this, PhoneNumber.class);
-                startActivity(intent);
+            case R.id.PhoneNumber:
+                PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
+                if(phoneNumber == null) {
+                    removeCurrentFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new PhoneNumber(),"PHONE_NUMBER")
+                            .addToBackStack("PHONE_NUMBER")
+                            .commit();
+                }
                 break;
-            case R.id.faq:
-                Intent intent1 = new Intent(this, FAQ.class);
-                startActivity(intent1);
+            case R.id.FAQ:
+                FAQ faq = (FAQ) getSupportFragmentManager().findFragmentByTag("FAQ");
+                if(faq == null) {
+                    FAQ = new FAQ();
+                    removeCurrentFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, FAQ, "FAQ")
+                            .addToBackStack("FAQ")
+                            .commit();
+                }
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void removeCurrentFragment() {
+        ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
+        Fragment fragment = null;
+        if(toDoListFragment == null || !toDoListFragment.isVisible()) {
+            ConfirmPassword confirmPassword = (ConfirmPassword) getSupportFragmentManager().findFragmentByTag("CONFIRM_PASSWORD");
+            PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
+            FAQ faq = (FAQ) getSupportFragmentManager().findFragmentByTag("FAQ");
+            ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
+            CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
+
+            if(confirmPassword != null) {fragment = confirmPassword;}
+            else if(phoneNumber != null) {fragment = phoneNumber;}
+            else if(faq != null) {fragment = faq;}
+            else if(toDoEntryFragment != null) {fragment = toDoEntryFragment;}
+            else if(createToDoEntryFragment != null) {fragment = createToDoEntryFragment;}
+
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    public void removeCurrentFragment(String s) {
+        ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
+        Fragment fragment = null;
+        if(toDoListFragment == null || !toDoListFragment.isVisible()) {
+            PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
+            ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
+            CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
+
+            if(phoneNumber != null) {
+                fragment = phoneNumber;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
+            }
+            else if(toDoEntryFragment != null) {
+                fragment = toDoEntryFragment;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
+            }
+            else if(createToDoEntryFragment != null) {
+                fragment = createToDoEntryFragment;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
+            }
+        }
+    }
+
+    public void toggleVisibility(View view) {
+        ((com.example.kidstodoapp.FAQ) FAQ).toggleVisibility(view);
     }
 }

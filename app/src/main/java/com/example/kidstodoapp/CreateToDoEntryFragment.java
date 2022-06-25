@@ -1,14 +1,18 @@
+//Need to pass the bundle to ToDoListFragment
+//So instead of just calling onBackPressed
+//Need to also commit ToDoListFragment
+
 package com.example.kidstodoapp;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,7 +25,10 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class CreateToDoEntryActivity extends AppCompatActivity {
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
+public class CreateToDoEntryFragment extends Fragment {
 
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
@@ -30,32 +37,31 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
     private boolean dateSet = false;
     private boolean timeSet = false;
 
-    private Handler parentModeTimeOut;
-    private Runnable runnable;
+    private Bundle bundle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_to_do_entry);
+        View view = inflater.inflate(R.layout.fragment_create_to_do_entry, container, false);
 
-        Button createEntryButton = findViewById(R.id.create_entry_button);
-        Button cancelEntryButton = findViewById(R.id.cancel_entry_button);
-        Button deleteEntryButton = findViewById(R.id.delete_entry_button);
+        Button createEntryButton = view.findViewById(R.id.create_entry_button);
+        Button cancelEntryButton = view.findViewById(R.id.cancel_entry_button);
+        Button deleteEntryButton = view.findViewById(R.id.delete_entry_button);
 
         deleteEntryButton.setVisibility(View.INVISIBLE);
 
-        final Spinner categorySpinner = findViewById(R.id.category_spinner);
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, ToDoEntry.getCategories());
+        final Spinner categorySpinner = view.findViewById(R.id.category_spinner);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(
+                getContext(), android.R.layout.simple_spinner_item, ToDoEntry.getCategories());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
-        final TextView entryDateTextView = findViewById(R.id.edit_date_textview);
-        final TextView entryTimeTextView = findViewById(R.id.edit_time_textview);
+        final TextView entryDateTextView = view.findViewById(R.id.edit_date_textview);
+        final TextView entryTimeTextView = view.findViewById(R.id.edit_time_textview);
 
-        final EditText entryNameEditText = findViewById(R.id.entry_name_txt);
-        final EditText entryDescriptionEditText = findViewById(R.id.entry_description_txt);
-        final EditText entryPointsEditText = findViewById(R.id.entry_points_txt);
+        final EditText entryNameEditText = view.findViewById(R.id.entry_name_txt);
+        final EditText entryDescriptionEditText = view.findViewById(R.id.entry_description_txt);
+        final EditText entryPointsEditText = view.findViewById(R.id.entry_points_txt);
 
         entryDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +71,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        CreateToDoEntryActivity.this,
+                        CreateToDoEntryFragment.this.getContext(),
                         onDateSetListener, year, month, day);
                 datePickerDialog.show();
             }
@@ -78,7 +84,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 int minutes = cal.get(Calendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        CreateToDoEntryActivity.this,
+                        CreateToDoEntryFragment.this.getContext(),
                         onTimeSetListener, hour, minutes, false);
                 timePickerDialog.show();
             }
@@ -105,9 +111,9 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
             }
         };
 
-        Intent intent = getIntent();
-        if(intent.hasExtra("ToDoEntry")) {
-            ToDoEntry toDoEntry = (ToDoEntry) intent.getExtras().getSerializable("ToDoEntry");
+        bundle = getArguments();
+        if(bundle.getSerializable("ToDoEntry") != null) {
+            ToDoEntry toDoEntry = (ToDoEntry) bundle.getSerializable("ToDoEntry");
             dateSet = true;
             timeSet = true;
             cal.setTimeInMillis(toDoEntry.getDateTimeMillis());
@@ -124,12 +130,12 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
         createEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(entryNameEditText.getText().toString())) {
-                    Toast.makeText(CreateToDoEntryActivity.this,
+                    Toast.makeText(CreateToDoEntryFragment.this.getContext(),
                             "Please give this task a name",
                             Toast.LENGTH_SHORT).show();
                 }
                 else if (!dateSet || !timeSet) {
-                    Toast.makeText(CreateToDoEntryActivity.this,
+                    Toast.makeText(CreateToDoEntryFragment.this.getContext(),
                             "Please select a date and time",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -139,7 +145,11 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                         points = 0;
                     }
                     else {
-                        points = Integer.parseInt(entryPointsEditText.getText().toString());
+                        try {
+                            points = Integer.parseInt(entryPointsEditText.getText().toString());
+                        } catch (NumberFormatException e) {
+                            points = 0;
+                        }
                     }
                     ToDoEntry newEntry = new ToDoEntry(
                             entryNameEditText.getText().toString(),
@@ -148,21 +158,23 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                             getDateTimeString(cal),
                             categorySpinner.getSelectedItem().toString()
                     );
-                    Intent result = new Intent();
-                    result.putExtra("ToDoEntry", newEntry);
-                    result.putExtra("Deleted", false);
-                    setResult(RESULT_OK, result);
-                    finish();
+                    bundle.putSerializable("ToDoEntry", newEntry);
+                    bundle.putBoolean("Deleted", false);
+                    bundle.putInt("resultCode", RESULT_OK);
+                    FragmentViewModel.setReturnBundle(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         });
 
         deleteEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent result = new Intent();
-                result.putExtra("Deleted", true);
-                setResult(RESULT_OK, result);
-                finish();
+                bundle.putBoolean("Deleted", true);
+                bundle.putInt("resultCode", RESULT_OK);
+                FragmentViewModel.setReturnBundle(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
@@ -171,21 +183,7 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
                 cancel();
             }
         });
-
-        parentModeTimeOut = new Handler();
-        runnable = new Runnable() {                                     //Need to have a runnable here in place of the one in MainActivity
-            @Override                                                   //so that this activity can be closed if tne timer runs out
-            public void run() {
-                if(ParentModeUtility.isInParentMode()  && !ParentModeUtility.isParentDevice()) {
-                    ParentModeUtility.setInParentMode(false);
-                    Toast.makeText(CreateToDoEntryActivity.this,
-                            "Logged Out Due to Inactivity",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-        };
-        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
+        return view;
     }
 
     private String getDateString(Calendar cal) {
@@ -204,27 +202,9 @@ public class CreateToDoEntryActivity extends AppCompatActivity {
     }
 
     private void cancel() {
-        Intent result = new Intent();
-        setResult(RESULT_CANCELED, result);
-        finish();
-    }
-
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
-        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
+        bundle.putInt("resultCode", RESULT_CANCELED);
+        FragmentViewModel.setReturnBundle(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }
