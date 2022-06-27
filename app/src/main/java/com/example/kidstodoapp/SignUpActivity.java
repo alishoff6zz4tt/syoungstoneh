@@ -126,6 +126,7 @@ public class SignUpActivity extends Activity {
         user.put("toDoEntries", new ArrayList<ToDoEntry>());
         user.put("completedEntries", new ArrayList<ToDoEntry>());
         user.put("pointsEarned", 0);
+        user.put("sessionIdentifierLastChanged", 0);
         documentReference.set(user);
     }
 

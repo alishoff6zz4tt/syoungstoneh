@@ -26,10 +26,8 @@ public class ParentModeUtility {
     private static final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
     private static final String PARENT_DEVICE_FILE_NAME = "parent-device";
     private static String passwordHash;
-    private static String phoneNumber;
     private static Boolean parentDevice = false;
     private static Boolean inParentMode = false;
-    private static Boolean phoneNumberSet = false;
 
     public static void setApplicationContext(Context context) {
         applicationContext = context;
@@ -60,17 +58,6 @@ public class ParentModeUtility {
     public static Boolean isParentDevice() {return parentDevice;}
     public static void setInParentMode(Boolean inParentMode) {
         ParentModeUtility.inParentMode = inParentMode;}
-
-    public static String getPhoneNumber() {
-        return phoneNumber;
-    }
-    public static void setPhoneNumber(String phoneNumber) {
-        ParentModeUtility.phoneNumber = phoneNumber;
-        phoneNumberSet = true;
-    }
-    public static Boolean isPhoneNumberSet() {
-        return phoneNumberSet;
-    }
 
     public static void stopHandler(Handler handler, Runnable runnable) {
         handler.removeCallbacks(runnable);

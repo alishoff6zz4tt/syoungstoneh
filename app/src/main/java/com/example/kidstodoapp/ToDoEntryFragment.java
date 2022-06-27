@@ -22,8 +22,10 @@ import static android.app.Activity.RESULT_OK;
 
 public class ToDoEntryFragment extends Fragment {
 
-    private ToDoEntry mToDoEntry;
+    private DataModel model;
+
     private int position;
+    private ToDoEntry mToDoEntry;
     private Bundle bundle;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
@@ -33,10 +35,12 @@ public class ToDoEntryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_to_do_entry, container, false);
 
+        model = DataModel.getInstance();
+
         bundle = getArguments();
 
-        this.mToDoEntry = (ToDoEntry) bundle.getSerializable("ToDoEntry");
-        this.position = bundle.getInt("position");
+        position = (bundle != null ? bundle.getInt("position") : 0);
+        mToDoEntry = model.getToDoEntries().get(position);
 
         TextView categoryTextView = view.findViewById(R.id.category_textview);
         final TextView nameTextView = view.findViewById(R.id.entry_name_textview);
@@ -46,15 +50,17 @@ public class ToDoEntryFragment extends Fragment {
         final CheckBox completionCheckBox = view.findViewById(R.id.completion_check_box);
         ImageButton sms = view.findViewById(R.id.sms);
 
+        if (ParentModeUtility.isInParentMode()) {
+            sms.setVisibility(View.INVISIBLE);
+        }
+
         completionCheckBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mToDoEntry.setCompleted(completionCheckBox.isChecked());
-                bundle.putInt("position", position);
-                bundle.putInt("resultCode", RESULT_OK);
-                FragmentViewModel.setReturnBundle(bundle);
+                if (completionCheckBox.isChecked()) {
+                    model.completeToDoEntry(position);
+                }
                 getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
                 getActivity().getSupportFragmentManager().popBackStack();
-
             }
         });
 
@@ -63,7 +69,7 @@ public class ToDoEntryFragment extends Fragment {
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {                                    //For sending messages to the parent asking for help
-                if(ParentModeUtility.isPhoneNumberSet()) {smsDialog(nameTextView.getText().toString());}
+                if(!model.getPhoneNumber().equals("")) {smsDialog(nameTextView.getText().toString());}
                 else {                                                          //If a phone number hasn't been set
                     Toast.makeText(ToDoEntryFragment.this.getContext(),
                             "A Phone Number Has Not Been Added",
@@ -88,7 +94,7 @@ public class ToDoEntryFragment extends Fragment {
         String message = "Automated message from KidsToDoApp:" + "\n" + "I need help with " + title + "!";
         boolean sent = true;
         try {
-            SmsManager.getDefault().sendTextMessage(ParentModeUtility.getPhoneNumber(), null, message, null, null);
+            SmsManager.getDefault().sendTextMessage(model.getPhoneNumber(), null, message, null, null);
         }
         catch(Exception e) {
             Toast.makeText(ToDoEntryFragment.this.getContext(),

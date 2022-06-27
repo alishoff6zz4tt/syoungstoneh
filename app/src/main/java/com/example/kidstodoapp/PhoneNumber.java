@@ -8,19 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import androidx.fragment.app.Fragment;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class PhoneNumber extends Fragment {
     private EditText phoneNumberInput;
-    private Button enterPhoneNumber;
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private DataModel model;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,24 +21,18 @@ public class PhoneNumber extends Fragment {
         View view = inflater.inflate(R.layout.fragment_phone_number, container, false);
 
         phoneNumberInput = view.findViewById(R.id.phoneNumberInput);
-        enterPhoneNumber = view.findViewById(R.id.enterPhoneNumber);
-        phoneNumberInput.setHint("111-222-3333");
+        Button enterPhoneNumber = view.findViewById(R.id.enterPhoneNumber);
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        model = DataModel.getInstance();
 
-        if (ParentModeUtility.isPhoneNumberSet()) {
-            phoneNumberInput.setText(ParentModeUtility.getPhoneNumber());
-        }
+        phoneNumberInput.setText(model.getPhoneNumber());
 
         enterPhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String numberString = phoneNumberInput.getText().toString().replaceAll("\\D+","");
                 if (numberString.length() == 10 || numberString.length() == 11) {
-                    String uid = mAuth.getCurrentUser().getUid();
-                    DocumentReference documentReference = db.collection("users").document(uid);
-                    documentReference.update("phoneNumber", numberString);
+                    model.updatePhoneNumber(numberString);
                     Toast.makeText(PhoneNumber.this.getContext(),
                             "Phone Number Updated",
                             Toast.LENGTH_SHORT).show();
