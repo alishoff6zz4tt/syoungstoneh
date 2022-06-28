@@ -1,28 +1,31 @@
+/*
 package com.example.kidstodoapp;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.view.Gravity;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.ImageButton;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
+        import androidx.appcompat.widget.Toolbar;
 
-import java.util.ArrayList;
-import java.util.Locale;
+        import java.util.ArrayList;
+        import java.util.Locale;
 
-public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEntryListener  {
+public class RedeemedTrophyCase extends AppCompatActivity implements TrophyAdapter.OnEntryListener  {
 
     private static ArrayList<Trophy> existingTrophies = new ArrayList<>();
     private static ArrayList<Trophy> archivedTrophies = new ArrayList<>();
 
     private static int pointsEarned = 0;
-    private TrophyAdapter adapter;
+    private TrophyAdapter adapter;*/
+/**//*
+
     private RecyclerView recyclerView;
 
     private final int NEW_ENTRY_REQUEST = 1;
@@ -65,17 +68,23 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         createNewTrophy = findViewById(R.id.add_trophy_button);
         createNewTrophy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                if(Utility.isInParentMode()) {
+                    createNewTrophy.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(view.getContext(), CreateTrophyActivity.class);
                     startActivityForResult(intent, NEW_ENTRY_REQUEST);
-
-        }});
+                } else {
+                    createNewTrophy.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(view.getContext(), ConfirmPassword.class);
+                    startActivity(intent);
+                }
+            }});
 
         parentModeButton = findViewById(R.id.parentModeTC);
         parentModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ParentModeUtility.isInParentMode()) {
-                    ParentModeUtility.setInParentMode(false);
+                if(Utility.isInParentMode()) {
+                    Utility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(TrophyCase.this,
                             "Exiting parent mode",
@@ -95,7 +104,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     }
 
     public void onParentModeChanged() {
-        if(ParentModeUtility.isInParentMode()) {
+        if(Utility.isInParentMode()) {
             createNewTrophy.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(TrophyAdapter.ITEM_TYPE_EDIT);
             parentModeButton.setText(getResources().getString(R.string.child));
@@ -167,7 +176,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
 
     @Override
     public void onEditClick(int position) {
-        Intent intent = new Intent(this, CreateTrophyActivity.class);
+        Intent intent = new Intent(this, CreateToDoEntryFragment.class);
         intent.putExtra("Trophy", existingTrophies.get(position));
         intent.putExtra("position", position);
         startActivityForResult(intent, EDIT_ENTRY_REQUEST);
@@ -178,3 +187,4 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
 
 
 
+*/
