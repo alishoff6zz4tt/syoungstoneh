@@ -88,6 +88,7 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
     public void onEntryClick(int position) {
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
+        bundle.putBoolean("completed", false);
         ToDoEntryFragment toDoEntryFragment = new ToDoEntryFragment();
         toDoEntryFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction()

@@ -94,6 +94,12 @@ public class DataModel extends Observable {
         updateFirebase();
     }
 
+    public void uncompleteToDoEntry(int position) {
+        ToDoEntry entry = completedEntries.remove(position);
+        entry.setCompleted(false);
+        addToDoEntry(entry);
+    }
+
     public void confirmCompleted(int position) {
         ToDoEntry entry = completedEntries.remove(position);
         pointsEarned += entry.getPointValue();

@@ -13,6 +13,7 @@ import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,8 +26,7 @@ public class ToDoEntryFragment extends Fragment {
     private DataModel model;
 
     private int position;
-    private ToDoEntry mToDoEntry;
-    private Bundle bundle;
+    private boolean completed;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
 
@@ -37,10 +37,17 @@ public class ToDoEntryFragment extends Fragment {
 
         model = DataModel.getInstance();
 
-        bundle = getArguments();
+        Bundle bundle = getArguments();
 
         position = (bundle != null ? bundle.getInt("position") : 0);
-        mToDoEntry = model.getToDoEntries().get(position);
+        completed = (bundle != null && bundle.getBoolean("completed"));
+
+        ToDoEntry mToDoEntry;
+        if (completed) {
+            mToDoEntry = model.getCompletedEntries().get(position);
+        } else {
+            mToDoEntry = model.getToDoEntries().get(position);
+        }
 
         TextView categoryTextView = view.findViewById(R.id.category_textview);
         final TextView nameTextView = view.findViewById(R.id.entry_name_textview);
@@ -49,22 +56,36 @@ public class ToDoEntryFragment extends Fragment {
         TextView pointsTextView = view.findViewById(R.id.entry_points_textview);
         final CheckBox completionCheckBox = view.findViewById(R.id.completion_check_box);
         ImageButton sms = view.findViewById(R.id.sms);
+        Button confirmCompletedButton = view.findViewById(R.id.confirm_completed_button);
 
-        if (ParentModeUtility.isInParentMode()) {
-            sms.setVisibility(View.INVISIBLE);
+        categoryTextView.setText(mToDoEntry.getCategory());
+        nameTextView.setText(mToDoEntry.getEntryName());
+        descriptionTextView.setText(mToDoEntry.getDescription());
+        dateTimeTextView.setText(mToDoEntry.getDateTimeString());
+        String points = "$" + mToDoEntry.getPointValue();
+        pointsTextView.setText(points);
+        completionCheckBox.setChecked(completed);
+
+        if (completed) {
+            sms.setVisibility(View.GONE);
+            confirmCompletedButton.setVisibility(View.VISIBLE);
+        }
+        else if (ParentModeUtility.isInParentMode()) {
+            sms.setVisibility(View.GONE);
         }
 
         completionCheckBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (completionCheckBox.isChecked()) {
+                if (!completed && completionCheckBox.isChecked()) {
                     model.completeToDoEntry(position);
+                }
+                else if (completed && !completionCheckBox.isChecked()) {
+                    model.uncompleteToDoEntry(position);
                 }
                 getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-
-        categoryTextView.setText(mToDoEntry.getCategory());
 
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +99,14 @@ public class ToDoEntryFragment extends Fragment {
             }
         });
 
-        nameTextView.setText(mToDoEntry.getEntryName());
-        descriptionTextView.setText(mToDoEntry.getDescription());
-        dateTimeTextView.setText(mToDoEntry.getDateTimeString());
-        String points = "$" + mToDoEntry.getPointValue();
-        pointsTextView.setText(points);
-
-        completionCheckBox.setChecked(mToDoEntry.isCompleted());
+        confirmCompletedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                model.confirmCompleted(position);
+                getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
 
         return view;
     }

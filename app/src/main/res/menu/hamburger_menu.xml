@@ -6,6 +6,10 @@
             android:id="@+id/ToDoListFragment"
             android:title="Home"
             android:icon="@drawable/home"/>
+        <item
+            android:id="@+id/ConfirmCompleted"
+            android:title="Completed Tasks"
+            android:icon="@drawable/completed"/>
     </group>
 
     <item android:title="Profile">
@@ -20,6 +24,7 @@
                     android:id="@+id/PhoneNumber"
                     android:title="Phone Number"
                     android:icon="@drawable/phone"/>
+
             </group>
         </menu>
     </item>
