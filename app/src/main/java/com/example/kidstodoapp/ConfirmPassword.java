@@ -26,8 +26,8 @@ public class ConfirmPassword extends Fragment {
         enterPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Utility.isCorrectPassword(passwordInput.getText().toString())) {
-                    Utility.setInParentMode(true);
+                if(ParentModeUtility.isCorrectPassword(passwordInput.getText().toString())) {
+                    ParentModeUtility.setInParentMode(true);
                     Toast.makeText(ConfirmPassword.this.getContext(),
                             "Welcome",
                             Toast.LENGTH_SHORT).show();

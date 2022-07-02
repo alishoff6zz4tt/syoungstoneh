@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
@@ -21,7 +22,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private Toolbar toolbar;
 
     private Handler parentModeTimeOut;
     private Runnable runnable;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.home);
         navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
         navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
+        navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(false);
 
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
             @Override                                             //interacts with the screen
             public void run() {
-                if (Utility.isInParentMode()  && !Utility.isParentDevice()) {
-                    Utility.setInParentMode(false);
-                    removeCurrentFragment("");
+                if (ParentModeUtility.isInParentMode() && !ParentModeUtility.isParentDevice()) {
+                    ParentModeUtility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
                             "Exiting parent mode due to inactivity",
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);         //Starts the countdown to running the runnable
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);         //Starts the countdown to running the runnable
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, new ToDoListFragment(), "TO_DO_LIST")
@@ -75,31 +75,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();                                 //Whenever the user interacts with the screen, it resets the handler
-        Utility.stopHandler(parentModeTimeOut, runnable);
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();                                           //Whenever the user leaves MainActivity, it stops the handler
-        Utility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onResume() {
         super.onResume();                                          //When the user returns to MainActivity, resumes the handler
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
         onParentModeChanged();
     }
 
     public void onParentModeChanged() {                              //When parent mode is changed
-        if(Utility.isInParentMode()) {                               //Set the visibility and views accordingly
+        if(ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
             navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Child Mode");
             navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(true);
+            navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(true);
         }
         else {
             navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
             navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
+            navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(false);
+            removeCurrentFragment("");
         }
         Fragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
         if(toDoListFragment != null && toDoListFragment.isVisible()) {
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
@@ -128,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.ConfirmPassword:
-                if(Utility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
-                    Utility.setInParentMode(false);
+                if(ParentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
+                    ParentModeUtility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(MainActivity.this,
                             "Exiting parent mode",
@@ -153,6 +156,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, new PhoneNumber(),"PHONE_NUMBER")
                             .addToBackStack("PHONE_NUMBER")
+                            .commit();
+                }
+                break;
+            case R.id.ConfirmCompleted:
+                CompletedListFragment completedList = (CompletedListFragment) getSupportFragmentManager().findFragmentByTag("CONFIRM_COMPLETED");
+                if(completedList == null) {
+                    removeCurrentFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new CompletedListFragment(),"CONFIRM_COMPLETED")
+                            .addToBackStack("CONFIRM_COMPLETED")
                             .commit();
                 }
                 break;
@@ -188,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(toDoListFragment == null || !toDoListFragment.isVisible()) {
             ConfirmPassword confirmPassword = (ConfirmPassword) getSupportFragmentManager().findFragmentByTag("CONFIRM_PASSWORD");
             PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
+            CompletedListFragment completedList = (CompletedListFragment) getSupportFragmentManager().findFragmentByTag("CONFIRM_COMPLETED");
             FAQ faq = (FAQ) getSupportFragmentManager().findFragmentByTag("FAQ");
             ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
             CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
@@ -195,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if(confirmPassword != null) {fragment = confirmPassword;}
             else if(phoneNumber != null) {fragment = phoneNumber;}
+            else if(completedList != null) {fragment = completedList;}
             else if(faq != null) {fragment = faq;}
             else if(toDoEntryFragment != null) {fragment = toDoEntryFragment;}
             else if(createToDoEntryFragment != null) {fragment = createToDoEntryFragment;}
@@ -206,29 +221,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void removeCurrentFragment(String s) {
-            ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
-            Fragment fragment = null;
-            if(toDoListFragment == null || !toDoListFragment.isVisible()) {
-                PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
-                ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
-                CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
+        ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
+        Fragment fragment = null;
+        if (toDoListFragment == null || !toDoListFragment.isVisible()) {
+            PhoneNumber phoneNumber = (PhoneNumber) getSupportFragmentManager().findFragmentByTag("PHONE_NUMBER");
+            CompletedListFragment completedList = (CompletedListFragment) getSupportFragmentManager().findFragmentByTag("CONFIRM_COMPLETED");
+            ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
+            CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
 
-                if(phoneNumber != null) {
-                    fragment = phoneNumber;
-                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    getSupportFragmentManager().popBackStack();
-                }
-                else if(toDoEntryFragment != null) {
-                    fragment = toDoEntryFragment;
-                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    getSupportFragmentManager().popBackStack();
-                }
-                else if(createToDoEntryFragment != null) {
-                    fragment = createToDoEntryFragment;
-                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    getSupportFragmentManager().popBackStack();
-                }
+            if (phoneNumber != null) {
+                fragment = phoneNumber;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
+            } else if (completedList != null) {
+                fragment = completedList;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
+            } else if (toDoEntryFragment != null) {
+                fragment = toDoEntryFragment;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
+            } else if (createToDoEntryFragment != null) {
+                fragment = createToDoEntryFragment;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
             }
+        }
     }
 
     public void toggleVisibility(View view) {

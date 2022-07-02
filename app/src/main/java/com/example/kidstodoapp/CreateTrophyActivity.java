@@ -166,8 +166,8 @@ public class CreateTrophyActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                if(Utility.isInParentMode()) {
-                    Utility.setInParentMode(false);
+                if(ParentModeUtility.isInParentMode()) {
+                    ParentModeUtility.setInParentMode(false);
                     Toast.makeText(CreateTrophyActivity.this,
                             "Logged Out Due to Inactivity",
                             Toast.LENGTH_SHORT).show();
@@ -175,7 +175,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
                 }
             }
         };
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     private void cancel() {
@@ -186,19 +186,19 @@ public class CreateTrophyActivity extends AppCompatActivity {
 
     public void onUserInteraction() {
         super.onUserInteraction();
-        Utility.stopHandler(parentModeTimeOut, runnable);
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Utility.stopHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Utility.startHandler(parentModeTimeOut, runnable);
+        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 }

@@ -1,7 +1,5 @@
 package com.example.kidstodoapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +22,7 @@ public class DeviceTypeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (parentDevice) {
-                    Utility.setParentDevice();
+                    ParentModeUtility.setParentDevice();
                 }
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 finish();

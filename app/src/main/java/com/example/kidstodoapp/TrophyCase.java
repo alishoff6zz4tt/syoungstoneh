@@ -73,8 +73,8 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         parentModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Utility.isInParentMode()) {
-                    Utility.setInParentMode(false);
+                if(ParentModeUtility.isInParentMode()) {
+                    ParentModeUtility.setInParentMode(false);
                     onParentModeChanged();
                     Toast.makeText(TrophyCase.this,
                             "Exiting parent mode",
@@ -94,7 +94,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     }
 
     public void onParentModeChanged() {
-        if(Utility.isInParentMode()) {
+        if(ParentModeUtility.isInParentMode()) {
             createNewTrophy.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(TrophyAdapter.ITEM_TYPE_EDIT);
             parentModeButton.setText(getResources().getString(R.string.child));

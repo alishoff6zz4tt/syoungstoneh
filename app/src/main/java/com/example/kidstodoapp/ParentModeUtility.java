@@ -22,20 +22,15 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class Utility {
+public class ParentModeUtility {
     private static Context applicationContext;
     private static final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
     private static final String PARENT_DEVICE_FILE_NAME = "parent-device";
     private static String passwordHash;
-    private static String phoneNumber;
     private static Boolean parentDevice = false;
     private static Boolean inParentMode = false;
-    private static Boolean phoneNumberSet = false;
-
-    private static Bundle returnBundle;
 
     private static Boolean inParentModeSet = false;
-    private static Boolean returnBundleSet = false;
 
     public static void setApplicationContext(Context context) {
         applicationContext = context;
@@ -59,26 +54,30 @@ public class Utility {
         storePasswordHash();
     }
     public static boolean isCorrectPassword(String password) {
-        return hashPassword(password).equals(Utility.passwordHash);
+        return hashPassword(password).equals(ParentModeUtility.passwordHash);
     }
 
     public static Boolean isInParentMode() {return inParentMode;}
     public static Boolean isParentDevice() {return parentDevice;}
     public static void setInParentMode(Boolean inParentMode) {
-        Utility.inParentMode = inParentMode;
+        ParentModeUtility.inParentMode = inParentMode;
         inParentModeSet = true;
     }
 
-    public static String getPhoneNumber() {
-        return phoneNumber;
-    }
-    public static void setPhoneNumber(String phoneNumber) {
-        Utility.phoneNumber = phoneNumber;
-        phoneNumberSet = true;
-    }
-    public static Boolean isPhoneNumberSet() {
-        return phoneNumberSet;
-    }
+    public static void setInParentModeObserver(Boolean inParentModeSet) {ParentModeUtility.inParentModeSet = inParentModeSet;}
+
+    public static Boolean inParentModeSet() {return inParentModeSet;}
+
+//    public static String getPhoneNumber() {
+//        return phoneNumber;
+//    }
+//    public static void setPhoneNumber(String phoneNumber) {
+//        ParentModeUtility.phoneNumber = phoneNumber;
+//        phoneNumberSet = true;
+//    }
+//    public static Boolean isPhoneNumberSet() {
+//        return phoneNumberSet;
+//    }
 
     public static void stopHandler(Handler handler, Runnable runnable) {
         handler.removeCallbacks(runnable);
@@ -126,19 +125,4 @@ public class Utility {
             Log.e("Utility", Objects.requireNonNull(e.getMessage()));
         }
     }
-
-    public static void setReturnBundle(Bundle returnBundle) {
-        Utility.returnBundle = returnBundle;
-        returnBundleSet = true;
-    }
-
-    public static Boolean inParentModeSet() {return inParentModeSet;}
-
-    public static Bundle getReturnBundle() {return returnBundle;}
-
-    public static void setInParentModeObserver(Boolean inParentModeSet) {Utility.inParentModeSet = inParentModeSet;}
-
-    public static Boolean returnBundleSet() {return returnBundleSet;}
-
-    public static void setReturnBundleObserver(Boolean returnBundleSet) {Utility.returnBundleSet = returnBundleSet;}
 }
