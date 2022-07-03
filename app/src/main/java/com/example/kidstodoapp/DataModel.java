@@ -20,6 +20,9 @@ public class DataModel extends Observable {
 
     private long sessionIdentifier;
 
+    private ArrayList<Trophy> existingTrophies = new ArrayList<>();
+    private ArrayList<Trophy> archivedTrophies = new ArrayList<>();
+
     private ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
     private long pointsEarned = 0;
@@ -60,8 +63,12 @@ public class DataModel extends Observable {
 
     public ArrayList<ToDoEntry> getToDoEntries() { return toDoEntries; }
     public ArrayList<ToDoEntry> getCompletedEntries() { return completedEntries; }
+
     public long getPointsEarned() { return pointsEarned; }
     public String getPhoneNumber() { return phoneNumber; }
+
+    public ArrayList<Trophy> getExistingTrophies() { return existingTrophies; }
+    public ArrayList<Trophy> getArchivedTrophies() { return archivedTrophies; }
 
     public void addToDoEntry(ToDoEntry entry) {
         toDoEntries.add(entry);
@@ -113,12 +120,29 @@ public class DataModel extends Observable {
         updateFirebase();
     }
 
+    public void addTrophy(Trophy trophy) {
+        existingTrophies.add(trophy);
+        setChanged();
+        notifyObservers();
+        updateFirebase();
+    }
+
+    public void redeemTrophy(int position) {
+        Trophy trophy = existingTrophies.remove(position);
+        archivedTrophies.add(trophy);
+        setChanged();
+        notifyObservers();
+        updateFirebase();
+    }
+
     private void updateFirebase() {
         documentReference.update("toDoEntries", toDoEntries);
         documentReference.update("completedEntries", completedEntries);
         documentReference.update("phoneNumber", phoneNumber);
         documentReference.update("pointsEarned", pointsEarned);
         documentReference.update("sessionIdentifierLastChanged", sessionIdentifier);
+        documentReference.update("existingTrophies", existingTrophies);
+        documentReference.update("archivedTrophies", archivedTrophies);
     }
 
     private void updateModel(DocumentSnapshot snapshot) {
@@ -128,12 +152,28 @@ public class DataModel extends Observable {
                 (ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
         pointsEarned =  (Long) snapshot.get("pointsEarned");
         phoneNumber = snapshot.getString("phoneNumber");
+
+        //don't need to update existing firebase entries, so no null pointer exception
+        if (snapshot.contains("existingTrophies") && snapshot.contains("archivedTrophies")) {
+            existingTrophies = buildTrophies(
+                    (ArrayList<HashMap<String, Object>>) snapshot.get("existingTrophies"));
+            archivedTrophies = buildTrophies(
+                    (ArrayList<HashMap<String, Object>>) snapshot.get("archivedTrophies"));
+        }
     }
 
     private static ArrayList<ToDoEntry> buildToDoEntries(ArrayList<HashMap<String, Object>> list) {
         ArrayList<ToDoEntry> arrayList = new ArrayList<>();
         for (HashMap<String, Object> map : list) {
             arrayList.add(ToDoEntry.buildToDoEntry(map));
+        }
+        return arrayList;
+    }
+
+    private static ArrayList<Trophy> buildTrophies(ArrayList<HashMap<String, Object>> list) {
+        ArrayList<Trophy> arrayList = new ArrayList<>();
+        for (HashMap<String, Object> map : list) {
+            arrayList.add(Trophy.buildTrophy(map));
         }
         return arrayList;
     }
