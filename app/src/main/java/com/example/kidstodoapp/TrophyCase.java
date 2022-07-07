@@ -15,13 +15,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Observable;
 
-public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEntryListener  {
+public class TrophyCase extends AppCompatActivity implements java.util.Observer, TrophyAdapter.OnEntryListener  {
 
-    private static ArrayList<Trophy> existingTrophies = new ArrayList<>();
-    private static ArrayList<Trophy> archivedTrophies = new ArrayList<>();
+    private DataModel model;
 
-    private static int pointsEarned = 0;
     private TrophyAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -46,6 +45,8 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trophy_case);
 
+        model = DataModel.getInstance();
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -54,7 +55,7 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         setPointsDisplay();
 
         //Recycler View Setup
-        adapter = new TrophyAdapter(existingTrophies, this);
+        adapter = new TrophyAdapter(model.getExistingTrophies(), this);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
@@ -90,13 +91,12 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
     }
 
     public void setPointsDisplay() {
-        pointsDisplay.setText(String.format(Locale.US, "Total Points: $%d", pointsEarned));
+        pointsDisplay.setText(String.format(Locale.US, "Total Points: $%d", model.getPointsEarned()));
     }
 
     public void onParentModeChanged() {
         if(ParentModeUtility.isInParentMode()) {
             createNewTrophy.setVisibility(View.VISIBLE);
-            adapter.setVIEW_TYPE(TrophyAdapter.ITEM_TYPE_EDIT);
             parentModeButton.setText(getResources().getString(R.string.child));
         }
         else {
@@ -106,72 +106,49 @@ public class TrophyCase extends AppCompatActivity implements TrophyAdapter.OnEnt
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
+/*    @Override TO DELETE
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
-        if (requestCode == NEW_ENTRY_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                Trophy newTrophy = (Trophy) extras.getSerializable("Trophy");
-                existingTrophies.add(newTrophy);
-                //Collections.sort(existingTrophies);
-                recyclerView.setAdapter(adapter);
-            }
-        }
-        if (requestCode == EDIT_ENTRY_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = result.getExtras();
-                int position = extras.getInt("position");
-                if (extras.getBoolean("Deleted")) {
-                    existingTrophies.remove(position);
-                    adapter.notifyItemRemoved(position);
-                } else {
-                    Trophy editedTrophy = (Trophy) extras.getSerializable("Trophy");
-                    existingTrophies.set(position, editedTrophy);
-                    //Collections.sort(existingTrophies);
-                }
-                recyclerView.setAdapter(adapter);
-            }
-        }
+
         if (requestCode == VIEW_ENTRY_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = result.getExtras();
                 int position = extras.getInt("position");
                 Trophy trophy = existingTrophies.get(position);
-                if(pointsEarned - trophy.getPoints() < 0) {
+               if(model.getPointsEarned() - trophy.getPoints() < 0) {
                     Toast toast = Toast.makeText(TrophyCase.this,
                             "You don't have enough money to buy this trophy.\nSorry!",
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
-                    trophy = existingTrophies.remove(position);
+                   model.redeemTrophy(trophy); // to create
+                   *//* trophy = existingTrophies.remove(position);
                     adapter.notifyItemRemoved(position);
                     trophy.setRedeemed(true);
                     archivedTrophies.add(trophy);
-                    pointsEarned -= trophy.getPoints();
+                    //pointsEarned -= trophy.getPoints(); //Create a method in DataModel*//*
                 }
                 setPointsDisplay();
             }
         }
-    }
+    }*/
 
     @Override
     public void onEntryClick(int position) {
         Intent intent = new Intent(this, TrophyActivity.class);
-        intent.putExtra("Trophy", existingTrophies.get(position));
         intent.putExtra("position", position);
         startActivityForResult(intent, VIEW_ENTRY_REQUEST);
     }
 
     @Override
-    public void onEditClick(int position) {
-        Intent intent = new Intent(this, CreateTrophyActivity.class);
-        intent.putExtra("Trophy", existingTrophies.get(position));
-        intent.putExtra("position", position);
-        startActivityForResult(intent, EDIT_ENTRY_REQUEST);
+    public void update(Observable observable, Object arg) {
+        if (observable instanceof DataModel) {
+            adapter = new TrophyAdapter(model.getExistingTrophies(), this);
+            recyclerView.setAdapter(adapter);
+            setPointsDisplay();
+        }
     }
-
 }
 
 

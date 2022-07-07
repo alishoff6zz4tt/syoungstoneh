@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 public class CreateTrophyActivity extends AppCompatActivity {
 
+    private DataModel model;
     private Handler parentModeTimeOut;
     private Runnable runnable;
     String iconPath = "@drawable/trophy1";
@@ -29,6 +30,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trophy);
+        model = DataModel.getInstance();
 
         Button createTrophyButton = findViewById(R.id.create_trophy_button);
         Button cancelTrophyButton = findViewById(R.id.cancel_trophy_button);
@@ -133,14 +135,14 @@ public class CreateTrophyActivity extends AppCompatActivity {
                     else {
                         points = Integer.parseInt(trophyPointsEditText.getText().toString());
                     }
-                    Trophy newEntry = new Trophy(
+                    Trophy newTrophy = new Trophy(
                             trophyNameEditText.getText().toString(),
-                            //trophyDescriptionEditText.getText().toString(),
-                            points
+                            points,
+                            false,
+                            0
                     );
+                    model.addTrophy(newTrophy);
                     Intent result = new Intent();
-                    result.putExtra("Trophy", newEntry);
-                    result.putExtra("Deleted", false);
                     setResult(RESULT_OK, result);
                     finish();
                 }

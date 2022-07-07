@@ -24,7 +24,6 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
     private OnEntryListener mOnEntryListener;
 
     public static final int ITEM_TYPE_NO_EDIT = 0;
-    public static final int ITEM_TYPE_EDIT = 1;
     private int VIEW_TYPE = 0;
 
     public TrophyAdapter(List<Trophy> trophies, OnEntryListener onEntryListener) {
@@ -63,25 +62,21 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            if (editTrophyButton != null && view.getId() == editTrophyButton.getId()) {
-                onEntryListener.onEditClick(getAdapterPosition());
-            } else {
-                onEntryListener.onEntryClick(getAdapterPosition());
-            }
+            onEntryListener.onEntryClick(getAdapterPosition());
         }
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        int layout;
+        int layout = 0;
         if (VIEW_TYPE == ITEM_TYPE_NO_EDIT) {
             layout = R.layout.item_trophy_entry_no_edit;
         }
-        else {
-            layout = R.layout.item_trophy_entry_edit;
-        }
+
         View contactView = inflater.inflate(layout, parent, false);
         return new ViewHolder(contactView, mOnEntryListener);
     }
@@ -96,7 +91,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
 
 
         nameTextView.setText(trophy.getName());
-        descriptionTextView.setText(trophy.getDescription());
+        //descriptionTextView.setText(trophy.getDescription());
         //trophyImageView.setImageResource(R.drawable.trophy2); //IMAGE STUFF
         //viewHolder.trophyImageView.setImageResource(Integer.parseInt(trophy.getImage())); //IMAGE STUFF
         //String pointString = "Buy for $" + trophy.getPoints();
@@ -115,7 +110,6 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
 
     public interface OnEntryListener {
         void onEntryClick(int position);
-        void onEditClick(int position);
     }
 }
 
