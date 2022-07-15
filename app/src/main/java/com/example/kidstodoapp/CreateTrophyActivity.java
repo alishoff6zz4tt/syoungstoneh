@@ -8,13 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 
@@ -95,7 +92,7 @@ public class CreateTrophyActivity extends AppCompatActivity {
             //trophyDescriptionEditText.setText(trophy.getDescription());
             //int id = getResources().getIdentifier(trophy.getImage(), "drawable", getPackageName());
 
-            trophyPointsEditText.setText(String.valueOf(trophy.getPoints()));
+            trophyPointsEditText.setText(String.valueOf(trophy.getPointValue()));
 
             /*icon1.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {

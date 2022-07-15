@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +44,7 @@ public class TrophyActivity extends AppCompatActivity {
         buyButton = findViewById(R.id.buy_button);
         buyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if(model.getPointsEarned() - mTrophy.getPoints() < 0) {
+                if(model.getPointsEarned() - mTrophy.getPointValue() < 0) {
                     Toast toast = Toast.makeText(TrophyActivity.this,
                             "You don't have enough money to buy this trophy.\nSorry!",
                             Toast.LENGTH_LONG);
@@ -72,7 +71,7 @@ public class TrophyActivity extends AppCompatActivity {
         nameTextView.setText(mTrophy.getName());
         //descriptionTextView.setText(mTrophy.getDescription());
         iconImageView.setImageResource(R.drawable.trophy2);
-        String points = "for" + mTrophy.getPoints() + "points";
+        String points = "for" + mTrophy.getPointValue() + "points";
         pointsTextView.setText(points);
         //redeemed.setChecked(mTrophy.isRedeemed());
 

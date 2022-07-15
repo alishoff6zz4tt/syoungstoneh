@@ -38,19 +38,19 @@ public class Trophy implements Serializable {
         this.name = name;
     }
 
-    public long getPoints() {
+    public long getPointValue() {
         return pointValue;
     }
 
-    public void setPoints(long pointValue) {
+    public void setPointValue(long pointValue) {
         this.pointValue = pointValue;
     }
 
-    public long getImage() {
+    public long getImageLocation() {
         return imageLocation;
     }
 
-    public void setImage(int imageLocation) {
+    public void setImageLocation(int imageLocation) {
         this.imageLocation = imageLocation;
     }
 
@@ -64,7 +64,6 @@ public class Trophy implements Serializable {
     public static Trophy buildTrophy(HashMap<String,Object> map) {
         return new Trophy(
                 (String)map.get("name"),
-                //(String)map.get("description"),
                 (long)map.get("pointValue"),
                 (boolean)map.get("redeemed"),
                 (long)map.get("imageLocation")

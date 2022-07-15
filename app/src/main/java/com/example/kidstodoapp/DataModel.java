@@ -1,5 +1,7 @@
 package com.example.kidstodoapp;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -130,6 +132,7 @@ public class DataModel extends Observable {
     public void redeemTrophy(int position) {
         Trophy trophy = existingTrophies.remove(position);
         archivedTrophies.add(trophy);
+        pointsEarned -= trophy.getPointValue();
         setChanged();
         notifyObservers();
         updateFirebase();
@@ -172,6 +175,7 @@ public class DataModel extends Observable {
 
     private static ArrayList<Trophy> buildTrophies(ArrayList<HashMap<String, Object>> list) {
         ArrayList<Trophy> arrayList = new ArrayList<>();
+        Log.d("Debugging", "Current trophy array size: " + list.size());
         for (HashMap<String, Object> map : list) {
             arrayList.add(Trophy.buildTrophy(map));
         }
