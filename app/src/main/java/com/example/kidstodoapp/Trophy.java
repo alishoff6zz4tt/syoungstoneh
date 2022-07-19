@@ -16,7 +16,6 @@ import javax.swing.*;
 public class Trophy implements Serializable {
 
     private String name;
-    //private String description;
     private long pointValue;
     private boolean redeemed;
     private long imageLocation;
@@ -24,10 +23,9 @@ public class Trophy implements Serializable {
 
     Trophy(String name, long pointValue, boolean redeemed, long imageLocation) { //, String imageLocation
         this.name = name;
-        //this.description = description;
         this.pointValue = pointValue;
-        this.redeemed = false;
-        this.imageLocation = 0;
+        this.redeemed = redeemed;
+        this.imageLocation = imageLocation;
     }
 
     public String getName() {

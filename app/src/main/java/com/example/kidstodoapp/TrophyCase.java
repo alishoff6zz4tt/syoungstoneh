@@ -1,17 +1,13 @@
 package com.example.kidstodoapp;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -37,6 +33,7 @@ public class TrophyCase extends AppCompatActivity implements java.util.Observer,
         setContentView(R.layout.activity_trophy_case);
 
         model = DataModel.getInstance();
+        model.addObserver(this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,16 +64,6 @@ public class TrophyCase extends AppCompatActivity implements java.util.Observer,
         pointsDisplay.setText(String.format(Locale.US, "Total Points: $%d", model.getPointsEarned()));
     }
 
-    public void onParentModeChanged() {
-        if(ParentModeUtility.isInParentMode()) {
-            createNewTrophy.setVisibility(View.VISIBLE);
-        }
-        else {
-            adapter.setVIEW_TYPE(TrophyAdapter.ITEM_TYPE_NO_EDIT);
-        }
-        recyclerView.setAdapter(adapter);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
@@ -99,6 +86,12 @@ public class TrophyCase extends AppCompatActivity implements java.util.Observer,
             recyclerView.setAdapter(adapter);
             setPointsDisplay();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        model.deleteObserver(this);
     }
 }
 
