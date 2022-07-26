@@ -37,7 +37,6 @@ public class TrophyActivity extends AppCompatActivity {
         mTrophy = model.getExistingTrophies().get(position);
 
         final TextView nameTextView = findViewById(R.id.trophy_name_textview);
-        TextView descriptionTextView = findViewById(R.id.trophy_description_textview);
         TextView pointsTextView = findViewById(R.id.trophy_points_textview);
         ImageView iconImageView = findViewById(R.id.icon_view);
 
@@ -69,9 +68,8 @@ public class TrophyActivity extends AppCompatActivity {
 
 
         nameTextView.setText(mTrophy.getName());
-        //descriptionTextView.setText(mTrophy.getDescription());
-        iconImageView.setImageResource(R.drawable.trophy2);
-        String points = "for" + mTrophy.getPointValue() + "points";
+        iconImageView.setImageResource(((Long)mTrophy.getImageLocation()).intValue());
+        String points = "for " + mTrophy.getPointValue() + " points";
         pointsTextView.setText(points);
         //redeemed.setChecked(mTrophy.isRedeemed());
 

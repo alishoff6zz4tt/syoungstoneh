@@ -57,6 +57,12 @@ public class TrophyCase extends AppCompatActivity implements java.util.Observer,
                     startActivity(intent);
 
         }});
+        if (ParentModeUtility.isInParentMode()) {
+            createNewTrophy.setVisibility(View.VISIBLE);
+        }
+        else {
+            createNewTrophy.setVisibility(View.GONE);
+        }
 
     }
 

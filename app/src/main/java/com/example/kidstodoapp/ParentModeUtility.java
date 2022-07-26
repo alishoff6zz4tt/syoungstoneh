@@ -1,7 +1,6 @@
 package com.example.kidstodoapp;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
@@ -67,17 +66,6 @@ public class ParentModeUtility {
     public static void setInParentModeObserver(Boolean inParentModeSet) {ParentModeUtility.inParentModeSet = inParentModeSet;}
 
     public static Boolean inParentModeSet() {return inParentModeSet;}
-
-//    public static String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//    public static void setPhoneNumber(String phoneNumber) {
-//        ParentModeUtility.phoneNumber = phoneNumber;
-//        phoneNumberSet = true;
-//    }
-//    public static Boolean isPhoneNumberSet() {
-//        return phoneNumberSet;
-//    }
 
     public static void stopHandler(Handler handler, Runnable runnable) {
         handler.removeCallbacks(runnable);
