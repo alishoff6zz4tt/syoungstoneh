@@ -1,6 +1,7 @@
 package com.example.kidstodoapp;
 
 import java.io.Serializable;
+import java.util.HashMap;
 /*
 import java.awt.*;
 import java.awt.event.*;
@@ -10,19 +11,21 @@ import javax.imageio.*;
 import javax.swing.*;
  */
 
+
+//If you need to change the variable type within Trophy, make change in firebase too
 public class Trophy implements Serializable {
 
     private String name;
-    private String description;
-    private int pointValue;
+    private long pointValue;
     private boolean redeemed;
-    private int imageLocation;
+    private long imageLocation;
     //private BufferedImage image;
 
-    Trophy(String name, int pointValue) { //, String imageLocation
+    Trophy(String name, long pointValue, boolean redeemed, long imageLocation) { //, String imageLocation
         this.name = name;
-        this.description = description;
         this.pointValue = pointValue;
+        this.redeemed = redeemed;
+        this.imageLocation = imageLocation;
     }
 
     public String getName() {
@@ -33,27 +36,19 @@ public class Trophy implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPoints() {
+    public long getPointValue() {
         return pointValue;
     }
 
-    public void setPoints(int pointValue) {
+    public void setPointValue(long pointValue) {
         this.pointValue = pointValue;
     }
 
-    public int getImage() {
+    public long getImageLocation() {
         return imageLocation;
     }
 
-    public void setImage(int imageLocation) {
+    public void setImageLocation(int imageLocation) {
         this.imageLocation = imageLocation;
     }
 
@@ -64,5 +59,12 @@ public class Trophy implements Serializable {
         this.redeemed = redeemed;
     }
 
-
+    public static Trophy buildTrophy(HashMap<String,Object> map) {
+        return new Trophy(
+                (String)map.get("name"),
+                (long)map.get("pointValue"),
+                (boolean)map.get("redeemed"),
+                (long)map.get("imageLocation")
+        );
+    }
 }

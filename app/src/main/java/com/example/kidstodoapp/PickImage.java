@@ -23,7 +23,7 @@ public class PickImage extends AppCompatActivity {
         image1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //set image to this one;
-                Intent intent = new Intent(view.getContext(), AddTrophy.class);
+                Intent intent = new Intent(view.getContext(), CreateTrophyActivity.class);
                 startActivity(intent);
             }
         });

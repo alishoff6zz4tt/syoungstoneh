@@ -27,7 +27,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".PickImage" />
         <activity android:name=".TrophyActivity" />
-        <activity android:name=".AddTrophy" />
         <activity android:name=".EditTrophy" />
         <activity
             android:name=".TrophyCase"

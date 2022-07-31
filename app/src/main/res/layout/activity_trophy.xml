@@ -4,34 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.kidstodoapp.TrophyActivity"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    tools:context="com.example.kidstodoapp.TrophyActivity">
 
-
-    <CheckBox
-        android:id="@+id/redemption_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="@color/textColor"
-        app:layout_constraintBottom_toTopOf="@+id/cancel_button"
-        app:layout_constraintStart_toEndOf="@+id/trophy_points_textview" />
 
     <TextView
         android:id="@+id/trophy_name_textview"
-        android:layout_width="93dp"
-        android:layout_height="37dp"
+        android:layout_width="178dp"
+        android:layout_height="41dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:paddingRight="60dp"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
         android:textStyle="bold"
         android:theme="@style/TextView"
         app:layout_constraintBottom_toTopOf="@+id/trophy_points_textview"
-        app:layout_constraintEnd_toEndOf="@+id/trophy_points_textview" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/icon_view"
@@ -61,8 +53,8 @@
         android:layout_marginStart="28dp"
         android:layout_marginBottom="68dp"
         android:gravity="center"
-        android:theme="@style/TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:theme="@style/TextView"
         app:layout_constraintBottom_toTopOf="@+id/trophy_description_textview"
         app:layout_constraintStart_toStartOf="@+id/buy_button" />
 
@@ -72,8 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:text="Redeem"
-        android:theme="@style/TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:theme="@style/TextView"
         app:layout_constraintBottom_toTopOf="@+id/trophy_name_textview"
         app:layout_constraintEnd_toEndOf="@+id/trophy_points_textview" />
 

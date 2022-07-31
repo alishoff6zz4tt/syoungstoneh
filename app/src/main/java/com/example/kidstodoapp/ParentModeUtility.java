@@ -67,17 +67,6 @@ public class ParentModeUtility {
 
     public static Boolean inParentModeSet() {return inParentModeSet;}
 
-//    public static String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//    public static void setPhoneNumber(String phoneNumber) {
-//        ParentModeUtility.phoneNumber = phoneNumber;
-//        phoneNumberSet = true;
-//    }
-//    public static Boolean isPhoneNumberSet() {
-//        return phoneNumberSet;
-//    }
-
     public static void stopHandler(Handler handler, Runnable runnable) {
         handler.removeCallbacks(runnable);
     }

@@ -127,6 +127,9 @@ public class SignUpActivity extends Activity {
         user.put("completedEntries", new ArrayList<ToDoEntry>());
         user.put("pointsEarned", 0);
         user.put("sessionIdentifierLastChanged", 0);
+
+        user.put("existingTrophies", new ArrayList<Trophy>());
+        user.put("archivedTrophies", new ArrayList<Trophy>());
         documentReference.set(user);
     }
 
@@ -135,4 +138,6 @@ public class SignUpActivity extends Activity {
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
     }
+
+
 }
