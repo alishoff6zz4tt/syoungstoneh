@@ -53,8 +53,8 @@ public class CreateToDoEntryFragment extends Fragment {
 
         final Spinner categorySpinner = view.findViewById(R.id.category_spinner);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_spinner_item, ToDoEntry.getCategories());
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                getContext(), R.layout.spinner_item, ToDoEntry.getCategories());
+        categoryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
         final TextView entryDateTextView = view.findViewById(R.id.edit_date_textview);

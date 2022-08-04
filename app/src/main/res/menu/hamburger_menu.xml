@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/main"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/ToDoListFragment"
             android:title="To Do List"
@@ -14,10 +16,18 @@
             android:id="@+id/TrophyCase"
             android:title="Trophy Case"
             android:icon="@drawable/trophy"/>
+    </group>
+    <group
+        android:id="@+id/profile"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/ConfirmPassword"
             android:title="Parent Mode"
             android:icon="@drawable/login"/>
+    </group>
+    <group
+        android:id="@+id/other"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/FAQ"
             android:title="FAQ"
