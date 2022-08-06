@@ -56,10 +56,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 if(darkMode.getText().equals("OFF")) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    NightMode.updatePreference(true);
                     darkMode.setText("ON");
                 }
                 else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    NightMode.updatePreference(false);
                     darkMode.setText("OFF");
                 }
                 getActivity().getSupportFragmentManager().beginTransaction().remove(SettingsFragment.this).commit();

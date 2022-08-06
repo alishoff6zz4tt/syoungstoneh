@@ -15,13 +15,12 @@
             <TextView
                 android:id="@+id/faq_entry_1_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
-                android:text="• Title" />
+                android:text="How do I add a task?" />
 
             <TextView
                 android:id="@+id/faq_entry_1_text"
                 style="@style/textFAQ"
-                android:text="Text"/>
+                android:text="1. Open the hamburger menu\n2. Click on Parent Mode\n3. Enter your password\n\nWhile you are logged in you can add tasks on the To Do List screen!"/>
 
             <View
                 android:id="@+id/divider1"
@@ -32,7 +31,6 @@
             <TextView
                 android:id="@+id/faq_entry_2_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -49,7 +47,6 @@
             <TextView
                 android:id="@+id/faq_entry_3_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -66,7 +63,6 @@
             <TextView
                 android:id="@+id/faq_entry_4_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -83,7 +79,6 @@
             <TextView
                 android:id="@+id/faq_entry_5_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -100,7 +95,6 @@
             <TextView
                 android:id="@+id/faq_entry_6_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -117,7 +111,6 @@
             <TextView
                 android:id="@+id/faq_entry_7_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -134,7 +127,6 @@
             <TextView
                 android:id="@+id/faq_entry_8_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -151,7 +143,6 @@
             <TextView
                 android:id="@+id/faq_entry_9_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView
@@ -168,7 +159,6 @@
             <TextView
                 android:id="@+id/faq_entry_10_title"
                 style="@style/titleFAQ"
-                android:height="60sp"
                 android:text="• Title" />
 
             <TextView

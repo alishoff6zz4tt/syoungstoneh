@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setCheckedItem(R.id.home);
         navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
-//        navigationView.getMenu().findItem(R.id.PhoneNumber).setVisible(false);
         navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(false);
+
+        NightMode.defaultMode(this);
 
         parentModeTimeOut = new Handler();
         runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
