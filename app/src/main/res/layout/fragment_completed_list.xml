@@ -11,6 +11,7 @@
         android:text="Completed Tasks"
         android:textAlignment="center"
         android:textSize="36sp"
+        style="@style/TextView"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view_completed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
