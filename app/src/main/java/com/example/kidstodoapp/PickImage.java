@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 public class PickImage extends AppCompatActivity {
@@ -23,7 +22,7 @@ public class PickImage extends AppCompatActivity {
         image1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //set image to this one;
-                Intent intent = new Intent(view.getContext(), CreateTrophyActivity.class);
+                Intent intent = new Intent(view.getContext(), CreateTrophyFragment.class);
                 startActivity(intent);
             }
         });

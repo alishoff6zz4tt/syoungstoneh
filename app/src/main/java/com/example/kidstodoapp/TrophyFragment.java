@@ -1,22 +1,20 @@
 package com.example.kidstodoapp;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TrophyActivity extends AppCompatActivity {
-
-    //Talk about redeemed vs purchases
-    //Fix images
-    //Fix format of linearlayout
+public class TrophyFragment extends Fragment {
 
     private DataModel model;
     private Trophy mTrophy;
@@ -25,26 +23,26 @@ public class TrophyActivity extends AppCompatActivity {
     private Button buyButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trophy);
+        View view = inflater.inflate(R.layout.fragment_trophy, container, false);
+
         model = DataModel.getInstance();
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
+        Bundle bundle = getArguments();
 
-        position = extras.getInt("position");
+        position = (bundle != null ? bundle.getInt("position") : 0);
         mTrophy = model.getExistingTrophies().get(position);
 
-        final TextView nameTextView = findViewById(R.id.trophy_name_textview);
-        TextView pointsTextView = findViewById(R.id.trophy_points_textview);
-        ImageView iconImageView = findViewById(R.id.icon_view);
+        final TextView nameTextView = view.findViewById(R.id.trophy_name_textview);
+        TextView pointsTextView = view.findViewById(R.id.trophy_points_textview);
+        ImageView iconImageView = view.findViewById(R.id.icon_view);
 
-        buyButton = findViewById(R.id.buy_button);
+        buyButton = view.findViewById(R.id.buy_button);
         buyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(model.getPointsEarned() - mTrophy.getPointValue() < 0) {
-                    Toast toast = Toast.makeText(TrophyActivity.this,
+                    Toast toast = Toast.makeText(TrophyFragment.this.getContext(),
                             "You don't have enough money to buy this trophy.\nSorry!",
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -52,37 +50,28 @@ public class TrophyActivity extends AppCompatActivity {
                 } else {
                     model.redeemTrophy(position);
                 }
-                Intent result = new Intent();
-                setResult(RESULT_OK, result);
-                finish();
+                exit();
 
             }
         });
 
-        cancelButton = findViewById(R.id.cancel_button);
+        cancelButton = view.findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                cancel();
+                exit();
             }
         });
-
 
         nameTextView.setText(mTrophy.getName());
         iconImageView.setImageResource(((Long)mTrophy.getImageLocation()).intValue());
         String points = "for " + mTrophy.getPointValue() + " points";
         pointsTextView.setText(points);
-        //redeemed.setChecked(mTrophy.isRedeemed());
 
-        if (getSupportActionBar() != null) {
-            ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(false);
-        }
-
+        return view;
     }
 
-    private void cancel() {
-        Intent result = new Intent();
-        setResult(RESULT_CANCELED, result);
-        finish();
+    private void exit() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(TrophyFragment.this).commit();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

@@ -7,19 +7,6 @@
     tools:context=".MainActivity"
     android:background="@color/backgroundColor">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        app:titleTextColor="@color/textColor"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:backgroundTint="@color/backgroundColor"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <TextView
         android:id="@+id/points_display"
         android:layout_width="match_parent"
@@ -33,7 +20,7 @@
         app:layout_constraintBottom_toTopOf="@id/welcomeText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/welcomeText"
@@ -65,34 +52,5 @@
         android:text="+"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <!--
-    <Button
-        android:id="@+id/pM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:layout_toLeftOf="@id/pM"
-        android:contentDescription="@android:string/emptyPhoneNumber"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/stat_sys_phone_call"
-        tools:ignore="MissingConstraints" />
-    -->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

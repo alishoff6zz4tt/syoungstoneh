@@ -7,7 +7,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -127,8 +126,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 removeCurrentFragment();
                 break;
             case R.id.TrophyCase:
-                Intent intent = new Intent(MainActivity.this, TrophyCase.class);
-                startActivity(intent);
+                TrophyCaseFragment trophyCase = (TrophyCaseFragment) getSupportFragmentManager().findFragmentByTag("TROPHY_CASE");
+                if(trophyCase == null) {
+                    removeCurrentFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new TrophyCaseFragment(),"TROPHY_CASE")
+                            .addToBackStack("TROPHY_CASE")
+                            .commit();
+                }
                 break;
             case R.id.ConfirmPassword:
                 if(ParentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
@@ -195,14 +200,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FAQ faq = (FAQ) getSupportFragmentManager().findFragmentByTag("FAQ");
             ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
             CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
+            CreateTrophyFragment createTrophyFragment = (CreateTrophyFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
             SettingsFragment settingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS");
+            TrophyCaseFragment trophyCase = (TrophyCaseFragment) getSupportFragmentManager().findFragmentByTag("TROPHY_CASE");
+            TrophyFragment trophyFragment = (TrophyFragment) getSupportFragmentManager().findFragmentByTag("TROPHY");
 
             if(confirmPassword != null) {fragment = confirmPassword;}
             else if(completedList != null) {fragment = completedList;}
             else if(faq != null) {fragment = faq;}
             else if(toDoEntryFragment != null) {fragment = toDoEntryFragment;}
             else if(createToDoEntryFragment != null) {fragment = createToDoEntryFragment;}
+            else if(createTrophyFragment != null) {fragment = createTrophyFragment;}
             else if(settingsFragment != null) {fragment = settingsFragment;}
+            else if(trophyCase != null) {fragment = trophyCase;}
+            else if(trophyFragment != null) {fragment = trophyFragment;}
 
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             getSupportFragmentManager().popBackStack();
@@ -216,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             CompletedListFragment completedList = (CompletedListFragment) getSupportFragmentManager().findFragmentByTag("CONFIRM_COMPLETED");
             ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
             CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
+            CreateTrophyFragment createTrophyFragment = (CreateTrophyFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TROPHY");
 
             if (completedList != null) {
                 fragment = completedList;
@@ -227,6 +239,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().popBackStack();
             } else if (createToDoEntryFragment != null) {
                 fragment = createToDoEntryFragment;
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                getSupportFragmentManager().popBackStack();
+            } else if (createTrophyFragment != null) {
+                fragment = createTrophyFragment;
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                 getSupportFragmentManager().popBackStack();
             }

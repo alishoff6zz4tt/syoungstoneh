@@ -113,8 +113,8 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
         model.deleteObserver(this);
     }
 
-    public void onParentModeChanged() {                              //When parent mode is changed
-        if(ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
+    public void onParentModeChanged() {
+        if(ParentModeUtility.isInParentMode()) {
             addEntryButton.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
         }

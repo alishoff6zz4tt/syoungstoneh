@@ -22,27 +22,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateTrophyActivity"
+            android:name=".CreateTrophyFragment"
             android:label="@string/title_activity_create_trophy"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".PickImage" />
-        <activity android:name=".TrophyActivity" />
+        <activity android:name=".TrophyFragment" />
         <activity android:name=".EditTrophy" />
         <activity
-            android:name=".TrophyCase"
+            android:name=".TrophyCaseFragment"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
-
-        <service android:name=".MyFbMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
     </application>
 

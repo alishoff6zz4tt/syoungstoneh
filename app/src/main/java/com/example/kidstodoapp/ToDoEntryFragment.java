@@ -80,8 +80,7 @@ public class ToDoEntryFragment extends Fragment {
                 else if (completed && !completionCheckBox.isChecked()) {
                     model.uncompleteToDoEntry(position);
                 }
-                getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
-                getActivity().getSupportFragmentManager().popBackStack();
+                exit();
             }
         });
 
@@ -101,8 +100,7 @@ public class ToDoEntryFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 model.confirmCompleted(position);
-                getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
-                getActivity().getSupportFragmentManager().popBackStack();
+                exit();
             }
         });
 
@@ -175,5 +173,10 @@ public class ToDoEntryFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+
+    private void exit() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

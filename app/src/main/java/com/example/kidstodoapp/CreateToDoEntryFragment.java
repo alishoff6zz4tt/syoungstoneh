@@ -167,17 +167,15 @@ public class CreateToDoEntryFragment extends Fragment {
                     else {
                         model.addToDoEntry(entry);
                     }
-                    getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    exit();
                 }
-                getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
-                getActivity().getSupportFragmentManager().popBackStack();
+                exit();
             }
         });
 
         cancelEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                cancel();
+                exit();
             }
         });
         return view;
@@ -198,7 +196,7 @@ public class CreateToDoEntryFragment extends Fragment {
         return formatter.format(cal.getTime());
     }
 
-    private void cancel() {
+    private void exit() {
         getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }

@@ -47,7 +47,7 @@ public class RedeemedTrophyCase extends AppCompatActivity implements TrophyAdapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trophy_case);
+        setContentView(R.layout.fragment_trophy_case);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("KidsToDoApp");
