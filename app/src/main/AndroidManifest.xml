@@ -21,16 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CreateTrophyFragment"
-            android:label="@string/title_activity_create_trophy"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".PickImage" />
-        <activity android:name=".TrophyFragment" />
         <activity android:name=".EditTrophy" />
-        <activity
-            android:name=".TrophyCaseFragment"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
