@@ -1,9 +1,7 @@
 package com.example.kidstodoapp;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,8 +17,6 @@ public class TrophyFragment extends Fragment {
     private DataModel model;
     private Trophy mTrophy;
     private int position;
-    private Button cancelButton;
-    private Button buyButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,7 +34,7 @@ public class TrophyFragment extends Fragment {
         TextView pointsTextView = view.findViewById(R.id.trophy_points_textview);
         ImageView iconImageView = view.findViewById(R.id.icon_view);
 
-        buyButton = view.findViewById(R.id.buy_button);
+        Button buyButton = view.findViewById(R.id.buy_button);
         buyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(model.getPointsEarned() - mTrophy.getPointValue() < 0) {
@@ -55,7 +51,7 @@ public class TrophyFragment extends Fragment {
             }
         });
 
-        cancelButton = view.findViewById(R.id.cancel_button);
+        Button cancelButton = view.findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 exit();

@@ -80,19 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ParentModeUtility.startHandler(parentModeTimeOut, runnable);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();                                           //Whenever the user leaves MainActivity, it stops the handler
-        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();                                          //When the user returns to MainActivity, resumes the handler
-        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
-        onParentModeChanged();
-    }
-
     public void onParentModeChanged() {                              //When parent mode is changed
         if(ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
             navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Child Mode");
@@ -101,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else {
             navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
             navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(false);
-            removeCurrentFragment(null);
+            removeParentOnlyFragments();
         }
         Fragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
         if(toDoListFragment != null && toDoListFragment.isVisible()) {
@@ -121,13 +108,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         switch (item.getItemId()) {
             case R.id.ToDoListFragment:
-                removeCurrentFragment();
+                if(!(fragment instanceof ToDoListFragment)) {
+                    removeCurrentFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new ToDoListFragment(),"TO_DO_LIST")
+                            .addToBackStack("TO_DO_LIST")
+                            .commit();
+                }
                 break;
             case R.id.TrophyCase:
-                TrophyCaseFragment trophyCase = (TrophyCaseFragment) getSupportFragmentManager().findFragmentByTag("TROPHY_CASE");
-                if(trophyCase == null) {
+                if(!(fragment instanceof TrophyCaseFragment)) {
                     removeCurrentFragment();
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, new TrophyCaseFragment(),"TROPHY_CASE")
@@ -144,9 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    ConfirmPassword confirmPassword = (ConfirmPassword) getSupportFragmentManager().findFragmentByTag("CONFIRM_PASSWORD");
-                    if(confirmPassword == null) {
-                        removeCurrentFragment();
+                    if(!(fragment instanceof ConfirmPassword)) {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new ConfirmPassword(), "CONFIRM_PASSWORD")
                                 .addToBackStack("CONFIRM_PASSWORD")
@@ -155,8 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.ConfirmCompleted:
-                CompletedListFragment completedList = (CompletedListFragment) getSupportFragmentManager().findFragmentByTag("CONFIRM_COMPLETED");
-                if(completedList == null) {
+                if(!(fragment instanceof CompletedListFragment)) {
                     removeCurrentFragment();
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, new CompletedListFragment(),"CONFIRM_COMPLETED")
@@ -165,8 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.FAQ:
-                FAQ faq = (FAQ) getSupportFragmentManager().findFragmentByTag("FAQ");
-                if(faq == null) {
+                if(!(fragment instanceof FAQ)) {
                     FAQ = new FAQ();
                     removeCurrentFragment();
                     getSupportFragmentManager().beginTransaction()
@@ -176,8 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.settings:
-                SettingsFragment settings = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS");
-                if(settings == null) {
+                if(!(fragment instanceof SettingsFragment)) {
                     settingsFragment = new SettingsFragment();
                     removeCurrentFragment();
                     getSupportFragmentManager().beginTransaction()
@@ -192,60 +180,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void removeCurrentFragment() {
-        ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
-        Fragment fragment = null;
-        if(toDoListFragment == null || !toDoListFragment.isVisible()) {
-            ConfirmPassword confirmPassword = (ConfirmPassword) getSupportFragmentManager().findFragmentByTag("CONFIRM_PASSWORD");
-            CompletedListFragment completedList = (CompletedListFragment) getSupportFragmentManager().findFragmentByTag("CONFIRM_COMPLETED");
-            FAQ faq = (FAQ) getSupportFragmentManager().findFragmentByTag("FAQ");
-            ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
-            CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
-            CreateTrophyFragment createTrophyFragment = (CreateTrophyFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
-            SettingsFragment settingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS");
-            TrophyCaseFragment trophyCase = (TrophyCaseFragment) getSupportFragmentManager().findFragmentByTag("TROPHY_CASE");
-            TrophyFragment trophyFragment = (TrophyFragment) getSupportFragmentManager().findFragmentByTag("TROPHY");
-
-            if(confirmPassword != null) {fragment = confirmPassword;}
-            else if(completedList != null) {fragment = completedList;}
-            else if(faq != null) {fragment = faq;}
-            else if(toDoEntryFragment != null) {fragment = toDoEntryFragment;}
-            else if(createToDoEntryFragment != null) {fragment = createToDoEntryFragment;}
-            else if(createTrophyFragment != null) {fragment = createTrophyFragment;}
-            else if(settingsFragment != null) {fragment = settingsFragment;}
-            else if(trophyCase != null) {fragment = trophyCase;}
-            else if(trophyFragment != null) {fragment = trophyFragment;}
-
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment != null && !(fragment instanceof ToDoListFragment)) {
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             getSupportFragmentManager().popBackStack();
         }
     }
 
-    public void removeCurrentFragment(String s) {
-        ToDoListFragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
-        Fragment fragment = null;
-        if (toDoListFragment == null || !toDoListFragment.isVisible()) {
-            CompletedListFragment completedList = (CompletedListFragment) getSupportFragmentManager().findFragmentByTag("CONFIRM_COMPLETED");
-            ToDoEntryFragment toDoEntryFragment = (ToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_ENTRY");
-            CreateToDoEntryFragment createToDoEntryFragment = (CreateToDoEntryFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TO_DO_ENTRY");
-            CreateTrophyFragment createTrophyFragment = (CreateTrophyFragment) getSupportFragmentManager().findFragmentByTag("CREATE_TROPHY");
-
-            if (completedList != null) {
-                fragment = completedList;
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getSupportFragmentManager().popBackStack();
-            } else if (toDoEntryFragment != null) {
-                fragment = toDoEntryFragment;
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getSupportFragmentManager().popBackStack();
-            } else if (createToDoEntryFragment != null) {
-                fragment = createToDoEntryFragment;
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getSupportFragmentManager().popBackStack();
-            } else if (createTrophyFragment != null) {
-                fragment = createTrophyFragment;
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                getSupportFragmentManager().popBackStack();
-            }
+    public void removeParentOnlyFragments() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment instanceof CompletedListFragment ||
+                fragment instanceof ToDoEntryFragment ||
+                fragment instanceof CreateToDoEntryFragment ||
+                fragment instanceof CreateTrophyFragment) {
+            removeCurrentFragment();
         }
     }
 
