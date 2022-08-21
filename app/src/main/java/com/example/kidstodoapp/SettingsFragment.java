@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -25,17 +27,17 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        final Button darkMode = view.findViewById(R.id.darkMode);
+        final Switch darkModeSwitch = view.findViewById(R.id.dark_mode_switch);
 
         int inDarkMode = getActivity().getResources().getConfiguration().uiMode &
                 Configuration.UI_MODE_NIGHT_MASK;
         switch(inDarkMode) {
             case Configuration.UI_MODE_NIGHT_YES:
-                darkMode.setText("ON");
+                darkModeSwitch.setChecked(true);
                 break;
             case Configuration.UI_MODE_NIGHT_NO:
             case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                darkMode.setText("OFF");
+                darkModeSwitch.setChecked(false);
                 break;
         }
 
@@ -51,18 +53,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         phoneNumberInput.setText(model.getPhoneNumber());
 
-        darkMode.setOnClickListener(new View.OnClickListener() {
+        darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if(darkMode.getText().equals("OFF")) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     NightMode.updatePreference(true);
-                    darkMode.setText("ON");
                 }
                 else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     NightMode.updatePreference(false);
-                    darkMode.setText("OFF");
                 }
                 getActivity().getSupportFragmentManager().beginTransaction().remove(SettingsFragment.this).commit();
                 getActivity().getSupportFragmentManager().popBackStack();
