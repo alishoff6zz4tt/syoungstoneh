@@ -22,7 +22,7 @@ public class DeviceTypeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (parentDevice) {
-                    ParentModeUtility.setParentDevice();
+                    ParentModeUtility.getInstance().setParentDevice();
                 }
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 finish();

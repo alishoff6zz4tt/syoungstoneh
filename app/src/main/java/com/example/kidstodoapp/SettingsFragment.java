@@ -111,7 +111,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 //                    AnimationsUtility.toggleClose(getContext(), phoneNumberView);
                     }
                 else {
-                    if(ParentModeUtility.isInParentMode()) {
+                    if(ParentModeUtility.getInstance().isInParentMode()) {
                         phoneNumberView.setVisibility(View.VISIBLE);
                         AnimationsUtility.toggleOpen(getContext(), phoneNumberView);
                     }

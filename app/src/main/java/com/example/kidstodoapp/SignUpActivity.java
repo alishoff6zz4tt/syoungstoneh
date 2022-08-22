@@ -93,7 +93,7 @@ public class SignUpActivity extends Activity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        ParentModeUtility.setPassword(password);
+                        ParentModeUtility.getInstance().setPassword(password);
                         createDbEntry(phone);
                         Toast.makeText(SignUpActivity.this,
                                 "Registration Successful",

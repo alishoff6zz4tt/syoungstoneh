@@ -72,7 +72,7 @@ public class SignInActivity extends Activity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    ParentModeUtility.setPassword(password);
+                    ParentModeUtility.getInstance().setPassword(password);
                     Toast.makeText(SignInActivity.this,
                             "Login Successful",
                             Toast.LENGTH_SHORT).show();

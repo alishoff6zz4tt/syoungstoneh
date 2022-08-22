@@ -17,6 +17,7 @@ import java.util.Observable;
 public class ToDoListFragment extends Fragment implements java.util.Observer, ToDoAdapter.OnEntryListener{
 
     private DataModel model;
+    private ParentModeUtility parentModeUtility;
 
     private ToDoAdapter adapter;
     private RecyclerView recyclerView;
@@ -28,12 +29,15 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_to_do_list, container, false);
 
+        parentModeUtility = ParentModeUtility.getInstance();
+        parentModeUtility.addObserver(this);
+
         model = DataModel.getInstance();
         model.addObserver(this);
 
         pointsDisplay = view.findViewById(R.id.points_display);
         adapter = new ToDoAdapter(model.getToDoEntries(), this);
-        if (ParentModeUtility.isInParentMode()) {
+        if (parentModeUtility.isInParentMode()) {
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
         }
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -43,7 +47,7 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
         setPointsDisplay();
 
         addEntryButton = view.findViewById(R.id.add_entry_button);
-        if(ParentModeUtility.isInParentMode()) {addEntryButton.setVisibility(View.VISIBLE);}
+        if(parentModeUtility.isInParentMode()) {addEntryButton.setVisibility(View.VISIBLE);}
         else {addEntryButton.setVisibility(View.GONE);}
 
         addEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -61,20 +65,19 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(ParentModeUtility.inParentModeSet()) {
-            ParentModeUtility.setInParentModeObserver(false);
-            ((MainActivity) getActivity()).onParentModeChanged();
-        }
+        onParentModeChanged();
     }
 
     @Override
     public void update(Observable observable, Object o) {
         if (observable instanceof DataModel) {
             adapter = new ToDoAdapter(model.getToDoEntries(), this);
-            if(ParentModeUtility.isInParentMode()) {adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);}        //Had to add this because this listener was being called every time the fragment came back into view
+            if(parentModeUtility.isInParentMode()) {adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);}        //Had to add this because this listener was being called every time the fragment came back into view
             else {adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_NO_EDIT);}
             recyclerView.setAdapter(adapter);
             setPointsDisplay();
+        } else if (observable instanceof ParentModeUtility) {
+            onParentModeChanged();
         }
     }
 
@@ -111,10 +114,11 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
     public void onStop() {
         super.onStop();
         model.deleteObserver(this);
+        parentModeUtility.deleteObserver(this);
     }
 
     public void onParentModeChanged() {
-        if(ParentModeUtility.isInParentMode()) {
+        if(parentModeUtility.isInParentMode()) {
             addEntryButton.setVisibility(View.VISIBLE);
             adapter.setVIEW_TYPE(ToDoAdapter.ITEM_TYPE_EDIT);
         }

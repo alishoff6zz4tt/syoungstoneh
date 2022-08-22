@@ -173,6 +173,14 @@ public class CreateToDoEntryFragment extends Fragment {
             }
         });
 
+        deleteEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                model.deleteToDoEntry(position);
+                exit();
+            }
+        });
+
         cancelEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 exit();

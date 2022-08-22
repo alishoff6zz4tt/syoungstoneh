@@ -17,13 +17,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.Observable;
+
+public class MainActivity extends AppCompatActivity implements java.util.Observer, NavigationView.OnNavigationItemSelectedListener {
+
+    private ParentModeUtility parentModeUtility;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-
-    private Handler parentModeTimeOut;
-    private Runnable runnable;
 
     private Fragment FAQ;
     private Fragment settingsFragment;
@@ -52,20 +53,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NightMode.defaultMode(this);
 
-        parentModeTimeOut = new Handler();
-        runnable = new Runnable() {                               //This is what is done every x milliseconds unless the user
-            @Override                                             //interacts with the screen
-            public void run() {
-                if (ParentModeUtility.isInParentMode() && !ParentModeUtility.isParentDevice()) {
-                    ParentModeUtility.setInParentMode(false);
-                    onParentModeChanged();
-                    Toast.makeText(MainActivity.this,
-                            "Exiting parent mode due to inactivity",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        ParentModeUtility.startHandler(parentModeTimeOut, runnable);         //Starts the countdown to running the runnable
+        parentModeUtility = ParentModeUtility.getInstance();
+        parentModeUtility.addObserver(this);
+        parentModeUtility.initializeTimeout();
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, new ToDoListFragment(), "TO_DO_LIST")
@@ -76,12 +66,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();                                 //Whenever the user interacts with the screen, it resets the handler
-        ParentModeUtility.stopHandler(parentModeTimeOut, runnable);
-        ParentModeUtility.startHandler(parentModeTimeOut, runnable);
+        parentModeUtility.resetTimeout();
     }
 
     public void onParentModeChanged() {                              //When parent mode is changed
-        if(ParentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
+        if(parentModeUtility.isInParentMode()) {                               //Set the visibility and views accordingly
             navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Child Mode");
             navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(true);
         }
@@ -89,10 +78,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
             navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(false);
             removeParentOnlyFragments();
-        }
-        Fragment toDoListFragment = (ToDoListFragment) getSupportFragmentManager().findFragmentByTag("TO_DO_LIST");
-        if(toDoListFragment != null && toDoListFragment.isVisible()) {
-            ((com.example.kidstodoapp.ToDoListFragment) toDoListFragment).onParentModeChanged();
         }
     }
 
@@ -129,9 +114,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.ConfirmPassword:
-                if(ParentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
-                    ParentModeUtility.setInParentMode(false);
-                    onParentModeChanged();
+                if(parentModeUtility.isInParentMode()) {               //If the user is in parent mode, logs out and makes the appropriate changes
+                    parentModeUtility.setInParentMode(false);
                     Toast.makeText(MainActivity.this,
                             "Exiting parent mode",
                             Toast.LENGTH_SHORT).show();
@@ -202,5 +186,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void toggleVisibilitySettings(View view) {
         ((com.example.kidstodoapp.SettingsFragment) settingsFragment).toggleVisibility(view);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        if (observable instanceof ParentModeUtility) {
+            onParentModeChanged();
+        }
     }
 }

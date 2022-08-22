@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 public class ConfirmPassword extends Fragment {
-    private Button enterPassword;
+
     private EditText passwordInput;
 
     @Override
@@ -19,15 +19,16 @@ public class ConfirmPassword extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_confirm_password, container, false);
 
-        enterPassword = view.findViewById(R.id.enter_button_confirm_password);
+        Button enterPassword = view.findViewById(R.id.enter_button_confirm_password);
         passwordInput = view.findViewById(R.id.password_confirm);
         passwordInput.setHint("Password");
 
         enterPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ParentModeUtility.isCorrectPassword(passwordInput.getText().toString())) {
-                    ParentModeUtility.setInParentMode(true);
+                ParentModeUtility parentModeUtility = ParentModeUtility.getInstance();
+                if(parentModeUtility.isCorrectPassword(passwordInput.getText().toString())) {
+                    parentModeUtility.setInParentMode(true);
                     Toast.makeText(ConfirmPassword.this.getContext(),
                             "Welcome",
                             Toast.LENGTH_SHORT).show();

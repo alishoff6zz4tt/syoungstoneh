@@ -3,6 +3,7 @@ package com.example.kidstodoapp;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.commons.codec.binary.Hex;
 
@@ -16,26 +17,67 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Observable;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class ParentModeUtility {
-    private static Context applicationContext;
-    private static final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
-    private static final String PARENT_DEVICE_FILE_NAME = "parent-device";
-    private static String passwordHash;
-    private static Boolean parentDevice = false;
-    private static Boolean inParentMode = false;
+public class ParentModeUtility extends Observable {
 
-    private static Boolean inParentModeSet = false;
+    private static ParentModeUtility INSTANCE = null;
 
-    public static void setApplicationContext(Context context) {
+    private Context applicationContext;
+    private final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
+    private final String PARENT_DEVICE_FILE_NAME = "parent-device";
+    private String passwordHash;
+    private Boolean parentDevice = false;
+    private Boolean inParentMode = false;
+
+    private Handler timeOutHandler;
+    private Runnable timeOutRunnable;
+
+    private ParentModeUtility() {}
+
+    public static ParentModeUtility getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ParentModeUtility();
+        }
+        return INSTANCE;
+    }
+
+    public void initializeTimeout() {
+        if (!parentDevice) {
+            timeOutHandler = new Handler();
+            timeOutRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (inParentMode) {
+                        inParentMode = false;
+                        Toast.makeText(applicationContext,
+                                "Exiting parent mode due to inactivity",
+                                Toast.LENGTH_SHORT).show();
+                        setChanged();
+                        notifyObservers();
+                    }
+                }
+            };
+            timeOutHandler.postDelayed(timeOutRunnable, 60000);
+        }
+    }
+
+    public void resetTimeout() {
+        if (!parentDevice && timeOutHandler != null && timeOutRunnable != null) {
+            timeOutHandler.removeCallbacks(timeOutRunnable);
+            timeOutHandler.postDelayed(timeOutRunnable, 60000);
+        }
+    }
+
+    public void setApplicationContext(Context context) {
         applicationContext = context;
     }
 
-    public static boolean retrievePasswordHash() {
+    public boolean retrievePasswordHash() {
         try {
             FileInputStream fis = applicationContext.openFileInput(PASSWORD_HASH_FILE_NAME);
             InputStreamReader inputStreamReader =
@@ -48,30 +90,19 @@ public class ParentModeUtility {
             return false;
         }
     }
-    public static void setPassword(String password) {
+    public void setPassword(String password) {
         passwordHash = hashPassword(password);
         storePasswordHash();
     }
-    public static boolean isCorrectPassword(String password) {
-        return hashPassword(password).equals(ParentModeUtility.passwordHash);
+    public boolean isCorrectPassword(String password) {
+        return hashPassword(password).equals(this.passwordHash);
     }
 
-    public static Boolean isInParentMode() {return inParentMode;}
-    public static Boolean isParentDevice() {return parentDevice;}
-    public static void setInParentMode(Boolean inParentMode) {
-        ParentModeUtility.inParentMode = inParentMode;
-        inParentModeSet = true;
-    }
-
-    public static void setInParentModeObserver(Boolean inParentModeSet) {ParentModeUtility.inParentModeSet = inParentModeSet;}
-
-    public static Boolean inParentModeSet() {return inParentModeSet;}
-
-    public static void stopHandler(Handler handler, Runnable runnable) {
-        handler.removeCallbacks(runnable);
-    }
-    public static void startHandler(Handler handler, Runnable runnable) {
-        handler.postDelayed(runnable, 60000);
+    public Boolean isInParentMode() {return inParentMode;}
+    public void setInParentMode(Boolean inParentMode) {
+        this.inParentMode = inParentMode;
+        setChanged();
+        notifyObservers();
     }
 
     private static String hashPassword(String password) {
@@ -88,7 +119,7 @@ public class ParentModeUtility {
             throw new RuntimeException(e);
         }
     }
-    private static void storePasswordHash() {
+    private void storePasswordHash() {
         try (FileOutputStream fos = applicationContext.openFileOutput(PASSWORD_HASH_FILE_NAME, Context.MODE_PRIVATE)) {
             fos.write(passwordHash.getBytes(StandardCharsets.UTF_8));
         }
@@ -97,13 +128,13 @@ public class ParentModeUtility {
         }
     }
 
-    public static void checkDeviceType() {
+    public void checkDeviceType() {
         List<String> files = Arrays.asList(applicationContext.fileList());
         parentDevice = files.contains(PARENT_DEVICE_FILE_NAME);
         inParentMode = parentDevice;
     }
 
-    public static void setParentDevice() {
+    public void setParentDevice() {
         try (FileOutputStream fos = applicationContext.openFileOutput(PARENT_DEVICE_FILE_NAME, Context.MODE_PRIVATE)) {
             fos.write("Parent device".getBytes(StandardCharsets.UTF_8));
             parentDevice = true;

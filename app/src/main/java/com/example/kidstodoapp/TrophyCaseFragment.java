@@ -15,6 +15,7 @@ import java.util.Observable;
 public class TrophyCaseFragment extends Fragment implements java.util.Observer, TrophyAdapter.OnEntryListener  {
 
     private DataModel model;
+    private ParentModeUtility parentModeUtility;
 
     private TrophyAdapter adapter;
     private RecyclerView recyclerView;
@@ -29,6 +30,9 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
 
         model = DataModel.getInstance();
         model.addObserver(this);
+
+        parentModeUtility = ParentModeUtility.getInstance();
+        parentModeUtility.addObserver(this);
 
         //Points Display
         pointsDisplay = view.findViewById(R.id.points_display);
@@ -52,7 +56,7 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
                         .commit();
 
         }});
-        if (ParentModeUtility.isInParentMode()) {
+        if (parentModeUtility.isInParentMode()) {
             createNewTrophy.setVisibility(View.VISIBLE);
         }
         else {
@@ -64,11 +68,7 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(ParentModeUtility.inParentModeSet()) {
-            ParentModeUtility.setInParentModeObserver(false);
-            ((MainActivity) getActivity()).onParentModeChanged();
-            onParentModeChanged();
-        }
+        onParentModeChanged();
     }
 
     public void setPointsDisplay() {
@@ -93,6 +93,8 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
             adapter = new TrophyAdapter(model.getExistingTrophies(), this);
             recyclerView.setAdapter(adapter);
             setPointsDisplay();
+        } else if (observable instanceof ParentModeUtility) {
+            onParentModeChanged();
         }
     }
 
@@ -100,10 +102,11 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
     public void onStop() {
         super.onStop();
         model.deleteObserver(this);
+        parentModeUtility.deleteObserver(this);
     }
 
     public void onParentModeChanged() {
-        if(ParentModeUtility.isInParentMode()) {
+        if(parentModeUtility.isInParentMode()) {
             createNewTrophy.setVisibility(View.VISIBLE);
         }
         else {

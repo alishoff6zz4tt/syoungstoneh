@@ -68,7 +68,7 @@ public class ToDoEntryFragment extends Fragment {
             sms.setVisibility(View.GONE);
             confirmCompletedButton.setVisibility(View.VISIBLE);
         }
-        else if (ParentModeUtility.isInParentMode()) {
+        else if (ParentModeUtility.getInstance().isInParentMode()) {
             sms.setVisibility(View.GONE);
         }
 
