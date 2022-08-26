@@ -8,8 +8,8 @@ public class UtilityUnitTest {
 
     @Test
     public void CheckSetInParentMode() {
-        ParentModeUtility.setInParentMode(true);
-        boolean result = ParentModeUtility.isInParentMode();
+        ParentModeUtility.getInstance().setInParentMode(true);
+        boolean result = ParentModeUtility.getInstance().isInParentMode();
         assertTrue(result);
     }
 
