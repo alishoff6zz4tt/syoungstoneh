@@ -53,12 +53,10 @@ public class ParentModeUtility extends Observable {
                 @Override
                 public void run() {
                     if (inParentMode) {
-                        inParentMode = false;
                         Toast.makeText(applicationContext,
                                 "Exiting parent mode due to inactivity",
                                 Toast.LENGTH_SHORT).show();
-                        setChanged();
-                        notifyObservers();
+                        setInParentMode(false);
                     }
                 }
             };
@@ -67,7 +65,7 @@ public class ParentModeUtility extends Observable {
     }
 
     public void resetTimeout() {
-        if (!parentDevice && timeOutHandler != null && timeOutRunnable != null) {
+        if (!parentDevice && inParentMode && timeOutHandler != null && timeOutRunnable != null) {
             timeOutHandler.removeCallbacks(timeOutRunnable);
             timeOutHandler.postDelayed(timeOutRunnable, 60000);
         }
@@ -101,6 +99,9 @@ public class ParentModeUtility extends Observable {
     public Boolean isInParentMode() {return inParentMode;}
     public void setInParentMode(Boolean inParentMode) {
         this.inParentMode = inParentMode;
+        if (inParentMode) {
+            resetTimeout();
+        }
         setChanged();
         notifyObservers();
     }
