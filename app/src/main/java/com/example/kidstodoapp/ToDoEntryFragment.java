@@ -176,4 +176,10 @@ public class ToDoEntryFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setCheckedItem(R.id.ToDoListFragment);
+    }
 }

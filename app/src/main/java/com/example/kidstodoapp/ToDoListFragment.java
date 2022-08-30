@@ -124,4 +124,10 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
         }
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setCheckedItem(R.id.ToDoListFragment);
+    }
 }

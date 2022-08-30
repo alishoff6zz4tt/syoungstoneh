@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.home);
+        navigationView.setCheckedItem(R.id.ToDoListFragment);
         navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
         navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(false);
 
@@ -238,5 +238,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void toggleVisibilitySettings(View view) {
         ((com.example.kidstodoapp.SettingsFragment) settingsFragment).toggleVisibility(view);
+    }
+
+    public void setCheckedItem(int id) {
+        navigationView.setCheckedItem(id);
     }
 }

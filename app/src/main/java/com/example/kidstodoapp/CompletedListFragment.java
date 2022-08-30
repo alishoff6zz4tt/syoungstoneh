@@ -64,4 +64,9 @@ public class CompletedListFragment extends Fragment implements java.util.Observe
         model.deleteObserver(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setCheckedItem(R.id.ConfirmCompleted);
+    }
 }
