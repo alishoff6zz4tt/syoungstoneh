@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements java.util.Observe
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.home);
+        navigationView.setCheckedItem(R.id.ToDoListFragment);
         navigationView.getMenu().findItem(R.id.ConfirmPassword).setTitle("Parent Mode");
         navigationView.getMenu().findItem(R.id.ConfirmCompleted).setVisible(false);
 
@@ -192,5 +192,9 @@ public class MainActivity extends AppCompatActivity implements java.util.Observe
         if (observable instanceof ParentModeUtility) {
             onParentModeChanged();
         }
+    }
+
+    public void setCheckedItem(int id) {
+        navigationView.setCheckedItem(id);
     }
 }

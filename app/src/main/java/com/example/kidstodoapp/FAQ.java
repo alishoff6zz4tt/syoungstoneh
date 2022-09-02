@@ -157,4 +157,10 @@ public class FAQ extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setCheckedItem(R.id.FAQ);
+    }
 }

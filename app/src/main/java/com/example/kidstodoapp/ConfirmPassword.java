@@ -44,4 +44,10 @@ public class ConfirmPassword extends Fragment {
         });
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setCheckedItem(R.id.ConfirmPassword);
+    }
 }

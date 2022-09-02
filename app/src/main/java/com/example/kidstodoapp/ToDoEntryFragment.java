@@ -179,4 +179,10 @@ public class ToDoEntryFragment extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setCheckedItem(R.id.ToDoListFragment);
+    }
 }
