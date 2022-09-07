@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements java.util.Observe
 
         parentModeUtility = ParentModeUtility.getInstance();
         parentModeUtility.addObserver(this);
-        parentModeUtility.initializeTimeout();
+        onParentModeChanged();
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, new ToDoListFragment(), "TO_DO_LIST")
@@ -192,6 +192,12 @@ public class MainActivity extends AppCompatActivity implements java.util.Observe
         if (observable instanceof ParentModeUtility) {
             onParentModeChanged();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        parentModeUtility.deleteObserver(this);
     }
 
     public void setCheckedItem(int id) {

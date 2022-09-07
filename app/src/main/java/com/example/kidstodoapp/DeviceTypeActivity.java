@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class DeviceTypeActivity extends Activity {
 
-    private boolean parentDevice;
+    private Boolean parentDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +22,19 @@ public class DeviceTypeActivity extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (parentDevice) {
-                    ParentModeUtility.getInstance().setParentDevice();
+                if (parentDevice != null) {
+                    if (parentDevice) {
+                        ParentModeUtility.getInstance().setParentDevice();
+                    } else {
+                        ParentModeUtility.getInstance().initializeTimeout();
+                    }
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(DeviceTypeActivity.this,
+                            "Please make a selection",
+                            Toast.LENGTH_SHORT).show();
                 }
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                finish();
             }
         });
     }

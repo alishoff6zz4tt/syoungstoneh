@@ -49,7 +49,7 @@ public class CompletedListFragment extends Fragment implements java.util.Observe
         bundle.putBoolean("completed", true);
         ToDoEntryFragment toDoEntryFragment = new ToDoEntryFragment();
         toDoEntryFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction()
+        requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, toDoEntryFragment, "TO_DO_ENTRY")
                 .addToBackStack("TO_DO_ENTRY")
                 .commit();
@@ -67,6 +67,6 @@ public class CompletedListFragment extends Fragment implements java.util.Observe
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setCheckedItem(R.id.ConfirmCompleted);
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.ConfirmCompleted);
     }
 }

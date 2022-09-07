@@ -1,5 +1,7 @@
 package com.example.kidstodoapp;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private EditText phoneNumberInput;
     private ConstraintLayout themeView;
     private ConstraintLayout phoneNumberView;
+    private ConstraintLayout logoutView;
 
     private DataModel model;
 
@@ -27,9 +30,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        @SuppressLint("UseSwitchCompatOrMaterialCode")
         final Switch darkModeSwitch = view.findViewById(R.id.dark_mode_switch);
 
-        int inDarkMode = getActivity().getResources().getConfiguration().uiMode &
+        int inDarkMode = requireActivity().getResources().getConfiguration().uiMode &
                 Configuration.UI_MODE_NIGHT_MASK;
         switch(inDarkMode) {
             case Configuration.UI_MODE_NIGHT_YES:
@@ -43,11 +47,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         phoneNumberInput = view.findViewById(R.id.phoneNumberInput);
         Button enterPhoneNumber = view.findViewById(R.id.enterPhoneNumber);
+        Button logoutButton = view.findViewById(R.id.logout_button);
 
         themeView = view.findViewById(R.id.themeView);
         themeView.setVisibility(View.GONE);
         phoneNumberView = view.findViewById(R.id.phoneNumberView);
         phoneNumberView.setVisibility(View.GONE);
+        logoutView = view.findViewById(R.id.logoutView);
+        logoutView.setVisibility(View.GONE);
 
         model = DataModel.getInstance();
 
@@ -64,8 +71,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     NightMode.updatePreference(false);
                 }
-                getActivity().getSupportFragmentManager().beginTransaction().remove(SettingsFragment.this).commit();
-                getActivity().getSupportFragmentManager().popBackStack();
+                requireActivity().getSupportFragmentManager().beginTransaction().remove(SettingsFragment.this).commit();
+                requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
@@ -85,7 +92,22 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+
         return view;
+    }
+
+    public void logout() {
+        DataModel.executeLogout();
+        ParentModeUtility.executeLogout();
+        startActivity(new Intent(requireActivity().getApplicationContext(), LoadingActivity.class));
+        requireActivity().finish();
     }
 
     @Override
@@ -122,12 +144,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                     }
                 }
                 break;
+            case R.id.logout:
+                if (logoutView.isShown()) {
+                    logoutView.setVisibility(View.GONE);
+//                    AnimationsUtility.toggleClose(getContext(), logoutView);
+                }
+                else {
+                    if(ParentModeUtility.getInstance().isInParentMode()) {
+                        logoutView.setVisibility(View.VISIBLE);
+                        AnimationsUtility.toggleOpen(getContext(), logoutView);
+                    }
+                    else {
+                        Toast.makeText(SettingsFragment.this.getContext(),
+                                "Please enter Parent Mode to log out",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setCheckedItem(R.id.settings);
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.settings);
     }
 }

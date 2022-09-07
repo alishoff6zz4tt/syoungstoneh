@@ -129,16 +129,16 @@ public class ToDoEntryFragment extends Fragment {
     }
                                                                                 //Checks to see if the user has given SMS permissions
     private void smsPermissions(AlertDialog dialog, final String title) {       //If they have given permissions, tries to send an SMS
-        if (ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
+        if (ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
         else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
-            if(ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
+            if(ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
             else {dialog.dismiss();}
         }
     }
 
     private void smsDialog(final String title) {                                //Dialog confirming that the user would like to send an SMS to their parent
-        AlertDialog.Builder builder = new AlertDialog.Builder(ToDoEntryFragment.this.getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(ToDoEntryFragment.this.requireContext());
         builder.setTitle("Send SMS");
         builder.setMessage("Would you like to send an SMS to your parent asking for help?");
 
@@ -176,13 +176,13 @@ public class ToDoEntryFragment extends Fragment {
     }
 
     private void exit() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
-        getActivity().getSupportFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(ToDoEntryFragment.this).commit();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setCheckedItem(R.id.ToDoListFragment);
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.ToDoListFragment);
     }
 }

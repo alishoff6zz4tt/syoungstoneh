@@ -113,8 +113,8 @@ public class CreateTrophyFragment extends Fragment {
     }
 
     private void exit() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(CreateTrophyFragment.this).commit();
-        getActivity().getSupportFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(CreateTrophyFragment.this).commit();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
 }

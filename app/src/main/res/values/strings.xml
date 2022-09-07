@@ -20,4 +20,9 @@
     <string name="close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_out">Log Out</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="themes">Themes</string>
+    <string name="logout_info">Redirects to login</string>
+    <string name="save">Save</string>
 </resources>

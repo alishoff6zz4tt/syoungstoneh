@@ -67,7 +67,7 @@ public class TrophyFragment extends Fragment {
     }
 
     private void exit() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(TrophyFragment.this).commit();
-        getActivity().getSupportFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(TrophyFragment.this).commit();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 }

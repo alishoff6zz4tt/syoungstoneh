@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +54,7 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
         addEntryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 CreateToDoEntryFragment createToDoEntryFragment = new CreateToDoEntryFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
+                requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, createToDoEntryFragment, "CREATE_TO_DO_ENTRY")
                         .addToBackStack("CREATE_TO_DO_ENTRY")
                         .commit();
@@ -63,7 +64,7 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onParentModeChanged();
     }
@@ -88,7 +89,7 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
         bundle.putBoolean("completed", false);
         ToDoEntryFragment toDoEntryFragment = new ToDoEntryFragment();
         toDoEntryFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction()
+        requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, toDoEntryFragment, "TO_DO_ENTRY")
                 .addToBackStack("TO_DO_ENTRY")
                 .commit();
@@ -100,7 +101,7 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
         bundle.putInt("position", position);
         CreateToDoEntryFragment createToDoEntryFragment = new CreateToDoEntryFragment();
         createToDoEntryFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction()
+        requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, createToDoEntryFragment, "CREATE_TO_DO_ENTRY")
                 .addToBackStack("CREATE_TO_DO_ENTRY")
                 .commit();
@@ -132,6 +133,6 @@ public class ToDoListFragment extends Fragment implements java.util.Observer, To
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setCheckedItem(R.id.ToDoListFragment);
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.ToDoListFragment);
     }
 }
