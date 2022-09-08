@@ -2,6 +2,7 @@ package com.example.kidstodoapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 
 import androidx.appcompat.app.AppCompatDelegate;
 

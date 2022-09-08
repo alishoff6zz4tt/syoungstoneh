@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateTrophyFragment"
-    android:background="@color/backgroundColor">
+    android:background="@drawable/backdroplight">
+<!--android:background="@color/backgroundColor">-->
 
     <EditText
         android:id="@+id/trophy_name_txt"

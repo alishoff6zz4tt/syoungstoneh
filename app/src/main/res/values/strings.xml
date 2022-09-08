@@ -25,4 +25,5 @@
     <string name="themes">Themes</string>
     <string name="logout_info">Redirects to login</string>
     <string name="save">Save</string>
+    <string name="backpack">BACKPACK</string>
 </resources>
