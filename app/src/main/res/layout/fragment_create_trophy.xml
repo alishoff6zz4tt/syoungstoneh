@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateTrophyFragment"
-    android:background="@drawable/backdroplight">
-<!--android:background="@color/backgroundColor">-->
+    android:background="@drawable/backdroplight"
+    tools:context=".CreateTrophyFragment">
+    <!--android:background="@color/backgroundColor">-->
 
     <EditText
         android:id="@+id/trophy_name_txt"
@@ -14,8 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="17dp"
         android:ems="10"
+        android:fontFamily="@font/short_stack"
         android:hint="Name"
         android:inputType="textPersonName"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:theme="@style/EditText"
         app:layout_constraintBottom_toTopOf="@+id/trophy_points_txt"
@@ -23,37 +25,43 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <EditText
+        android:id="@+id/trophy_points_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="112dp"
+        android:layout_marginBottom="344dp"
+        android:ems="10"
+        android:fontFamily="@font/short_stack"
+        android:hint="Points"
+        android:inputType="number"
+        android:textSize="15sp"
+        android:theme="@style/EditText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/cancel_trophy_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Cancel"
+        android:fontFamily="@font/beachday"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trophy_points_txt" />
-
-    <EditText
-        android:id="@+id/trophy_points_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="340dp"
-        android:ems="10"
-        android:hint="Points"
-        android:inputType="number"
-        android:theme="@style/EditText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/create_trophy_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:backgroundTint="#69BCB2"
+        android:backgroundTint="#F45A4F"
+        android:fontFamily="@font/beachday"
         android:text="Create"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.69"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,15 +69,13 @@
 
     <ImageButton
         android:id="@+id/icon1"
-        android:layout_width="86dp"
+        android:layout_width="85dp"
         android:layout_height="92dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="20dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/trophy_name_txt"
-        app:layout_constraintEnd_toStartOf="@+id/icon3"
-        app:layout_constraintStart_toStartOf="@+id/border2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/icon3"
         app:srcCompat="@drawable/trophy1" />
 
     <ImageButton
@@ -86,9 +92,9 @@
 
     <ImageButton
         android:id="@+id/icon3"
-        android:layout_width="97dp"
+        android:layout_width="85dp"
         android:layout_height="92dp"
-        android:layout_marginEnd="66dp"
+        android:layout_marginEnd="76dp"
         android:layout_marginBottom="20dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
@@ -103,38 +109,40 @@
         android:layout_marginStart="147dp"
         android:layout_marginEnd="148dp"
         android:layout_marginBottom="12dp"
+        android:fontFamily="@font/short_stack"
         android:text="Select Trophy Icon"
+        android:textSize="17sp"
         android:theme="@style/TextView"
         app:layout_constraintBottom_toTopOf="@+id/icon1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/border1"
         android:layout_width="134dp"
-        android:layout_height="92dp"
-        android:layout_marginEnd="62dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="52dp"
         app:layout_constraintBottom_toBottomOf="@+id/icon2"
-        app:layout_constraintEnd_toStartOf="@+id/icon3"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/border" />
 
     <ImageView
         android:id="@+id/border2"
-        android:layout_width="134dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="86dp"
+        android:layout_width="130dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="140dp"
         app:layout_constraintBottom_toBottomOf="@+id/icon1"
-        app:layout_constraintStart_toStartOf="@+id/border1"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/border" />
 
     <ImageView
         android:id="@+id/border3"
         android:layout_width="134dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="@+id/icon1"
-        app:layout_constraintTop_toTopOf="@+id/textView_selectImage"
+        android:layout_height="95dp"
+        android:layout_marginEnd="52dp"
+        app:layout_constraintBottom_toBottomOf="@+id/icon3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/border" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

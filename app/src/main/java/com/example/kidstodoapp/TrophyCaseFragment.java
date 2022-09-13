@@ -73,7 +73,7 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
     }
 
     public void setPointsDisplay() {
-        pointsDisplay.setText(String.format(Locale.US, "Total Points: $%d", model.getPointsEarned()));
+        pointsDisplay.setText(String.format(Locale.US, "$%d", model.getPointsEarned()));
     }
 
     @Override
