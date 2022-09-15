@@ -13,9 +13,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:paddingRight="60dp"
-        android:fontFamily="@font/short_stack"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/beachday"
+        android:textSize="25sp"
         android:theme="@style/TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/category_textview" />
@@ -71,6 +70,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/short_stack"
         android:theme="@style/TextView"
+        android:textColor="#963e3e"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
