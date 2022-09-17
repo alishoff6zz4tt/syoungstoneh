@@ -38,7 +38,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             super(view);
 
             nameTextView = itemView.findViewById(R.id.trophy_name);
-            descriptionTextView = itemView.findViewById(R.id.trophy_description);
+//            descriptionTextView = itemView.findViewById(R.id.trophy_description);
             pointValueTextView = itemView.findViewById(R.id.trophy_points);
             trophyImageView = itemView.findViewById(R.id.trophy_icon);
 
