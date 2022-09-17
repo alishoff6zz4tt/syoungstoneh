@@ -16,6 +16,7 @@
         android:fontFamily="@font/beachday"
         android:textAlignment="center"
         android:textSize="45sp"
+        android:textColor="#FFFFFF"
         android:theme="@style/TextView"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view"
         app:layout_constraintStart_toStartOf="@+id/recycler_view" />

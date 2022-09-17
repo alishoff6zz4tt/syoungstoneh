@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/cabin</item>
+        <item>@font/dekko</item>
+        <item>@font/oxygen_light</item>
         <item>@font/ranchers</item>
         <item>@font/short_stack</item>
     </array>

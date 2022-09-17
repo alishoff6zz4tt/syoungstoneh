@@ -14,12 +14,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/beachday"
+        android:fontFamily="@font/cabin"
+        android:textStyle="bold"
         android:textSize="25sp"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+<!--
+-->
+
 
     <TextView
         android:id="@+id/entry_date_time"
@@ -27,14 +30,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/short_stack"
+        android:fontFamily="@font/cabin"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_name" />
 
     <TextView
         android:id="@+id/entry_point_value"
-        android:fontFamily="@font/short_stack"
+        android:fontFamily="@font/cabin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
