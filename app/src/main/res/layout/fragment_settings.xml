@@ -12,6 +12,8 @@
         style="@style/titleSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin"
+        android:textSize="27sp"
         android:text="@string/themes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,6 +34,8 @@
             android:layout_height="wrap_content"
             android:text="@string/dark_mode"
             android:theme="@style/EditText"
+            android:fontFamily="@font/cabin"
+            android:textSize="23sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -63,6 +67,8 @@
         style="@style/titleSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin"
+        android:textSize="27sp"
         android:layout_marginTop="1dp"
         android:text="@string/phone_number" />
 
@@ -79,6 +85,8 @@
             android:ems="10"
             android:inputType="phone"
             android:theme="@style/EditText"
+            android:fontFamily="@font/cabin"
+            android:textSize="23sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.126"
@@ -111,6 +119,8 @@
         style="@style/titleSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin"
+        android:textSize="27sp"
         android:layout_marginTop="1dp"
         android:text="@string/log_out" />
 
@@ -126,6 +136,8 @@
             android:layout_height="wrap_content"
             android:text="@string/logout_info"
             android:theme="@style/EditText"
+            android:fontFamily="@font/cabin"
+            android:textSize="23sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

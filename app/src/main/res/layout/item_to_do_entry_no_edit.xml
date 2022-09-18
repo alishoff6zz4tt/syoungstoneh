@@ -20,9 +20,6 @@
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<!--
--->
-
 
     <TextView
         android:id="@+id/entry_date_time"
