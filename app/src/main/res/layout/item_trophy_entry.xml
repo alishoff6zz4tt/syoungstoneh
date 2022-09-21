@@ -23,6 +23,7 @@
         android:layout_height="23dp"
         android:layout_marginStart="44dp"
         android:fontFamily="@font/beachday"
+        android:textSize="17sp"
         android:gravity="center"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
