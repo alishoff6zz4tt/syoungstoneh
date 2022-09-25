@@ -7,10 +7,11 @@
 
     <TextView
         android:id="@+id/points_display"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="410dp"
+        android:layout_height="66dp"
         android:fontFamily="@font/beachday"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="45sp"
         android:theme="@style/TextView"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view"
