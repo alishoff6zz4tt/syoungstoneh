@@ -6,14 +6,17 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/ToDoListFragment"
+            android:fontFamily="@font/cabin"
             android:title="To Do List"
             android:icon="@drawable/home"/>\
         <item
             android:id="@+id/ConfirmCompleted"
+            android:fontFamily="@font/cabin"
             android:title="Completed Tasks"
             android:icon="@drawable/completed"/>
         <item
             android:id="@+id/TrophyCase"
+            android:fontFamily="@font/cabin"
             android:title="Trophy Case"
             android:icon="@drawable/trophy"/>
     </group>
@@ -23,6 +26,7 @@
         <item
             android:id="@+id/ConfirmPassword"
             android:title="Parent Mode"
+            android:fontFamily="@font/cabin"
             android:icon="@drawable/login"/>
     </group>
     <group
@@ -31,10 +35,12 @@
         <item
             android:id="@+id/FAQ"
             android:title="FAQ"
+            android:fontFamily="@font/cabin"
             android:icon="@drawable/faq"/>
         <item
             android:id="@+id/settings"
             android:title="Settings"
+            android:fontFamily="@font/cabin"
             android:icon="@drawable/settings"/>
     </group>
 </menu>

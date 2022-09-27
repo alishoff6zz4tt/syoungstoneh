@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DeviceTypeActivity"
-    android:background="@drawable/backdroplight">
+    android:background="@drawable/backdroplightb">
 
 <!--
     android:background="@color/backgroundColor"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#59A3DC"
+        android:backgroundTint="#DCCF59"
         android:fontFamily="@font/beachday"
         android:text="Save"
         android:textColor="#FFFFFF"
