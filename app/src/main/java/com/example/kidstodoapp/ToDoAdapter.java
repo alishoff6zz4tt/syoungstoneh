@@ -90,7 +90,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         String pointString = "$" + entry.getPointValue();
         pointValueTextView.setText(pointString);
 
-        String[] colors = {"#ECCCC5", "#D2ECC5", "#C5E5EC", "#E0C5EC"};
+        String[] colors = {"#E86873", "#69bf5c", "#639be0", "#7462bd"};
         viewHolder.itemView.setBackgroundColor(Color.parseColor(colors[position % colors.length]));
     }
 
