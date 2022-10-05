@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 public class ConfirmPassword extends Fragment {
-
+    private Button enterPassword;
     private EditText passwordInput;
 
     @Override
@@ -19,21 +19,20 @@ public class ConfirmPassword extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_confirm_password, container, false);
 
-        Button enterPassword = view.findViewById(R.id.enter_button_confirm_password);
+        enterPassword = view.findViewById(R.id.enter_button_confirm_password);
         passwordInput = view.findViewById(R.id.password_confirm);
         passwordInput.setHint("Password");
 
         enterPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParentModeUtility parentModeUtility = ParentModeUtility.getInstance();
-                if(parentModeUtility.isCorrectPassword(passwordInput.getText().toString())) {
-                    parentModeUtility.setInParentMode(true);
+                if(Utility.isCorrectPassword(passwordInput.getText().toString())) {
+                    FragmentViewModel.setInParentMode(true);
                     Toast.makeText(ConfirmPassword.this.getContext(),
                             "Welcome",
                             Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().beginTransaction().remove(ConfirmPassword.this).commit();
-                    requireActivity().getSupportFragmentManager().popBackStack();
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(ConfirmPassword.this).commit();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
                 else {
                     Toast.makeText(ConfirmPassword.this.getContext(),
@@ -43,11 +42,5 @@ public class ConfirmPassword extends Fragment {
             }
         });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity) requireActivity()).setCheckedItem(R.id.ConfirmPassword);
     }
 }

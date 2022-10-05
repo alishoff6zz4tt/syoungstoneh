@@ -13,15 +13,13 @@ public class LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        ParentModeUtility parentModeUtility = ParentModeUtility.getInstance();
-        parentModeUtility.setApplicationContext(this.getApplicationContext());
+        Utility.setApplicationContext(this.getApplicationContext());
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
-            if (parentModeUtility.retrievePasswordHash()) {
-                parentModeUtility.checkDeviceType();
-                parentModeUtility.initializeTimeout();
+            if (Utility.retrievePasswordHash()) {
+                Utility.checkDeviceType();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             } else {
                 mAuth.signOut();
@@ -31,5 +29,7 @@ public class LoadingActivity extends Activity {
             startActivity(new Intent(getApplicationContext(),SignInActivity.class));
         }
         finish();
+
+
     }
 }

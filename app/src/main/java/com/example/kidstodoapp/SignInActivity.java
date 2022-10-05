@@ -21,8 +21,10 @@ public class SignInActivity extends Activity {
 
     private FirebaseAuth mAuth;
 
+    private Button enterPassword;
     private EditText emailInput;
     private EditText passwordInput;
+    private TextView createAccount;
 
     private ProgressBar progressBar;
 
@@ -33,12 +35,12 @@ public class SignInActivity extends Activity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        Button enterPassword = findViewById(R.id.enter_button_sign_in);
+        enterPassword = findViewById(R.id.enter_button_sign_in);
         emailInput = findViewById(R.id.email_sign_in);
         emailInput.setHint("name@example.com");
         passwordInput = findViewById(R.id.password_sign_in);
         passwordInput.setHint("Password");
-        TextView createAccount = findViewById(R.id.create_account_textview);
+        createAccount = findViewById(R.id.create_account_textview);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,36 +63,31 @@ public class SignInActivity extends Activity {
 
     private void logIn() {
 
+        progressBar.setVisibility(View.VISIBLE);
+
         final String email = emailInput.getText().toString();
         final String password = passwordInput.getText().toString();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(SignInActivity.this,
-                    "Please fill out all fields",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            progressBar.setVisibility(View.VISIBLE);
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        ParentModeUtility.getInstance().setPassword(password);
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()) {
+                    Utility.setPassword(password);
+                    Toast.makeText(SignInActivity.this,
+                            "Login Successful",
+                            Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),DeviceTypeActivity.class));
+                    finish();
+                } else {
+                    if (task.getException() != null) {
                         Toast.makeText(SignInActivity.this,
-                                "Login Successful",
+                                task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), DeviceTypeActivity.class));
-                        finish();
-                    } else {
-                        if (task.getException() != null) {
-                            Toast.makeText(SignInActivity.this,
-                                    task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
                     }
-                    progressBar.setVisibility(View.GONE);
                 }
-            });
-        }
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
