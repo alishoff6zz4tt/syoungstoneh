@@ -21,13 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PickImage" />
-        <activity android:name=".EditTrophy" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
     </application>
 

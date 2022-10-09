@@ -15,27 +15,32 @@
             <TextView
                 android:id="@+id/faq_entry_1_title"
                 style="@style/titleFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="How do I add a task?" />
 
             <TextView
                 android:id="@+id/faq_entry_1_text"
                 style="@style/textFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="1. Open the hamburger menu\n2. Click on Parent Mode\n3. Enter your password\n\nWhile you are logged in you can add tasks on the To Do List screen!"/>
 
             <View
                 android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:fontFamily="@font/cabin"
                 android:background="?android:attr/listDivider" />
 
             <TextView
                 android:id="@+id/faq_entry_2_title"
                 style="@style/titleFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="• Title" />
 
             <TextView
                 android:id="@+id/faq_entry_2_text"
                 style="@style/textFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="Text"/>
 
             <View
@@ -47,11 +52,13 @@
             <TextView
                 android:id="@+id/faq_entry_3_title"
                 style="@style/titleFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="• Title" />
 
             <TextView
                 android:id="@+id/faq_entry_3_text"
                 style="@style/textFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="Text"/>
 
             <View
@@ -63,27 +70,32 @@
             <TextView
                 android:id="@+id/faq_entry_4_title"
                 style="@style/titleFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="• Title" />
 
             <TextView
                 android:id="@+id/faq_entry_4_text"
                 style="@style/textFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="Text"/>
 
             <View
                 android:id="@+id/divider4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:fontFamily="@font/cabin"
                 android:background="?android:attr/listDivider" />
 
             <TextView
                 android:id="@+id/faq_entry_5_title"
                 style="@style/titleFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="• Title" />
 
             <TextView
                 android:id="@+id/faq_entry_5_text"
                 style="@style/textFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="Text"/>
 
             <View
@@ -95,11 +107,13 @@
             <TextView
                 android:id="@+id/faq_entry_6_title"
                 style="@style/titleFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="• Title" />
 
             <TextView
                 android:id="@+id/faq_entry_6_text"
                 style="@style/textFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="Text"/>
 
             <View
@@ -111,14 +125,16 @@
             <TextView
                 android:id="@+id/faq_entry_7_title"
                 style="@style/titleFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="• Title" />
 
             <TextView
                 android:id="@+id/faq_entry_7_text"
                 style="@style/textFAQ"
+                android:fontFamily="@font/cabin"
                 android:text="Text"/>
 
-            <View
+             <View
                 android:id="@+id/divider7"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Observable;
 
 public class DataModel extends Observable {
@@ -27,8 +28,8 @@ public class DataModel extends Observable {
 
     private ArrayList<ToDoEntry> toDoEntries = new ArrayList<>();
     private ArrayList<ToDoEntry> completedEntries = new ArrayList<>();
-    private long pointsEarned = 0;
-    private String phoneNumber = "";
+    private long pointsEarned;
+    private String phoneNumber;
 
     private DocumentReference documentReference;
 
@@ -46,7 +47,8 @@ public class DataModel extends Observable {
                                 @Nullable FirebaseFirestoreException error) {
                 if (snapshot != null) {
                     if (!snapshot.contains("sessionIdentifierLastChanged") ||
-                            !(snapshot.get("sessionIdentifierLastChanged")).equals(sessionIdentifier)) {
+                            !Objects.equals(snapshot.get("sessionIdentifierLastChanged"),
+                                    sessionIdentifier)) {
                         updateModel(snapshot);
                         setChanged();
                         notifyObservers();
@@ -180,6 +182,11 @@ public class DataModel extends Observable {
             arrayList.add(Trophy.buildTrophy(map));
         }
         return arrayList;
+    }
+
+    public static void executeLogout() {
+        FirebaseAuth.getInstance().signOut();
+        INSTANCE = null;
     }
 
 }

@@ -6,6 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/HamburgerIcon</item>
+        <item name="background">@drawable/backdropnight</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">

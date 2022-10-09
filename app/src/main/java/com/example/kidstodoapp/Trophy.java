@@ -2,15 +2,6 @@ package com.example.kidstodoapp;
 
 import java.io.Serializable;
 import java.util.HashMap;
-/*
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
-import javax.swing.*;
- */
-
 
 //If you need to change the variable type within Trophy, make change in firebase too
 public class Trophy implements Serializable {

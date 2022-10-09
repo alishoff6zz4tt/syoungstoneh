@@ -27,9 +27,10 @@ public class ParentModeUtility extends Observable {
 
     private static ParentModeUtility INSTANCE = null;
 
+    private static final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
+    private static String PARENT_DEVICE_FILE_NAME = "parent-device";
+
     private Context applicationContext;
-    private final String PASSWORD_HASH_FILE_NAME = "pwd-hash";
-    private final String PARENT_DEVICE_FILE_NAME = "parent-device";
     private String passwordHash;
     private Boolean parentDevice = false;
     private Boolean inParentMode = false;
@@ -136,13 +137,26 @@ public class ParentModeUtility extends Observable {
     }
 
     public void setParentDevice() {
+        parentDevice = true;
+        inParentMode = true;
         try (FileOutputStream fos = applicationContext.openFileOutput(PARENT_DEVICE_FILE_NAME, Context.MODE_PRIVATE)) {
             fos.write("Parent device".getBytes(StandardCharsets.UTF_8));
-            parentDevice = true;
-            inParentMode = true;
         }
         catch (Exception e) {
             Log.e("Utility", Objects.requireNonNull(e.getMessage()));
         }
+    }
+
+    public static void executeLogout() {
+        List<String> files = Arrays.asList(INSTANCE.applicationContext.fileList());
+        if (files.contains(PARENT_DEVICE_FILE_NAME)) {
+            boolean bool = INSTANCE.applicationContext.deleteFile(PARENT_DEVICE_FILE_NAME);
+            if (bool){Log.d("Utility","Parent device file deleted");}
+        }
+        if (files.contains(PASSWORD_HASH_FILE_NAME)) {
+            boolean bool = INSTANCE.applicationContext.deleteFile(PASSWORD_HASH_FILE_NAME);
+            if (bool){Log.d("Utility","Password hash file deleted");}
+        }
+        INSTANCE = null;
     }
 }

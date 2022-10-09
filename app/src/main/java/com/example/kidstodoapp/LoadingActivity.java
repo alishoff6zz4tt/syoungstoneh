@@ -1,7 +1,6 @@
 package com.example.kidstodoapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,6 +21,7 @@ public class LoadingActivity extends Activity {
         if (mAuth.getCurrentUser() != null) {
             if (parentModeUtility.retrievePasswordHash()) {
                 parentModeUtility.checkDeviceType();
+                parentModeUtility.initializeTimeout();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             } else {
                 mAuth.signOut();
@@ -31,7 +31,5 @@ public class LoadingActivity extends Activity {
             startActivity(new Intent(getApplicationContext(),SignInActivity.class));
         }
         finish();
-
-
     }
 }

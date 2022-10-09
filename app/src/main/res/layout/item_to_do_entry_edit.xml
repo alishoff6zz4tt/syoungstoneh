@@ -8,7 +8,6 @@
     android:clickable="true"
     android:focusable="true">
 
-
     <TextView
         android:id="@+id/entry_name"
         android:layout_width="wrap_content"
@@ -16,10 +15,15 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:paddingRight="100dp"
-        android:textColor="@android:color/black"
+        android:fontFamily="@font/short_stack"
         android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+<!--
+    android:textColor="@android:color/black"
+    android:textStyle="bold"
+-->
 
     <TextView
         android:id="@+id/entry_date_time"
@@ -27,24 +31,35 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColor="@android:color/darker_gray"
+        android:textSize="17sp"
+        android:fontFamily="@font/cabin"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_name" />
 
+<!--
+    android:textColor="@android:color/darker_gray"
+-->
+
     <ImageButton
         android:id="@+id/edit_entry_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_width="46dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="28dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:srcCompat="@drawable/pencil" />
 
     <TextView
         android:id="@+id/entry_point_value"
+        android:fontFamily="@font/cabin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:paddingBottom="16dp"

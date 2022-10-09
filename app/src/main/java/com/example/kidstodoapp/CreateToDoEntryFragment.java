@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class CreateToDoEntryFragment extends Fragment {
 
@@ -52,8 +53,8 @@ public class CreateToDoEntryFragment extends Fragment {
         deleteEntryButton.setVisibility(View.INVISIBLE);
 
         final Spinner categorySpinner = view.findViewById(R.id.category_spinner);
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(
-                getContext(), R.layout.spinner_item, ToDoEntry.getCategories());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
+                requireContext(), R.layout.spinner_item, ToDoEntry.getCategories());
         categoryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
@@ -72,7 +73,7 @@ public class CreateToDoEntryFragment extends Fragment {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        CreateToDoEntryFragment.this.getContext(),
+                        CreateToDoEntryFragment.this.requireContext(),
                         onDateSetListener, year, month, day);
                 datePickerDialog.show();
             }
@@ -123,7 +124,7 @@ public class CreateToDoEntryFragment extends Fragment {
             entryDateTextView.setText(getDateString(cal));
             entryTimeTextView.setText(getTimeString(cal));
             categorySpinner.setSelection(ToDoEntry.getCategories().indexOf(entry.getCategory()));
-            createEntryButton.setText("Save");
+            createEntryButton.setText(R.string.save);
             entryNameEditText.setText(entry.getEntryName());
             entryDescriptionEditText.setText(entry.getDescription());
             entryPointsEditText.setText(String.valueOf(entry.getPointValue()));
@@ -169,7 +170,6 @@ public class CreateToDoEntryFragment extends Fragment {
                     }
                     exit();
                 }
-                exit();
             }
         });
 
@@ -190,28 +190,28 @@ public class CreateToDoEntryFragment extends Fragment {
     }
 
     private String getDateString(Calendar cal) {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMM d");
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMM d", Locale.US);
         return formatter.format(cal.getTime());
     }
 
     private String getTimeString(Calendar cal) {
-        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a", Locale.US);
         return formatter.format(cal.getTime());
     }
 
     private String getDateTimeString(Calendar cal) {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, h:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, h:mm a", Locale.US);
         return formatter.format(cal.getTime());
     }
 
     private void exit() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
-        getActivity().getSupportFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(CreateToDoEntryFragment.this).commit();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setCheckedItem(R.id.ToDoListFragment);
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.ToDoListFragment);
     }
 }

@@ -23,15 +23,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class SignUpActivity extends Activity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
-    private String uid;
-
-    private Button enterPassword;
     private EditText emailRegistrationInput, passwordInput1, passwordInput2, phoneInput;
     private ProgressBar progressBar;
 
@@ -44,7 +42,7 @@ public class SignUpActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        enterPassword = findViewById(R.id.enter_button_sign_up);
+        Button enterPassword = findViewById(R.id.enter_button_sign_up);
         passwordInput1 = findViewById(R.id.password_sign_up_1);
         passwordInput1.setHint("Password");
         passwordInput2 = findViewById(R.id.password_sign_up_2);
@@ -119,7 +117,7 @@ public class SignUpActivity extends Activity {
     }
 
     private void createDbEntry(String phone) {
-        uid = mAuth.getCurrentUser().getUid();
+        String uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         DocumentReference documentReference = db.collection("users").document(uid);
         Map<String,Object> user = new HashMap<>();
         user.put("phoneNumber", phone);

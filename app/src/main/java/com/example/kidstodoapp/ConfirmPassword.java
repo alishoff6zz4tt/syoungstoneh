@@ -32,8 +32,8 @@ public class ConfirmPassword extends Fragment {
                     Toast.makeText(ConfirmPassword.this.getContext(),
                             "Welcome",
                             Toast.LENGTH_SHORT).show();
-                    getActivity().getSupportFragmentManager().beginTransaction().remove(ConfirmPassword.this).commit();
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    requireActivity().getSupportFragmentManager().beginTransaction().remove(ConfirmPassword.this).commit();
+                    requireActivity().getSupportFragmentManager().popBackStack();
                 }
                 else {
                     Toast.makeText(ConfirmPassword.this.getContext(),
@@ -48,6 +48,6 @@ public class ConfirmPassword extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setCheckedItem(R.id.ConfirmPassword);
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.ConfirmPassword);
     }
 }

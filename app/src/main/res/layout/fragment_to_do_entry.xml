@@ -13,8 +13,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:paddingRight="60dp"
-        android:textSize="24sp"
+        android:fontFamily="@font/short_stack"
         android:textStyle="bold"
+        android:textSize="25sp"
         android:theme="@style/TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/category_textview" />
@@ -25,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/cabin"
         android:theme="@style/TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_name_textview" />
@@ -45,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/cabin"
         android:theme="@style/TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_datetime_textview" />
@@ -55,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/cabin"
         android:theme="@style/TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entry_description_textview" />
@@ -65,25 +69,30 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/cabin"
         android:theme="@style/TextView"
+        android:textColor="#963e3e"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/sms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="74dp"
+        android:layout_height="51dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        app:srcCompat="@drawable/sms" />
 
     <Button
         android:id="@+id/confirm_completed_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
+        android:fontFamily="@font/cabin"
         android:text="Confirm Task Completed"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

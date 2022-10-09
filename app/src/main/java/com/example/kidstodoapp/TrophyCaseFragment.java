@@ -1,4 +1,5 @@
 package com.example.kidstodoapp;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,7 +51,7 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
         createNewTrophy.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 CreateTrophyFragment createTrophyFragment = new CreateTrophyFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
+                requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, createTrophyFragment, "CREATE_TROPHY")
                         .addToBackStack("CREATE_TROPHY")
                         .commit();
@@ -66,13 +67,13 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onParentModeChanged();
     }
 
     public void setPointsDisplay() {
-        pointsDisplay.setText(String.format(Locale.US, "Total Points: $%d", model.getPointsEarned()));
+        pointsDisplay.setText(String.format(Locale.US, "$%d", model.getPointsEarned()));
     }
 
     @Override
@@ -81,7 +82,7 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
         bundle.putInt("position", position);
         TrophyFragment trophyFragment = new TrophyFragment();
         trophyFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction()
+        requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, trophyFragment, "TROPHY")
                 .addToBackStack("TROPHY")
                 .commit();

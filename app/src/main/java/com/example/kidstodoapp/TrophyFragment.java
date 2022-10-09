@@ -60,14 +60,14 @@ public class TrophyFragment extends Fragment {
 
         nameTextView.setText(mTrophy.getName());
         iconImageView.setImageResource(((Long)mTrophy.getImageLocation()).intValue());
-        String points = "for " + mTrophy.getPointValue() + " points";
+        String points = "for $" + mTrophy.getPointValue();
         pointsTextView.setText(points);
 
         return view;
     }
 
     private void exit() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(TrophyFragment.this).commit();
-        getActivity().getSupportFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(TrophyFragment.this).commit();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 }
