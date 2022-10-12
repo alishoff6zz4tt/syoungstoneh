@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backdroplight">
-<!-- android:background="@color/backgroundColor">-->
+    android:background="@drawable/backdrop">
 
     <Button
         android:id="@+id/enter_button_sign_in"

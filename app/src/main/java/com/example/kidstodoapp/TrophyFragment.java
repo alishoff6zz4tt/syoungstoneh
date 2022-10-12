@@ -70,4 +70,10 @@ public class TrophyFragment extends Fragment {
         requireActivity().getSupportFragmentManager().beginTransaction().remove(TrophyFragment.this).commit();
         requireActivity().getSupportFragmentManager().popBackStack();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.TrophyCase);
+    }
 }

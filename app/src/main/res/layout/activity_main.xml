@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:orientation="vertical"
-    android:background="@drawable/backdroplight">
+    android:background="@drawable/backdrop">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"

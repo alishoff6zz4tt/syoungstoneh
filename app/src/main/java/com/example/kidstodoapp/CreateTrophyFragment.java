@@ -117,4 +117,10 @@ public class CreateTrophyFragment extends Fragment {
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).setCheckedItem(R.id.TrophyCase);
+    }
+
 }

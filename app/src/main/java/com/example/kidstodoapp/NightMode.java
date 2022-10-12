@@ -2,7 +2,6 @@ package com.example.kidstodoapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -16,7 +15,7 @@ public class NightMode {
         sharedPreferences = context.getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        final boolean nightModeOn = sharedPreferences.getBoolean("isNightModeOn", false);
+        final Boolean nightModeOn = sharedPreferences.getBoolean("isNightModeOn", false);
         if(nightModeOn) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
