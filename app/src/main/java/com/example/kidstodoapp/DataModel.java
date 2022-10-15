@@ -1,7 +1,5 @@
 package com.example.kidstodoapp;
 
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,10 +12,20 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
 
 public class DataModel extends Observable {
+
+    private static final String USERS = "users";
+    private static final String TO_DO_ENTRIES = "toDoEntries";
+    private static final String COMPLETED_ENTRIES = "completedEntries";
+    private static final String PHONE_NUMBER = "phoneNumber";
+    private static final String POINTS_EARNED = "pointsEarned";
+    private static final String SESSION_IDENTIFIER_LAST_CHANGED = "sessionIdentifierLastChanged";
+    private static final String EXISTING_TROPHIES = "existingTrophies";
+    private static final String ARCHIVED_TROPHIES = "archivedTrophies";
 
     private static DataModel INSTANCE = null;
 
@@ -40,14 +48,14 @@ public class DataModel extends Observable {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String uid = (mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "");
 
-        documentReference = db.collection("users").document(uid);
+        documentReference = db.collection(USERS).document(uid);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException error) {
                 if (snapshot != null) {
-                    if (!snapshot.contains("sessionIdentifierLastChanged") ||
-                            !Objects.equals(snapshot.get("sessionIdentifierLastChanged"),
+                    if (!snapshot.contains(SESSION_IDENTIFIER_LAST_CHANGED) ||
+                            !Objects.equals(snapshot.get(SESSION_IDENTIFIER_LAST_CHANGED),
                                     sessionIdentifier)) {
                         updateModel(snapshot);
                         setChanged();
@@ -141,29 +149,29 @@ public class DataModel extends Observable {
     }
 
     private void updateFirebase() {
-        documentReference.update("toDoEntries", toDoEntries);
-        documentReference.update("completedEntries", completedEntries);
-        documentReference.update("phoneNumber", phoneNumber);
-        documentReference.update("pointsEarned", pointsEarned);
-        documentReference.update("sessionIdentifierLastChanged", sessionIdentifier);
-        documentReference.update("existingTrophies", existingTrophies);
-        documentReference.update("archivedTrophies", archivedTrophies);
+        documentReference.update(TO_DO_ENTRIES, toDoEntries);
+        documentReference.update(COMPLETED_ENTRIES, completedEntries);
+        documentReference.update(PHONE_NUMBER, phoneNumber);
+        documentReference.update(POINTS_EARNED, pointsEarned);
+        documentReference.update(SESSION_IDENTIFIER_LAST_CHANGED, sessionIdentifier);
+        documentReference.update(EXISTING_TROPHIES, existingTrophies);
+        documentReference.update(ARCHIVED_TROPHIES, archivedTrophies);
     }
 
     private void updateModel(DocumentSnapshot snapshot) {
         toDoEntries = buildToDoEntries(
-                (ArrayList<HashMap<String, Object>>) snapshot.get("toDoEntries"));
+                (ArrayList<HashMap<String, Object>>) snapshot.get(TO_DO_ENTRIES));
         completedEntries = buildToDoEntries(
-                (ArrayList<HashMap<String, Object>>) snapshot.get("completedEntries"));
-        pointsEarned =  (Long) snapshot.get("pointsEarned");
-        phoneNumber = snapshot.getString("phoneNumber");
+                (ArrayList<HashMap<String, Object>>) snapshot.get(COMPLETED_ENTRIES));
+        pointsEarned =  (Long) snapshot.get(POINTS_EARNED);
+        phoneNumber = snapshot.getString(PHONE_NUMBER);
 
         //don't need to update existing firebase entries, so no null pointer exception
-        if (snapshot.contains("existingTrophies") && snapshot.contains("archivedTrophies")) {
+        if (snapshot.contains(EXISTING_TROPHIES) && snapshot.contains(ARCHIVED_TROPHIES)) {
             existingTrophies = buildTrophies(
-                    (ArrayList<HashMap<String, Object>>) snapshot.get("existingTrophies"));
+                    (ArrayList<HashMap<String, Object>>) snapshot.get(EXISTING_TROPHIES));
             archivedTrophies = buildTrophies(
-                    (ArrayList<HashMap<String, Object>>) snapshot.get("archivedTrophies"));
+                    (ArrayList<HashMap<String, Object>>) snapshot.get(ARCHIVED_TROPHIES));
         }
     }
 
@@ -177,11 +185,26 @@ public class DataModel extends Observable {
 
     private static ArrayList<Trophy> buildTrophies(ArrayList<HashMap<String, Object>> list) {
         ArrayList<Trophy> arrayList = new ArrayList<>();
-        Log.d("Debugging", "Current trophy array size: " + list.size());
         for (HashMap<String, Object> map : list) {
             arrayList.add(Trophy.buildTrophy(map));
         }
         return arrayList;
+    }
+
+    public static void createDbEntry(String phone) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        DocumentReference documentReference = db.collection(USERS).document(uid);
+        Map<String,Object> user = new HashMap<>();
+        user.put(TO_DO_ENTRIES, new ArrayList<ToDoEntry>());
+        user.put(COMPLETED_ENTRIES, new ArrayList<ToDoEntry>());
+        user.put(PHONE_NUMBER, phone);
+        user.put(POINTS_EARNED, 0);
+        user.put(SESSION_IDENTIFIER_LAST_CHANGED, 0);
+        user.put(EXISTING_TROPHIES, new ArrayList<Trophy>());
+        user.put(ARCHIVED_TROPHIES, new ArrayList<Trophy>());
+        documentReference.set(user);
     }
 
     public static void executeLogout() {

@@ -150,12 +150,10 @@ public class ParentModeUtility extends Observable {
     public static void executeLogout() {
         List<String> files = Arrays.asList(INSTANCE.applicationContext.fileList());
         if (files.contains(PARENT_DEVICE_FILE_NAME)) {
-            boolean bool = INSTANCE.applicationContext.deleteFile(PARENT_DEVICE_FILE_NAME);
-            if (bool){Log.d("Utility","Parent device file deleted");}
+            INSTANCE.applicationContext.deleteFile(PARENT_DEVICE_FILE_NAME);
         }
         if (files.contains(PASSWORD_HASH_FILE_NAME)) {
-            boolean bool = INSTANCE.applicationContext.deleteFile(PASSWORD_HASH_FILE_NAME);
-            if (bool){Log.d("Utility","Password hash file deleted");}
+            INSTANCE.applicationContext.deleteFile(PASSWORD_HASH_FILE_NAME);
         }
         INSTANCE = null;
     }

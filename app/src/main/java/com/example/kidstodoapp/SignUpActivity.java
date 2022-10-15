@@ -17,18 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class SignUpActivity extends Activity {
 
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
 
     private EditText emailRegistrationInput, passwordInput1, passwordInput2, phoneInput;
     private ProgressBar progressBar;
@@ -40,7 +32,6 @@ public class SignUpActivity extends Activity {
         setContentView(R.layout.activity_sign_up);
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
         Button enterPassword = findViewById(R.id.enter_button_sign_up);
         passwordInput1 = findViewById(R.id.password_sign_up_1);
@@ -92,7 +83,7 @@ public class SignUpActivity extends Activity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         ParentModeUtility.getInstance().setPassword(password);
-                        createDbEntry(phone);
+                        DataModel.createDbEntry(phone);
                         Toast.makeText(SignUpActivity.this,
                                 "Registration Successful",
                                 Toast.LENGTH_SHORT).show();
@@ -114,21 +105,6 @@ public class SignUpActivity extends Activity {
             });
 
         }
-    }
-
-    private void createDbEntry(String phone) {
-        String uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        DocumentReference documentReference = db.collection("users").document(uid);
-        Map<String,Object> user = new HashMap<>();
-        user.put("phoneNumber", phone);
-        user.put("toDoEntries", new ArrayList<ToDoEntry>());
-        user.put("completedEntries", new ArrayList<ToDoEntry>());
-        user.put("pointsEarned", 0);
-        user.put("sessionIdentifierLastChanged", 0);
-
-        user.put("existingTrophies", new ArrayList<Trophy>());
-        user.put("archivedTrophies", new ArrayList<Trophy>());
-        documentReference.set(user);
     }
 
     @Override
