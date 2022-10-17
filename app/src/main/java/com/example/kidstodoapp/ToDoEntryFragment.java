@@ -5,7 +5,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ public class ToDoEntryFragment extends Fragment {
 
     private int position;
     private boolean completed;
+    private ToDoEntry mToDoEntry;
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
 
@@ -40,7 +40,6 @@ public class ToDoEntryFragment extends Fragment {
         position = (bundle != null ? bundle.getInt("position") : 0);
         completed = (bundle != null && bundle.getBoolean("completed"));
 
-        ToDoEntry mToDoEntry;
         if (completed) {
             mToDoEntry = model.getCompletedEntries().get(position);
         } else {
@@ -76,6 +75,9 @@ public class ToDoEntryFragment extends Fragment {
             public void onClick(View view) {
                 if (!completed && completionCheckBox.isChecked()) {
                     model.completeToDoEntry(position);
+                    if (checkSmsPermissions()) {
+                        sendSmsCompleted();
+                    }
                 }
                 else if (completed && !completionCheckBox.isChecked()) {
                     model.uncompleteToDoEntry(position);
@@ -87,7 +89,7 @@ public class ToDoEntryFragment extends Fragment {
         sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {                                    //For sending messages to the parent asking for help
-                if(!model.getPhoneNumber().equals("")) {smsDialog(nameTextView.getText().toString());}
+                if(!model.getPhoneNumber().isEmpty()) {smsDialog();}
                 else {                                                          //If a phone number hasn't been set
                     Toast.makeText(ToDoEntryFragment.this.getContext(),
                             "A Phone Number Has Not Been Added",
@@ -107,38 +109,67 @@ public class ToDoEntryFragment extends Fragment {
         return view;
     }
 
-    @SuppressLint("IntentReset")
-    private void sendSms(AlertDialog dialog,final String title) {               //Tries to send an sms
-        String message = "Automated message from KidsToDoApp:" + "\n" + "I need help with " + title + "!";
-        boolean sent = true;
-        try {
-            SmsManager.getDefault().sendTextMessage(model.getPhoneNumber(), null, message, null, null);
-        }
-        catch(Exception e) {
+    private void sendSmsNeedHelp() {
+        if (checkSmsPermissions()) {
+            String message = "Automated message from BackPack app:" + "\n" +
+                    "I need help with " + mToDoEntry.getEntryName() + "!";
+            boolean sent = true;
+            try {
+                SmsManager.getDefault().sendTextMessage(
+                        model.getPhoneNumber(), null, message, null, null);
+            } catch (Exception e) {
+                Toast.makeText(ToDoEntryFragment.this.getContext(),
+                        "Unable to Send Message",
+                        Toast.LENGTH_SHORT).show();
+                sent = false;
+            }
+            if (sent) {
+                Toast.makeText(ToDoEntryFragment.this.getContext(),
+                        "Message Sent",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else {
             Toast.makeText(ToDoEntryFragment.this.getContext(),
-                    "Unable to Send Message",
+                    "Can't send message without permissions",
                     Toast.LENGTH_SHORT).show();
-            sent = false;
-        }
-        if(sent) {
-            Toast.makeText(ToDoEntryFragment.this.getContext(),
-                    "Message Sent",
-                    Toast.LENGTH_SHORT).show();
-        }
-        dialog.dismiss();
-    }
-                                                                                //Checks to see if the user has given SMS permissions
-    private void smsPermissions(AlertDialog dialog, final String title) {       //If they have given permissions, tries to send an SMS
-        if (ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
-        else {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
-            if(ActivityCompat.checkSelfPermission(ToDoEntryFragment.this.requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {sendSms(dialog, title);}
-            else {dialog.dismiss();}
         }
     }
 
-    private void smsDialog(final String title) {                                //Dialog confirming that the user would like to send an SMS to their parent
-        AlertDialog.Builder builder = new AlertDialog.Builder(ToDoEntryFragment.this.requireContext());
+    private void sendSmsCompleted() {
+        if (checkSmsPermissions() && !ParentModeUtility.getInstance().isInParentMode()) {
+            String message = "Automated message from BackPack app:" + "\n" +
+                    "Your child just completed \"" + mToDoEntry.getEntryName() + "\".\n" +
+                    "Go to BackPack app to confirm task completion.";
+            try {
+                SmsManager.getDefault().sendTextMessage(
+                        model.getPhoneNumber(), null, message, null, null);
+            } catch (Exception e) {
+                Toast.makeText(ToDoEntryFragment.this.getContext(),
+                        "Text error, parent not notified",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private boolean checkSmsPermissions() {
+        if (ActivityCompat.checkSelfPermission(
+                ToDoEntryFragment.this.requireContext(),
+                Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        else {
+            ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
+            return ActivityCompat.checkSelfPermission(
+                    ToDoEntryFragment.this.requireContext(),
+                    Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void smsDialog() {                                //Dialog confirming that the user would like to send an SMS to their parent
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(ToDoEntryFragment.this.requireContext());
         builder.setTitle("Send SMS");
         builder.setMessage("Would you like to send an SMS to your parent asking for help?");
 
@@ -163,7 +194,8 @@ public class ToDoEntryFragment extends Fragment {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                smsPermissions(dialog, title);                                 //Checks for permissions
+                sendSmsNeedHelp();
+                dialog.dismiss();
             }
         });
 

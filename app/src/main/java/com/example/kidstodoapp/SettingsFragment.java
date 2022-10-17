@@ -85,6 +85,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(SettingsFragment.this.getContext(),
                             "Phone Number Updated",
                             Toast.LENGTH_SHORT).show();
+                    phoneNumberView.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(SettingsFragment.this.getContext(),
                             "Phone number must contain 10 or 11 digits",
