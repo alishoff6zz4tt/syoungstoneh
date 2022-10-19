@@ -1,12 +1,12 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!-- DELETE? -> Color Primary and Color Primary Dark apply to old nav bar -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/HamburgerIcon</item>
-        <item name="background">@drawable/backdroplight</item>
+        <item name="background">@drawable/backdrop</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
