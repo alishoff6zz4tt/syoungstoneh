@@ -131,6 +131,13 @@ public class DataModel extends Observable {
         updateFirebase();
     }
 
+    public void deleteTrophy(int position) {
+        Trophy trophy = existingTrophies.remove(position);
+        setChanged();
+        notifyObservers();
+        updateFirebase();
+    }
+
     public void redeemTrophy(int position) {
         Trophy trophy = existingTrophies.remove(position);
         archivedTrophies.add(trophy);
