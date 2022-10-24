@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:id="@+id/drawer_layout"
-    android:background="@drawable/backdroplight">
+    android:background="@drawable/backdrop">
 <!--android:background="@color/backgroundColor">-->
 
     <com.google.android.material.navigation.NavigationView
