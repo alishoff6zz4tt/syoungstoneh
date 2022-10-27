@@ -7,8 +7,14 @@
     tools:context=".MainActivity"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
+<<<<<<< HEAD
     android:orientation="vertical"
     android:background="@drawable/backdrop">
+=======
+    android:id="@+id/drawer_layout"
+    android:background="@drawable/backdrop">
+<!--android:background="@color/backgroundColor">-->
+>>>>>>> branch_tara4
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"

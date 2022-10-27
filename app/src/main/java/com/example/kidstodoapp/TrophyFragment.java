@@ -44,10 +44,28 @@ public class TrophyFragment extends Fragment {
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
+                    Toast toast = Toast.makeText(TrophyFragment.this.getContext(),
+                            "Trophy redeemed.",
+                            Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     model.redeemTrophy(position);
                 }
                 exit();
 
+            }
+        });
+
+        Button deleteButton = view.findViewById(R.id.delete_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                model.deleteTrophy(position);
+                Toast toast = Toast.makeText(TrophyFragment.this.getContext(),
+                        "Trophy deleted.",
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                exit();
             }
         });
 
@@ -63,6 +81,13 @@ public class TrophyFragment extends Fragment {
         String points = "for $" + mTrophy.getPointValue();
         pointsTextView.setText(points);
 
+        if ((ParentModeUtility.getInstance().isInParentMode())) {
+            deleteButton.setVisibility(View.VISIBLE);
+            buyButton.setVisibility(View.GONE);
+        } else {
+            deleteButton.setVisibility(View.GONE);
+            buyButton.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 

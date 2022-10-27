@@ -20,7 +20,6 @@ public class TrophyCaseFragment extends Fragment implements java.util.Observer, 
 
     private TrophyAdapter adapter;
     private RecyclerView recyclerView;
-
     private TextView pointsDisplay;
     private Button createNewTrophy;
 

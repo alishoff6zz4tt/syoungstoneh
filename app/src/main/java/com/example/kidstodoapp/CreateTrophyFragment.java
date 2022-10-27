@@ -80,8 +80,12 @@ public class CreateTrophyFragment extends Fragment {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(trophyNameEditText.getText().toString())) {
                         Toast.makeText(CreateTrophyFragment.this.getContext(),
-                                "Please give this trophy a name",
+                                "Please give this trophy a name.",
                                 Toast.LENGTH_LONG).show();
+                } else if (TextUtils.isEmpty(trophyPointsEditText.getText().toString())) {
+                    Toast.makeText(CreateTrophyFragment.this.getContext(),
+                            "Please add a point value to this trophy.",
+                            Toast.LENGTH_LONG).show();
                 }
                 else {
                     int points;
