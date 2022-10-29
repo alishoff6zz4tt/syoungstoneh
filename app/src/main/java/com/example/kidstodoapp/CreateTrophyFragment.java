@@ -98,7 +98,6 @@ public class CreateTrophyFragment extends Fragment {
                     Trophy newTrophy = new Trophy(
                             trophyNameEditText.getText().toString(),
                             points,
-                            false,
                             imageLocation
                     );
                     model.addTrophy(newTrophy);
