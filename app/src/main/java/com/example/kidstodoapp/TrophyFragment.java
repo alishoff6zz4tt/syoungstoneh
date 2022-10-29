@@ -37,20 +37,7 @@ public class TrophyFragment extends Fragment {
         Button buyButton = view.findViewById(R.id.buy_button);
         buyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if(model.getPointsEarned() - mTrophy.getPointValue() < 0) {
-                    Toast toast = Toast.makeText(TrophyFragment.this.getContext(),
-                            "You don't have enough money to buy this trophy.\nSorry!",
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else {
-                    Toast toast = Toast.makeText(TrophyFragment.this.getContext(),
-                            "Trophy redeemed.",
-                            Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    model.redeemTrophy(position);
-                }
+                attemptPurchase();
                 exit();
 
             }
@@ -89,6 +76,23 @@ public class TrophyFragment extends Fragment {
             buyButton.setVisibility(View.VISIBLE);
         }
         return view;
+    }
+
+    private void attemptPurchase() {
+        if(model.getPointsEarned() - mTrophy.getPointValue() < 0) {
+            Toast toast = Toast.makeText(TrophyFragment.this.getContext(),
+                    "You don't have enough money to buy this trophy.\nSorry!",
+                    Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(TrophyFragment.this.getContext(),
+                    "Trophy redeemed.",
+                    Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            model.redeemTrophy(position);
+        }
     }
 
     private void exit() {

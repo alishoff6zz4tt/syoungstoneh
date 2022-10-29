@@ -8,14 +8,11 @@ public class Trophy implements Serializable {
 
     private String name;
     private long pointValue;
-    private boolean redeemed;
     private long imageLocation;
-    //private BufferedImage image;
 
-    Trophy(String name, long pointValue, boolean redeemed, long imageLocation) { //, String imageLocation
+    Trophy(String name, long pointValue, long imageLocation) {
         this.name = name;
         this.pointValue = pointValue;
-        this.redeemed = redeemed;
         this.imageLocation = imageLocation;
     }
 
@@ -31,30 +28,14 @@ public class Trophy implements Serializable {
         return pointValue;
     }
 
-    public void setPointValue(long pointValue) {
-        this.pointValue = pointValue;
-    }
-
     public long getImageLocation() {
         return imageLocation;
-    }
-
-    public void setImageLocation(int imageLocation) {
-        this.imageLocation = imageLocation;
-    }
-
-    public boolean isRedeemed() {
-        return redeemed;
-    }
-    public void setRedeemed(boolean redeemed) {
-        this.redeemed = redeemed;
     }
 
     public static Trophy buildTrophy(HashMap<String,Object> map) {
         return new Trophy(
                 (String)map.get("name"),
                 (long)map.get("pointValue"),
-                (boolean)map.get("redeemed"),
                 (long)map.get("imageLocation")
         );
     }

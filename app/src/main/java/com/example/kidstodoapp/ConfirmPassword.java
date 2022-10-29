@@ -26,23 +26,27 @@ public class ConfirmPassword extends Fragment {
         enterPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParentModeUtility parentModeUtility = ParentModeUtility.getInstance();
-                if(parentModeUtility.isCorrectPassword(passwordInput.getText().toString())) {
-                    parentModeUtility.setInParentMode(true);
-                    Toast.makeText(ConfirmPassword.this.getContext(),
-                            "Welcome",
-                            Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().beginTransaction().remove(ConfirmPassword.this).commit();
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                }
-                else {
-                    Toast.makeText(ConfirmPassword.this.getContext(),
-                            "Incorrect Password, Please Try Again",
-                            Toast.LENGTH_SHORT).show();
-                }
+                confirmPassword();
             }
         });
         return view;
+    }
+
+    private void confirmPassword() {
+        ParentModeUtility parentModeUtility = ParentModeUtility.getInstance();
+        if(parentModeUtility.isCorrectPassword(passwordInput.getText().toString())) {
+            parentModeUtility.setInParentMode(true);
+            Toast.makeText(ConfirmPassword.this.getContext(),
+                    "Welcome",
+                    Toast.LENGTH_SHORT).show();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(ConfirmPassword.this).commit();
+            requireActivity().getSupportFragmentManager().popBackStack();
+        }
+        else {
+            Toast.makeText(ConfirmPassword.this.getContext(),
+                    "Incorrect Password, Please Try Again",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

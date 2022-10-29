@@ -106,7 +106,6 @@ public class DataModel extends Observable {
 
     public void completeToDoEntry(int position) {
         ToDoEntry entry = toDoEntries.remove(position);
-        entry.setCompleted(true);
         completedEntries.add(entry);
         setChanged();
         notifyObservers();
@@ -115,7 +114,6 @@ public class DataModel extends Observable {
 
     public void uncompleteToDoEntry(int position) {
         ToDoEntry entry = completedEntries.remove(position);
-        entry.setCompleted(false);
         addToDoEntry(entry);
     }
 
@@ -140,7 +138,7 @@ public class DataModel extends Observable {
     }
 
     public void deleteTrophy(int position) {
-        Trophy trophy = existingTrophies.remove(position);
+        existingTrophies.remove(position);
         setChanged();
         notifyObservers();
         updateFirebase();

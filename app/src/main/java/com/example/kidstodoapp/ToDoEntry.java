@@ -13,7 +13,6 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
     private String entryName;
     private String description;
     private long pointValue;
-    private boolean completed;
     private long dateTimeMillis;
     private String dateTimeString;
     private String category;
@@ -27,7 +26,6 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
         this.entryName = entryName;
         this.description = description;
         this.pointValue = pointValue;
-        completed = false;
         this.dateTimeMillis = dateTimeMillis;
         this.dateTimeString = dateTimeString;
         this.category = category;
@@ -50,10 +48,6 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
         return pointValue;
     }
 
-    public boolean isCompleted() {
-        return completed;
-    }
-
     public long getDateTimeMillis() {
         return dateTimeMillis;
     }
@@ -64,10 +58,6 @@ public class ToDoEntry implements Serializable, Comparable<ToDoEntry> {
 
     public String getCategory() {
         return category;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 
     public static List<String> getCategories() { return categories; }
