@@ -103,7 +103,7 @@ public class ParentModeUtility extends Observable {
         if (inParentMode) {
             resetTimeout();
         }
-        setChanged(); 
+        setChanged();
         notifyObservers();
     }
 
