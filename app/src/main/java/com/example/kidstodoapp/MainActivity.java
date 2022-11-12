@@ -1,25 +1,20 @@
 package com.example.kidstodoapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
-
 import java.util.Observable;
 
 public class MainActivity extends AppCompatActivity implements java.util.Observer, NavigationView.OnNavigationItemSelectedListener {
-
     private ParentModeUtility parentModeUtility;
 
     private DrawerLayout drawerLayout;
@@ -28,13 +23,13 @@ public class MainActivity extends AppCompatActivity implements java.util.Observe
     private Fragment FAQ;
     private Fragment settingsFragment;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigation_view);
+    drawerLayout = findViewById(R.id.drawer_layout);
+    navigationView = findViewById(R.id.navigation_view);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -135,8 +130,7 @@ public class MainActivity extends AppCompatActivity implements java.util.Observe
                             .replace(R.id.fragment_container, new CompletedListFragment(),"CONFIRM_COMPLETED")
                             .addToBackStack("CONFIRM_COMPLETED")
                             .commit();
-                }
-                break;
+                } break;
             case R.id.FAQ:
                 if(!(fragment instanceof FAQ)) {
                     FAQ = new FAQ();
