@@ -56,6 +56,15 @@ public class TrophyCaseFragment extends Fragment
       }
     });
 
+ /*   archivedTrophy = view.findViewById(R.id.archived_trophy_case_button);
+    if (!(fragment instanceof TrophyCaseFragment)) {
+      removeCurrentFragment();
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.fragment_container, new TrophyCaseFragment(), "TROPHY_CASE")
+          .addToBackStack("TROPHY_CASE")
+          .commit();
+    }
+    */
     onParentModeChanged();
     return view;
   }
