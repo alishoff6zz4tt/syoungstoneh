@@ -11,62 +11,65 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Observable;
 
-public class CompletedListFragment extends Fragment implements java.util.Observer, ToDoAdapter.OnEntryListener{
+public class CompletedListFragment extends Fragment
+    implements java.util.Observer, ToDoAdapter.OnEntryListener {
 
-    private DataModel model;
+  private DataModel model;
 
-    private ToDoAdapter adapter;
-    private RecyclerView recyclerView;
+  private ToDoAdapter adapter;
+  private RecyclerView recyclerView;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_completed_list, container, false);
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    View view = inflater.inflate(R.layout.fragment_completed_list, container, false);
 
-        model = DataModel.getInstance();
-        model.addObserver(this);
+    model = DataModel.getInstance();
+    model.addObserver(this);
 
-        adapter = new ToDoAdapter(model.getCompletedEntries(), this);
-        recyclerView = view.findViewById(R.id.recycler_view_completed);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(CompletedListFragment.this.getContext()));
+    adapter = new ToDoAdapter(model.getCompletedEntries(), this);
+    recyclerView = view.findViewById(R.id.recycler_view_completed);
+    recyclerView.setAdapter(adapter);
+    recyclerView.setLayoutManager(new LinearLayoutManager(CompletedListFragment.this.getContext()));
 
-        return view;
+    return view;
+  }
+
+  @Override
+  public void update(Observable observable, Object o) {
+    if (observable instanceof DataModel) {
+      adapter = new ToDoAdapter(model.getCompletedEntries(), this);
+      recyclerView.setAdapter(adapter);
     }
+  }
 
-    @Override
-    public void update(Observable observable, Object o) {
-        if (observable instanceof DataModel) {
-            adapter = new ToDoAdapter(model.getCompletedEntries(), this);
-            recyclerView.setAdapter(adapter);
-        }
-    }
+  @Override
+  public void onEntryClick(int position) {
+    Bundle bundle = new Bundle();
+    bundle.putInt("position", position);
+    bundle.putBoolean("completed", true);
+    ToDoEntryFragment toDoEntryFragment = new ToDoEntryFragment();
+    toDoEntryFragment.setArguments(bundle);
+    requireActivity().getSupportFragmentManager().beginTransaction()
+        .replace(R.id.fragment_container, toDoEntryFragment, "TO_DO_ENTRY")
+        .addToBackStack("TO_DO_ENTRY")
+        .commit();
+  }
 
-    @Override
-    public void onEntryClick(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
-        bundle.putBoolean("completed", true);
-        ToDoEntryFragment toDoEntryFragment = new ToDoEntryFragment();
-        toDoEntryFragment.setArguments(bundle);
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, toDoEntryFragment, "TO_DO_ENTRY")
-                .addToBackStack("TO_DO_ENTRY")
-                .commit();
-    }
+  @Override
+  public void onEditClick(int position) {
+  }
 
-    @Override
-    public void onEditClick(int position) {}
+  @Override
+  public void onStop() {
+    super.onStop();
+    model.deleteObserver(this);
+  }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        model.deleteObserver(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity) requireActivity()).setCheckedItem(R.id.ConfirmCompleted);
-    }
+  @Override
+  public void onResume() {
+    super.onResume();
+    ((MainActivity) requireActivity()).setCheckedItem(R.id.ConfirmCompleted);
+  }
 }

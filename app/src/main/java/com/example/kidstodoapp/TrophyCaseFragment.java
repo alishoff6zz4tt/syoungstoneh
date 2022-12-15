@@ -24,6 +24,7 @@ public class TrophyCaseFragment extends Fragment
   private RecyclerView recyclerView;
   private TextView pointsDisplay;
   private Button createNewTrophy;
+  private Button archivedTrophy;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,15 +57,22 @@ public class TrophyCaseFragment extends Fragment
       }
     });
 
- /*   archivedTrophy = view.findViewById(R.id.archived_trophy_case_button);
-    if (!(fragment instanceof TrophyCaseFragment)) {
+    /*getSupportFragmentManager().beginTransaction()
+        .add(R.id.fragment_container, new ToDoListFragment(), "TO_DO_LIST")
+        .addToBackStack(
+            "TO_DO_LIST")                      //addToBackStack, so when any fragments replace it, and the user presses the back button
+        .commit();
+
+    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    archivedTrophy = view.findViewById(R.id.archived_trophy_case_button);
+    if (!(fragment instanceof ArchivedTrophyFragment)) {
       removeCurrentFragment();
       getSupportFragmentManager().beginTransaction()
           .replace(R.id.fragment_container, new TrophyCaseFragment(), "TROPHY_CASE")
           .addToBackStack("TROPHY_CASE")
           .commit();
-    }
-    */
+    }*/
+
     onParentModeChanged();
     return view;
   }
@@ -130,6 +138,14 @@ public class TrophyCaseFragment extends Fragment
     super.onResume();
     ((MainActivity) requireActivity()).setCheckedItem(R.id.TrophyCase);
   }
+
+ /* public void removeCurrentFragment() {
+    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    if (fragment != null && !(fragment instanceof ToDoListFragment)) {
+      getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+      getSupportFragmentManager().popBackStack();
+    }
+  }*/
 }
 
 
