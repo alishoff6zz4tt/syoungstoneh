@@ -65,7 +65,5 @@ public class ArchivedTrophyFragment extends Fragment
 
   @Override
   public void onResume() {
-    super.onResume();
-    ((MainActivity) requireActivity()).setCheckedItem(R.id.ConfirmCompleted);
-  }
+    super.onResume(); }
 }

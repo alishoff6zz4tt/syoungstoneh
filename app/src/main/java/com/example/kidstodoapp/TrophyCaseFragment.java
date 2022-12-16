@@ -57,22 +57,6 @@ public class TrophyCaseFragment extends Fragment
       }
     });
 
-    /*getSupportFragmentManager().beginTransaction()
-        .add(R.id.fragment_container, new ToDoListFragment(), "TO_DO_LIST")
-        .addToBackStack(
-            "TO_DO_LIST")                      //addToBackStack, so when any fragments replace it, and the user presses the back button
-        .commit();
-
-    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    archivedTrophy = view.findViewById(R.id.archived_trophy_case_button);
-    if (!(fragment instanceof ArchivedTrophyFragment)) {
-      removeCurrentFragment();
-      getSupportFragmentManager().beginTransaction()
-          .replace(R.id.fragment_container, new TrophyCaseFragment(), "TROPHY_CASE")
-          .addToBackStack("TROPHY_CASE")
-          .commit();
-    }*/
-
     onParentModeChanged();
     return view;
   }
@@ -139,13 +123,6 @@ public class TrophyCaseFragment extends Fragment
     ((MainActivity) requireActivity()).setCheckedItem(R.id.TrophyCase);
   }
 
- /* public void removeCurrentFragment() {
-    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    if (fragment != null && !(fragment instanceof ToDoListFragment)) {
-      getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-      getSupportFragmentManager().popBackStack();
-    }
-  }*/
 }
 
 
