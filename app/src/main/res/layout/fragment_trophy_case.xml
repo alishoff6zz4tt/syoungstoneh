@@ -7,11 +7,23 @@
     android:background="@drawable/backdrop"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/borderblueTC"
+        android:layout_width="320dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/points_display"
+        app:layout_constraintEnd_toEndOf="@+id/points_display"
+        app:layout_constraintTop_toTopOf="@+id/points_display"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/borderempty" />
+
     <TextView
         android:id="@+id/points_display"
-        android:layout_width="405dp"
-        android:layout_height="51dp"
+        android:layout_width="408dp"
+        android:layout_height="64dp"
         android:fontFamily="@font/beachday"
+        android:paddingTop="5dp"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="45sp"
@@ -38,12 +50,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/archived_trophy_case_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Redeemed Trophies"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="659dp" />
+    <ImageView
+        android:id="@+id/moneybagImage3"
+        android:layout_width="112dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintStart_toStartOf="@+id/borderblueTC"
+        app:layout_constraintTop_toTopOf="@+id/borderblueTC"
+        app:srcCompat="@drawable/piggybank" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

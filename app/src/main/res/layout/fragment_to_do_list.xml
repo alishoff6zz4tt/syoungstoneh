@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/backdrop">
+
+    <ImageView
+        android:id="@+id/borderblue"
+        android:layout_width="320dp"
+        android:layout_height="59dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/points_display"
+        app:layout_constraintEnd_toEndOf="@+id/points_display"
+        app:layout_constraintTop_toTopOf="@+id/points_display"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/borderempty" />
 
     <TextView
         android:id="@+id/points_display"
         android:layout_width="410dp"
         android:layout_height="66dp"
         android:fontFamily="@font/beachday"
+        android:paddingTop="5dp"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="45sp"
@@ -25,7 +38,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/points_display"/>
+        app:layout_constraintTop_toBottomOf="@+id/points_display" />
 
     <Button
         android:id="@+id/add_entry_button"
@@ -39,4 +52,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
+
+    <ImageView
+        android:id="@+id/moneybagImage"
+        android:layout_width="112dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintStart_toStartOf="@+id/borderblue"
+        app:layout_constraintTop_toTopOf="@+id/borderblue"
+        app:srcCompat="@drawable/piggybank" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

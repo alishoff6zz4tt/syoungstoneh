@@ -6,6 +6,6 @@
 <!--
     To change color of the navigation bar
 -->
-    <color name="backgroundColor">#7d3838</color>
-    <color name="textColor">#FFFFFF</color>
+    <color name="backgroundColor">#3B3E43</color>
+    <color name="textColor">#A8A2A2</color>
 </resources>
